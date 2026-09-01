@@ -1,7 +1,7 @@
 # MISW4202-Grupo12-Solventa
-Repositorio para el curso MISW-4202 Grupo 12
+Repositorio para el curso MISW-4202 Grupo 12.
 
-##  Integrantes
+##  Integrantes del equipo
 | Nombre | Login | Código |
 |--------|-------|--------|
 | Sofia Velasquez Marin | s.velasquezm2 | 202113334 |
