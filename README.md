@@ -1,76 +1,126 @@
-# Experimento HA2 — Solventa (microservicios)
+# Experimento HA: Solventa
 
-Esqueleto base de microservicios. Config centralizada en `.env`, un contenedor
-por servicio, cada servicio autónomo en `services/`. I3 lo levanta primero y
-desbloquea a todos; luego cada quien rellena **solo su servicio**.
+Implementación base del experimento **HA2**, utilizando microservicios independientes y Docker Compose.
 
-## Estructura
+La configuración compartida se gestiona mediante el archivo `.env`, mientras que cada servicio mantiene su implementación dentro del directorio `services/`.
 
-```
+## Estructura del proyecto
+
+```text
 solventa/
-├── docker-compose.yml           # orquesta los 4 servicios, lee del .env
-├── .env                         # parámetros de Fase 0 (NO se versiona)
-├── .env.example                 # plantilla versionable
+├── docker-compose.yml
+├── .env
+├── .env.example
 ├── services/
-│   ├── journey/                 # I3 — punto de entrada (POST /cotizar)
-│   │   ├── app/{main,config}.py
+│   ├── journey/
+│   │   ├── app/
+│   │   │   ├── main.py
+│   │   │   └── config.py
 │   │   ├── Dockerfile
 │   │   └── requirements.txt
-│   ├── adaptador/               # I2 (resiliencia) + I4 (caché)
-│   │   └── app/{main,config}.py ...
-│   └── mock-openfinance/        # I1 — proveedor simulado
-│       └── app/{main,config}.py ...
+│   ├── adaptador/
+│   │   └── app/
+│   │       ├── main.py
+│   │       └── config.py
+│   └── mock-openfinance/
+│       └── app/
+│           ├── main.py
+│           └── config.py
 └── scripts/
-    └── seed_redis.py            # I4 — siembra perfiles (tarea 1.3)
+    └── seed_redis.py
 ```
 
-Cada servicio tiene la misma estructura interna (`app/main.py` + `app/config.py`),
-así que agregar uno nuevo = copiar una carpeta y sumarlo al compose.
+Los servicios mantienen una estructura similar, utilizando `app/main.py` como punto de entrada y `app/config.py` para la configuración.
 
-## Levantar
+## Ejecución
+
+Crear el archivo de configuración local a partir del ejemplo:
 
 ```bash
-cp .env.example .env        # primera vez
+cp .env.example .env
+```
+
+Levantar los servicios:
+
+```bash
 docker-compose up --build
 ```
 
-Verificar salud:
+## Verificación de servicios
+
+### Journey
 
 ```bash
-curl http://localhost:8000/health                                   # journey
-docker-compose exec adaptador python -c "import urllib.request;print(urllib.request.urlopen('http://localhost:8001/health').read())"
-docker-compose exec redis redis-cli ping                            # PONG
+curl http://localhost:8000/health
 ```
 
-Flujo completo:
+### Adaptador
+
+```bash
+docker-compose exec adaptador python -c \
+"import urllib.request; print(urllib.request.urlopen('http://localhost:8001/health').read())"
+```
+
+### Redis
+
+```bash
+docker-compose exec redis redis-cli ping
+```
+
+Respuesta esperada:
+
+```text
+PONG
+```
+
+## Probar el flujo de cotización
 
 ```bash
 curl -X POST http://localhost:8000/cotizar
-# {"request_id":"...","prima":100,"fuente_perfil":"OPEN_FINANCE","resultado":"exitoso"}
 ```
 
-Sembrar Redis (tras `docker-compose up`):
+Ejemplo de respuesta:
+
+```json
+{
+  "request_id": "...",
+  "prima": 100,
+  "fuente_perfil": "OPEN_FINANCE",
+  "resultado": "exitoso"
+}
+```
+
+## Datos de prueba en Redis
+
+Con los servicios levantados:
 
 ```bash
-pip install redis && python scripts/seed_redis.py
+pip install redis
+python scripts/seed_redis.py
 ```
 
-## Quién rellena qué
+El script carga los perfiles necesarios para ejecutar los escenarios de prueba asociados al uso de caché.
 
-| Servicio / script | Dueño | Qué agrega |
-|---|---|---|
-| `services/mock-openfinance/` | I1 | Modos SLOW/DOWN + `POST /config` |
-| `services/adaptador/` | I2 | timeout + Circuit Breaker + estado en `/health` |
-| `services/adaptador/` (caché) | I4 | fallback a Redis + write-back + cache miss |
-| `services/journey/` | I3 | ya está; ajustar si cambia el contrato |
-| `scripts/seed_redis.py` | I4 | perfiles de prueba con TTL |
+## Distribución de componentes
 
-## Config (buena práctica)
+| Componente                   | Responsable | Alcance                                                                                               |
+| ---------------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
+| `services/mock-openfinance/` | I1          | Simulación del proveedor Open Finance, incluyendo modos `SLOW` y `DOWN` y el endpoint `POST /config`. |
+| `services/adaptador/`        | I2          | Timeout, Circuit Breaker y exposición de su estado mediante `/health`.                                |
+| `services/journey/`          | I3          | Implementación del flujo principal mediante el endpoint `POST /cotizar`.                              |
+| `services/adaptador/`        | I4          | Fallback a Redis, actualización de caché y manejo de escenarios de cache miss.                        |
+| `scripts/seed_redis.py`      | I4          | Carga de perfiles de prueba en Redis con TTL.                                                         |
 
-Todos los parámetros de Fase 0 viven en `.env` (una sola fuente de verdad).
-`docker-compose` los inyecta como env vars; cada servicio los lee en su
-`app/config.py`, nunca con `os.getenv` regado por el código. Cambiar una corrida
-= editar `.env`. El estímulo (modo del proveedor) se cambia en caliente vía
-`POST /config`. Nadie edita código Python para correr un escenario distinto.
+## Configuración
+
+Los parámetros utilizados por el experimento se definen en `.env` y son inyectados en los contenedores mediante Docker Compose.
+
+Cada servicio centraliza la lectura de estas variables en su archivo `app/config.py`.
+
+Los escenarios simulados del proveedor Open Finance pueden modificarse durante la ejecución mediante:
+
+```text
+POST /config
 ```
-```
+
+Esto permite cambiar el comportamiento del proveedor y ejecutar los distintos escenarios del experimento sin modificar el código de los servicios.
