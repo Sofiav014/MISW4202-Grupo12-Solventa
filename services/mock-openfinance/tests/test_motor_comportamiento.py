@@ -6,9 +6,8 @@ from unittest.mock import patch
 from app.main import app, motor_comportamiento
 from app.motor_comportamiento import (
     ConfiguracionComportamientoDTO,
-    FallaSimuladaException,
+    FabricaModosOpenFinance,
     MotorComportamiento,
-    TipoFallaEnum,
 )
 
 
@@ -16,15 +15,13 @@ def crear_configuracion(
     latencia_min=0,
     latencia_max=0,
     tasa_error=0.0,
-    tipo_falla=TipoFallaEnum.NINGUNA,
-    codigo_http=200,
+    auto_reparar_segundos=None,
 ):
     return ConfiguracionComportamientoDTO(
         latenciaMinMs=latencia_min,
         latenciaMaxMs=latencia_max,
         tasaError=tasa_error,
-        tipoFalla=tipo_falla,
-        codigoHttpRespuesta=codigo_http,
+        autoRepararSegundos=auto_reparar_segundos,
     )
 
 
@@ -33,15 +30,15 @@ def serializar_configuracion(configuracion):
         "latenciaMinMs": configuracion.latenciaMinMs,
         "latenciaMaxMs": configuracion.latenciaMaxMs,
         "tasaError": configuracion.tasaError,
-        "tipoFalla": configuracion.tipoFalla.value,
-        "codigoHttpRespuesta": configuracion.codigoHttpRespuesta,
+        "autoRepararSegundos": configuracion.autoRepararSegundos,
     }
 
 
 class ConfiguracionComportamientoDTOTest(unittest.TestCase):
-    def test_es_inmutable(self):
+    def test_es_inmutable_y_autoreparacion_es_opcional(self):
         configuracion = crear_configuracion()
 
+        self.assertIsNone(configuracion.autoRepararSegundos)
         with self.assertRaises(FrozenInstanceError):
             configuracion.tasaError = 0.5
 
@@ -50,8 +47,7 @@ class ConfiguracionComportamientoDTOTest(unittest.TestCase):
             "latenciaMinMs": 0,
             "latenciaMaxMs": 100,
             "tasaError": 0.0,
-            "tipoFalla": TipoFallaEnum.NINGUNA,
-            "codigoHttpRespuesta": 200,
+            "autoRepararSegundos": None,
         }
         casos = (
             ({"latenciaMinMs": True}, TypeError),
@@ -61,17 +57,10 @@ class ConfiguracionComportamientoDTOTest(unittest.TestCase):
             ({"tasaError": "0.5"}, TypeError),
             ({"tasaError": -0.1}, ValueError),
             ({"tasaError": 1.1}, ValueError),
-            ({"tipoFalla": "NINGUNA"}, TypeError),
-            ({"codigoHttpRespuesta": True}, TypeError),
-            ({"codigoHttpRespuesta": 99}, ValueError),
-            (
-                {
-                    "tipoFalla": TipoFallaEnum.HTTP_ERROR,
-                    "codigoHttpRespuesta": 200,
-                },
-                ValueError,
-            ),
-            ({"tasaError": 0.1}, ValueError),
+            ({"autoRepararSegundos": True}, TypeError),
+            ({"autoRepararSegundos": 1.5}, TypeError),
+            ({"autoRepararSegundos": 0}, ValueError),
+            ({"autoRepararSegundos": -1}, ValueError),
         )
 
         for cambios, error_esperado in casos:
@@ -81,15 +70,44 @@ class ConfiguracionComportamientoDTOTest(unittest.TestCase):
                     ConfiguracionComportamientoDTO(**datos)
 
 
+class FabricaModosOpenFinanceTest(unittest.TestCase):
+    def test_construye_los_modos_predefinidos(self):
+        casos = (
+            (
+                FabricaModosOpenFinance.modo_normal,
+                crear_configuracion(50, 100, 0.0),
+            ),
+            (
+                FabricaModosOpenFinance.modo_lento,
+                crear_configuracion(900, 1200, 0.0),
+            ),
+            (
+                FabricaModosOpenFinance.modo_caido,
+                crear_configuracion(10, 30, 1.0),
+            ),
+        )
+
+        for fabrica, configuracion_esperada in casos:
+            with self.subTest(fabrica=fabrica.__name__):
+                self.assertEqual(fabrica(), configuracion_esperada)
+
+    def test_construye_la_caida_temporal(self):
+        self.assertEqual(
+            FabricaModosOpenFinance.modo_caida_temporal(15),
+            crear_configuracion(10, 30, 1.0, 15),
+        )
+
+
 class MotorComportamientoTest(unittest.TestCase):
-    def test_inicia_con_configuracion_sana(self):
+    def test_inicia_en_modo_normal(self):
         configuracion = MotorComportamiento().configuracionActual
 
-        self.assertEqual(configuracion.latenciaMinMs, 50)
-        self.assertEqual(configuracion.latenciaMaxMs, 100)
-        self.assertEqual(configuracion.tasaError, 0.0)
-        self.assertIs(configuracion.tipoFalla, TipoFallaEnum.NINGUNA)
-        self.assertEqual(configuracion.codigoHttpRespuesta, 200)
+        self.assertEqual(
+            configuracion,
+            FabricaModosOpenFinance.modo_normal(),
+        )
+        with self.assertRaises(TypeError):
+            MotorComportamiento(object())
 
     def test_actualiza_la_configuracion_completa(self):
         motor = MotorComportamiento()
@@ -97,11 +115,9 @@ class MotorComportamientoTest(unittest.TestCase):
             latencia_min=10,
             latencia_max=20,
             tasa_error=0.25,
-            tipo_falla=TipoFallaEnum.HTTP_ERROR,
-            codigo_http=429,
         )
 
-        motor.actualizarConfiguracion(nueva_configuracion)
+        self.assertTrue(motor.actualizarConfiguracion(nueva_configuracion))
 
         self.assertIs(motor.configuracionActual, nueva_configuracion)
         with self.assertRaises(TypeError):
@@ -127,42 +143,55 @@ class MotorComportamientoTest(unittest.TestCase):
         with self.assertRaises(InterruptedError):
             MotorComportamiento().aplicarEfectosDeRed()
 
-    def test_lanza_falla_solo_si_el_aleatorio_es_menor_que_la_tasa(self):
-        motor = MotorComportamiento(
-            crear_configuracion(
-                tasa_error=0.5,
-                tipo_falla=TipoFallaEnum.HTTP_ERROR,
-                codigo_http=503,
-            )
-        )
+    def test_evalua_la_tasa_de_error_como_booleano(self):
+        motor = MotorComportamiento(crear_configuracion(tasa_error=0.5))
 
         with patch("app.motor_comportamiento.random.random", return_value=0.49):
-            with self.assertRaises(FallaSimuladaException) as contexto:
-                motor.evaluarTasaError()
-
-        self.assertIs(contexto.exception.tipoFalla, TipoFallaEnum.HTTP_ERROR)
-        self.assertEqual(contexto.exception.codigoHttpRespuesta, 503)
-
+            self.assertTrue(motor.evaluarTasaError())
         with patch("app.motor_comportamiento.random.random", return_value=0.5):
-            motor.evaluarTasaError()
+            self.assertFalse(motor.evaluarTasaError())
+
+    @patch("app.motor_comportamiento.Timer")
+    def test_bloquea_cambios_y_repara_una_caida_temporal(self, timer_class_mock):
+        motor = MotorComportamiento()
+        configuracion_temporal = FabricaModosOpenFinance.modo_caida_temporal(15)
+        temporizador = timer_class_mock.return_value
+
+        self.assertTrue(motor.actualizarConfiguracion(configuracion_temporal))
+
+        timer_class_mock.assert_called_once()
+        segundos, reparar = timer_class_mock.call_args.args
+        self.assertEqual(segundos, 15)
+        self.assertTrue(temporizador.daemon)
+        temporizador.start.assert_called_once_with()
+        self.assertIs(motor.configuracionActual, configuracion_temporal)
+
+        self.assertFalse(
+            motor.actualizarConfiguracion(FabricaModosOpenFinance.modo_lento())
+        )
+        self.assertIs(motor.configuracionActual, configuracion_temporal)
+
+        reparar()
+
+        self.assertEqual(
+            motor.configuracionActual,
+            FabricaModosOpenFinance.modo_normal(),
+        )
+        self.assertTrue(
+            motor.actualizarConfiguracion(FabricaModosOpenFinance.modo_lento())
+        )
 
     def test_lecturas_concurrentes_no_observan_configuraciones_parciales(self):
-        configuracion_sana = crear_configuracion()
-        configuracion_fallida = crear_configuracion(
-            latencia_min=300,
-            latencia_max=400,
-            tasa_error=1.0,
-            tipo_falla=TipoFallaEnum.HTTP_ERROR,
-            codigo_http=500,
-        )
-        motor = MotorComportamiento(configuracion_sana)
-        configuraciones_validas = {configuracion_sana, configuracion_fallida}
+        configuracion_normal = FabricaModosOpenFinance.modo_normal()
+        configuracion_caida = FabricaModosOpenFinance.modo_caido()
+        motor = MotorComportamiento(configuracion_normal)
+        configuraciones_validas = {configuracion_normal, configuracion_caida}
         observaciones_invalidas = []
 
         def escribir():
             for indice in range(2000):
                 motor.actualizarConfiguracion(
-                    configuracion_sana if indice % 2 == 0 else configuracion_fallida
+                    configuracion_normal if indice % 2 == 0 else configuracion_caida
                 )
 
         def leer():
@@ -185,7 +214,7 @@ class MotorComportamientoTest(unittest.TestCase):
         inicio_sleep = Event()
         liberar_sleep = Event()
         actualizacion_terminada = Event()
-        nueva_configuracion = crear_configuracion()
+        nueva_configuracion = FabricaModosOpenFinance.modo_lento()
 
         def sleep_bloqueado(_segundos):
             inicio_sleep.set()
@@ -215,39 +244,70 @@ class MotorComportamientoTest(unittest.TestCase):
 class MotorComportamientoEndpointTest(unittest.TestCase):
     def setUp(self):
         app.config["TESTING"] = True
-        motor_comportamiento.actualizarConfiguracion(crear_configuracion())
-
-    def tearDown(self):
-        motor_comportamiento.actualizarConfiguracion(crear_configuracion())
-
-    def test_config_reemplaza_y_devuelve_la_configuracion(self):
-        datos = {
-            "latenciaMinMs": 10,
-            "latenciaMaxMs": 20,
-            "tasaError": 0.25,
-            "tipoFalla": "HTTP_ERROR",
-            "codigoHttpRespuesta": 429,
-        }
-
-        with app.test_client() as client:
-            respuesta = client.post("/config", json=datos)
-
-        self.assertEqual(respuesta.status_code, 200)
-        self.assertEqual(respuesta.get_json(), datos)
-        self.assertEqual(
-            serializar_configuracion(motor_comportamiento.configuracionActual),
-            datos,
+        self._limpiar_caida_temporal()
+        motor_comportamiento.actualizarConfiguracion(
+            FabricaModosOpenFinance.modo_normal()
         )
 
-    def test_config_rechaza_cuerpos_incompletos_o_con_campos_adicionales(self):
-        configuracion_inicial = motor_comportamiento.configuracionActual
-        cuerpo_incompleto = serializar_configuracion(configuracion_inicial)
-        cuerpo_incompleto.pop("tasaError")
-        cuerpo_adicional = serializar_configuracion(configuracion_inicial)
-        cuerpo_adicional["modo"] = "DOWN"
+    def tearDown(self):
+        self._limpiar_caida_temporal()
+        motor_comportamiento.actualizarConfiguracion(
+            FabricaModosOpenFinance.modo_normal()
+        )
+
+    @staticmethod
+    def _limpiar_caida_temporal():
+        temporizador = motor_comportamiento._temporizador_autoreparacion
+        if temporizador is not None:
+            temporizador.cancel()
+            motor_comportamiento._repararAutomaticamente()
+
+    def test_config_selecciona_y_devuelve_los_modos_permanentes(self):
+        casos = (
+            ("normal", FabricaModosOpenFinance.modo_normal()),
+            ("caido", FabricaModosOpenFinance.modo_caido()),
+            ("lento", FabricaModosOpenFinance.modo_lento()),
+        )
 
         with app.test_client() as client:
-            for cuerpo in (cuerpo_incompleto, cuerpo_adicional):
+            for modo, configuracion_esperada in casos:
+                with self.subTest(modo=modo):
+                    respuesta = client.post("/config", json={"modo": modo})
+
+                    self.assertEqual(respuesta.status_code, 200)
+                    self.assertEqual(
+                        respuesta.get_json(),
+                        serializar_configuracion(configuracion_esperada),
+                    )
+                    self.assertEqual(
+                        motor_comportamiento.configuracionActual,
+                        configuracion_esperada,
+                    )
+
+    def test_config_rechaza_cuerpos_invalidos(self):
+        configuracion_inicial = motor_comportamiento.configuracionActual
+        casos = (
+            None,
+            [],
+            {},
+            {"modo": "NORMAL"},
+            {"modo": "desconocido"},
+            {"modo": "normal", "autoRepararSegundos": 10},
+            {"modo": "normal", "latenciaMinMs": 1},
+            {"modo": "caido_temporal"},
+            {"modo": "caido_temporal", "autoRepararSegundos": True},
+            {"modo": "caido_temporal", "autoRepararSegundos": 1.5},
+            {"modo": "caido_temporal", "autoRepararSegundos": 0},
+            {"modo": "caido_temporal", "autoRepararSegundos": -1},
+            {
+                "modo": "caido_temporal",
+                "autoRepararSegundos": 10,
+                "tasaError": 0.5,
+            },
+        )
+
+        with app.test_client() as client:
+            for cuerpo in casos:
                 with self.subTest(cuerpo=cuerpo):
                     respuesta = client.post("/config", json=cuerpo)
                     self.assertEqual(respuesta.status_code, 400)
@@ -261,12 +321,47 @@ class MotorComportamientoEndpointTest(unittest.TestCase):
             configuracion_inicial,
         )
 
-    def test_health_expone_la_configuracion_sin_aplicar_efectos(self):
-        configuracion = crear_configuracion(
-            tasa_error=1.0,
-            tipo_falla=TipoFallaEnum.HTTP_ERROR,
-            codigo_http=500,
+    @patch("app.motor_comportamiento.Timer")
+    def test_config_bloquea_cambios_hasta_la_autoreparacion(
+        self,
+        timer_class_mock,
+    ):
+        temporizador = timer_class_mock.return_value
+
+        with app.test_client() as client:
+            respuesta_temporal = client.post(
+                "/config",
+                json={"modo": "caido_temporal", "autoRepararSegundos": 10},
+            )
+            respuesta_bloqueada = client.post("/config", json={"modo": "normal"})
+
+            _, reparar = timer_class_mock.call_args.args
+            reparar()
+
+            respuesta_posterior = client.post("/config", json={"modo": "lento"})
+
+        self.assertEqual(respuesta_temporal.status_code, 200)
+        self.assertEqual(
+            respuesta_temporal.get_json(),
+            serializar_configuracion(
+                FabricaModosOpenFinance.modo_caida_temporal(10)
+            ),
         )
+        self.assertTrue(temporizador.daemon)
+        temporizador.start.assert_called_once_with()
+        self.assertEqual(respuesta_bloqueada.status_code, 409)
+        self.assertEqual(
+            respuesta_bloqueada.get_json(),
+            {"error": "MODO_TEMPORAL_ACTIVO"},
+        )
+        self.assertEqual(respuesta_posterior.status_code, 200)
+        self.assertEqual(
+            motor_comportamiento.configuracionActual,
+            FabricaModosOpenFinance.modo_lento(),
+        )
+
+    def test_health_expone_la_configuracion_sin_aplicar_efectos(self):
+        configuracion = FabricaModosOpenFinance.modo_caido()
         motor_comportamiento.actualizarConfiguracion(configuracion)
 
         with patch.object(motor_comportamiento, "aplicarEfectosDeRed") as aplicar:
@@ -297,7 +392,7 @@ class MotorComportamientoEndpointTest(unittest.TestCase):
             with patch.object(
                 motor_comportamiento,
                 "evaluarTasaError",
-                side_effect=lambda: orden.append("falla"),
+                side_effect=lambda: orden.append("falla") or False,
             ):
                 with app.test_client() as client:
                     respuesta = client.get("/perfil/cliente-123")
@@ -305,42 +400,18 @@ class MotorComportamientoEndpointTest(unittest.TestCase):
         self.assertEqual(respuesta.status_code, 200)
         self.assertEqual(orden, ["latencia", "falla"])
 
-    def test_perfil_traduce_los_tipos_de_falla(self):
-        casos = (
-            (TipoFallaEnum.HTTP_ERROR, 429, 429),
-            (TipoFallaEnum.CONNECTION_REFUSED, 200, 503),
-            (TipoFallaEnum.DROP_CONNECTION, 200, 503),
+    def test_perfil_responde_503_en_modo_caido(self):
+        motor_comportamiento.actualizarConfiguracion(
+            FabricaModosOpenFinance.modo_caido()
         )
 
-        with app.test_client() as client:
-            for tipo_falla, codigo_configurado, codigo_esperado in casos:
-                with self.subTest(tipo_falla=tipo_falla):
-                    motor_comportamiento.actualizarConfiguracion(
-                        crear_configuracion(
-                            tasa_error=1.0,
-                            tipo_falla=tipo_falla,
-                            codigo_http=codigo_configurado,
-                        )
-                    )
-                    with patch.object(
-                        motor_comportamiento,
-                        "aplicarEfectosDeRed",
-                    ):
-                        with patch(
-                            "app.motor_comportamiento.random.random",
-                            return_value=0.0,
-                        ):
-                            respuesta = client.get("/perfil/cliente-123")
+        with patch.object(motor_comportamiento, "aplicarEfectosDeRed"):
+            with patch("app.motor_comportamiento.random.random", return_value=0.0):
+                with app.test_client() as client:
+                    respuesta = client.get("/perfil/cliente-123")
 
-                    self.assertEqual(respuesta.status_code, codigo_esperado)
-                    self.assertEqual(
-                        respuesta.get_json(),
-                        {
-                            "error": "FALLA_SIMULADA",
-                            "tipoFalla": tipo_falla.value,
-                            "codigoHttpRespuesta": codigo_esperado,
-                        },
-                    )
+        self.assertEqual(respuesta.status_code, 503)
+        self.assertEqual(respuesta.get_json(), {"error": "FALLA_SIMULADA"})
 
 
 if __name__ == "__main__":

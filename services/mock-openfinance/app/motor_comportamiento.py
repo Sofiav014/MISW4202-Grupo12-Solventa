@@ -3,17 +3,8 @@
 import random
 import time
 from dataclasses import dataclass
-from enum import Enum
-from threading import Lock
-
-
-class TipoFallaEnum(str, Enum):
-    """Tipos de falla que puede producir el proveedor simulado."""
-
-    HTTP_ERROR = "HTTP_ERROR"
-    CONNECTION_REFUSED = "CONNECTION_REFUSED"
-    DROP_CONNECTION = "DROP_CONNECTION"
-    NINGUNA = "NINGUNA"
+from threading import Lock, Timer
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -23,8 +14,7 @@ class ConfiguracionComportamientoDTO:
     latenciaMinMs: int
     latenciaMaxMs: int
     tasaError: float
-    tipoFalla: TipoFallaEnum
-    codigoHttpRespuesta: int
+    autoRepararSegundos: Optional[int] = None
 
     def __post_init__(self) -> None:
         if not self._es_entero(self.latenciaMinMs):
@@ -44,38 +34,52 @@ class ConfiguracionComportamientoDTO:
             raise ValueError("tasaError debe estar entre 0.0 y 1.0")
         object.__setattr__(self, "tasaError", float(self.tasaError))
 
-        if not isinstance(self.tipoFalla, TipoFallaEnum):
-            raise TypeError("tipoFalla debe ser un TipoFallaEnum valido")
-        if not self._es_entero(self.codigoHttpRespuesta):
-            raise TypeError("codigoHttpRespuesta debe ser un entero")
-        if not 100 <= self.codigoHttpRespuesta <= 599:
-            raise ValueError("codigoHttpRespuesta debe estar entre 100 y 599")
-        if (
-            self.tipoFalla is TipoFallaEnum.HTTP_ERROR
-            and not 400 <= self.codigoHttpRespuesta <= 599
-        ):
-            raise ValueError(
-                "codigoHttpRespuesta debe estar entre 400 y 599 para HTTP_ERROR"
-            )
-        if self.tipoFalla is TipoFallaEnum.NINGUNA and self.tasaError > 0.0:
-            raise ValueError("tipoFalla NINGUNA requiere tasaError igual a 0.0")
+        if self.autoRepararSegundos is not None:
+            if not self._es_entero(self.autoRepararSegundos):
+                raise TypeError("autoRepararSegundos debe ser un entero")
+            if self.autoRepararSegundos <= 0:
+                raise ValueError("autoRepararSegundos debe ser mayor que cero")
 
     @staticmethod
     def _es_entero(valor: object) -> bool:
         return isinstance(valor, int) and not isinstance(valor, bool)
 
 
-class FallaSimuladaException(RuntimeError):
-    """Indica que el motor decidio inyectar una falla controlada."""
+class FabricaModosOpenFinance:
+    """Construye las configuraciones soportadas por el proveedor simulado."""
 
-    def __init__(
-        self,
-        tipoFalla: TipoFallaEnum,
-        codigoHttpRespuesta: int,
-    ) -> None:
-        self.tipoFalla = tipoFalla
-        self.codigoHttpRespuesta = codigoHttpRespuesta
-        super().__init__(f"Falla simulada: {tipoFalla.value}")
+    @staticmethod
+    def modo_normal() -> ConfiguracionComportamientoDTO:
+        return ConfiguracionComportamientoDTO(
+            latenciaMinMs=50,
+            latenciaMaxMs=100,
+            tasaError=0.0,
+        )
+
+    @staticmethod
+    def modo_lento() -> ConfiguracionComportamientoDTO:
+        return ConfiguracionComportamientoDTO(
+            latenciaMinMs=900,
+            latenciaMaxMs=1200,
+            tasaError=0.0,
+        )
+
+    @staticmethod
+    def modo_caido() -> ConfiguracionComportamientoDTO:
+        return ConfiguracionComportamientoDTO(
+            latenciaMinMs=10,
+            latenciaMaxMs=30,
+            tasaError=1.0,
+        )
+
+    @staticmethod
+    def modo_caida_temporal(segundos: int) -> ConfiguracionComportamientoDTO:
+        return ConfiguracionComportamientoDTO(
+            latenciaMinMs=10,
+            latenciaMaxMs=30,
+            tasaError=1.0,
+            autoRepararSegundos=segundos,
+        )
 
 
 class MotorComportamiento:
@@ -85,8 +89,17 @@ class MotorComportamiento:
         self,
         configuracionInicial: ConfiguracionComportamientoDTO | None = None,
     ) -> None:
+        if configuracionInicial is not None and not isinstance(
+            configuracionInicial, ConfiguracionComportamientoDTO
+        ):
+            raise TypeError(
+                "configuracionInicial debe ser una ConfiguracionComportamientoDTO"
+            )
         self._lock = Lock()
-        self._configuracion_actual = configuracionInicial or self._configuracion_sana()
+        self._configuracion_actual = FabricaModosOpenFinance.modo_normal()
+        self._temporizador_autoreparacion: Optional[Timer] = None
+        if configuracionInicial is not None:
+            self.actualizarConfiguracion(configuracionInicial)
 
     @property
     def configuracionActual(self) -> ConfiguracionComportamientoDTO:
@@ -97,14 +110,34 @@ class MotorComportamiento:
     def actualizarConfiguracion(
         self,
         nuevaConfig: ConfiguracionComportamientoDTO,
-    ) -> None:
-        """Reemplaza atomicamente la configuracion vigente."""
+    ) -> bool:
+        """Reemplaza la configuracion si no hay una caida temporal activa."""
         if not isinstance(nuevaConfig, ConfiguracionComportamientoDTO):
             raise TypeError(
                 "nuevaConfig debe ser una ConfiguracionComportamientoDTO"
             )
+
+        temporizador = None
         with self._lock:
+            # Si estoy ejecutando algo ahora, no puedo cambiar la configuracion
+            if self._temporizador_autoreparacion is not None:
+                return False
+
+            # Configurar
             self._configuracion_actual = nuevaConfig
+
+            # Si la nueva configuracion es una caida temporal, creo un temporizador para repararla
+            if nuevaConfig.autoRepararSegundos is not None:
+                temporizador = Timer(
+                    nuevaConfig.autoRepararSegundos,
+                    self._repararAutomaticamente,
+                )
+                temporizador.daemon = True
+                self._temporizador_autoreparacion = temporizador
+
+        if temporizador is not None:
+            temporizador.start()
+        return True
 
     def aplicarEfectosDeRed(self) -> None:
         """Pausa el hilo por una latencia aleatoria del rango configurado."""
@@ -115,21 +148,12 @@ class MotorComportamiento:
         )
         time.sleep(latencia_ms / 1000)
 
-    def evaluarTasaError(self) -> None:
-        """Lanza una falla simulada cuando se cumple la probabilidad configurada."""
+    def evaluarTasaError(self) -> bool:
+        """Indica si la solicitud debe fallar segun la tasa configurada."""
         configuracion = self.configuracionActual
-        if random.random() < configuracion.tasaError:
-            raise FallaSimuladaException(
-                configuracion.tipoFalla,
-                configuracion.codigoHttpRespuesta,
-            )
+        return random.random() < configuracion.tasaError
 
-    @staticmethod
-    def _configuracion_sana() -> ConfiguracionComportamientoDTO:
-        return ConfiguracionComportamientoDTO(
-            latenciaMinMs=50,
-            latenciaMaxMs=100,
-            tasaError=0.0,
-            tipoFalla=TipoFallaEnum.NINGUNA,
-            codigoHttpRespuesta=200,
-        )
+    def _repararAutomaticamente(self) -> None:
+        with self._lock:
+            self._configuracion_actual = FabricaModosOpenFinance.modo_normal()
+            self._temporizador_autoreparacion = None
