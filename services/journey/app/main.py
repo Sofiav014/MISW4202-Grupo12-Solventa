@@ -23,7 +23,7 @@ def cotizar():
     return jsonify(
         request_id=request_id,
         prima=100,
-        fuente_perfil=perfil.get("fuente", "DESCONOCIDA"),
+        fuente_perfil=perfil["fuente"],
         resultado="exitoso",
     )
 
