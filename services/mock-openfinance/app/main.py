@@ -1,6 +1,6 @@
 # Microservicio mock-openfinance — dueño: I1 (Fase 2)
 from flask import Flask, jsonify, request
-from app.config import PORT
+from app.config import AUTO_REPARAR_SEGUNDOS, MODO, PORT
 from app.generador_datos_financieros import GeneradorDatosFinancieros
 from app.motor_comportamiento import (
     ConfiguracionComportamientoDTO,
@@ -8,9 +8,34 @@ from app.motor_comportamiento import (
     MotorComportamiento,
 )
 
+
+def _crear_configuracion_inicial(
+    modo: str,
+    auto_reparar_segundos: int | None,
+) -> ConfiguracionComportamientoDTO:
+    if modo == "caida_temporal":
+        if auto_reparar_segundos is None:
+            raise ValueError(
+                "auto_reparar_segundos es obligatorio para caida_temporal"
+            )
+        return FabricaModosOpenFinance.modo_caida_temporal(
+            auto_reparar_segundos
+        )
+
+    fabricas = {
+        "normal": FabricaModosOpenFinance.modo_normal,
+        "lento": FabricaModosOpenFinance.modo_lento,
+        "caido": FabricaModosOpenFinance.modo_caido,
+    }
+    return fabricas[modo]()
+
+
 app = Flask(__name__)
 generador_datos_financieros = GeneradorDatosFinancieros()
-motor_comportamiento = MotorComportamiento()
+motor_comportamiento = MotorComportamiento(
+    _crear_configuracion_inicial(MODO, AUTO_REPARAR_SEGUNDOS)
+)
+
 
 def _serializar_configuracion(
     configuracion: ConfiguracionComportamientoDTO,

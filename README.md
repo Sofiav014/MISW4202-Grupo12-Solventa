@@ -105,7 +105,7 @@ El script carga los perfiles necesarios para ejecutar los escenarios de prueba a
 
 | Componente                   | Responsable | Alcance                                                                                               |
 | ---------------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
-| `services/mock-openfinance/` | I1          | Simulación del proveedor Open Finance, incluyendo modos `SLOW` y `DOWN` y el endpoint `POST /config`. |
+| `services/mock-openfinance/` | I1          | Simulación del proveedor Open Finance, incluyendo modos `lento`, `caido` y `caida_temporal`, y el endpoint `POST /config`. |
 | `services/adaptador/`        | I2          | Timeout, Circuit Breaker y exposición de su estado mediante `/health`.                                |
 | `services/journey/`          | I3          | Implementación del flujo principal mediante el endpoint `POST /cotizar`.                              |
 | `services/adaptador/`        | I4          | Fallback a Redis, actualización de caché y manejo de escenarios de cache miss.                        |
@@ -116,6 +116,10 @@ El script carga los perfiles necesarios para ejecutar los escenarios de prueba a
 Los parámetros utilizados por el experimento se definen en `.env` y son inyectados en los contenedores mediante Docker Compose.
 
 Cada servicio centraliza la lectura de estas variables en su archivo `app/config.py`.
+
+El proveedor simulado acepta `MODO=normal|lento|caido|caida_temporal`. Cuando
+se utiliza `caida_temporal`, también se debe definir
+`AUTO_REPARAR_SEGUNDOS` con un entero mayor que cero.
 
 Los escenarios simulados del proveedor Open Finance pueden modificarse durante la ejecución mediante:
 

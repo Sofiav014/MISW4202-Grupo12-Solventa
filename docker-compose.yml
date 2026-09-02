@@ -29,8 +29,7 @@ services:
     build: ./services/mock-openfinance
     environment:
       MODO: ${MODO}
-      LATENCIA_NORMAL_MS: ${LATENCIA_NORMAL_MS}
-      LATENCIA_SLOW_MS: ${LATENCIA_SLOW_MS}
+      AUTO_REPARAR_SEGUNDOS: ${AUTO_REPARAR_SEGUNDOS}
     networks: [solventa]
 
   redis:
