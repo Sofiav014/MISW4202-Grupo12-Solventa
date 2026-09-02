@@ -5,19 +5,16 @@ from app.main import app
 
 
 PERFIL_OPEN_FINANCE = {
-    "clienteId": "12345",
-    "puntajeEstabilidadIngresos": 85,
-    "relacionDeudaIngresos": 0.35,
-    "puntajeComportamientoPago": 90,
-    "incumplimientos12Meses": 0,
-    "periodoInformacion": "2025-01-01/2025-12-31",
-    "fechaVigenciaDatos": "2026-12-31",
+    "cliente_id": "12345",
+    "score_riesgo": 720,
+    "fuente": "OPEN_FINANCE",
+    "timestamp_perfil": "2026-08-31T10:00:00Z",
 }
 
 
 class CotizarTest(unittest.TestCase):
     @patch("app.main.requests.get")
-    def test_informa_open_finance_cuando_el_dto_no_incluye_fuente(self, requests_get):
+    def test_respeta_la_fuente_open_finance(self, requests_get):
         respuesta_adaptador = Mock()
         respuesta_adaptador.json.return_value = PERFIL_OPEN_FINANCE
         requests_get.return_value = respuesta_adaptador
