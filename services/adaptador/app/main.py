@@ -7,7 +7,11 @@ from app.cache import CacheExpiredError, CacheMissError, guardar_perfil, leer_pe
 from app.circuit_breaker import breaker
 from app.config import PORT
 from app.clientes.open_finance import OpenFinanceClient, OpenFinanceError
-from app.logging_json import TIPO_ERROR_0_4, configurar_logging, instrumentar_peticiones
+from app.logging_json import (
+    TIPO_ERROR_PROVEEDOR,
+    configurar_logging,
+    instrumentar_peticiones,
+)
 
 configurar_logging()
 
@@ -64,7 +68,7 @@ def perfil(cliente_id):
         g.timestamp_respuesta_cache = time.monotonic()
         g.hit_miss, g.fuente_respuesta = "HIT", "CACHE"
         g.resultado = "degradado"
-        g.tipo_error = TIPO_ERROR_0_4.get(tipo_falla, "CIRCUIT_OPEN")
+        g.tipo_error = TIPO_ERROR_PROVEEDOR.get(tipo_falla, "CIRCUIT_OPEN")
         return jsonify(perfil_cacheado)
     guardar_perfil(cliente_id, perfil_obtenido)
     g.hit_miss, g.fuente_respuesta = "N/A", "PROVIDER"

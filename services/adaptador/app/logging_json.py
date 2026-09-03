@@ -31,7 +31,6 @@ class JsonFormatter(logging.Formatter):
             "ts_wall": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "level": record.levelname,
             "logger": record.name,
-            "mensaje": record.getMessage(),
         }
         evento.update(
             {k: v for k, v in record.__dict__.items() if k not in _CAMPOS_INTERNOS}
