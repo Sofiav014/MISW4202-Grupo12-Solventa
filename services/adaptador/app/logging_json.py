@@ -18,8 +18,6 @@ TIPO_ERROR_0_4 = {
     "respuesta_invalida": "PROVIDER_INVALID_RESPONSE",
 }
 
-# Atributos propios de logging.LogRecord: todo lo demás vino en `extra` y es
-# parte del evento.
 _CAMPOS_INTERNOS = set(
     logging.LogRecord("", 0, "", 0, "", None, None).__dict__
 ) | {"message", "asctime", "taskName"}
@@ -33,13 +31,11 @@ class JsonFormatter(logging.Formatter):
             "ts_wall": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "level": record.levelname,
             "logger": record.name,
+            "mensaje": record.getMessage(),
         }
         evento.update(
             {k: v for k, v in record.__dict__.items() if k not in _CAMPOS_INTERNOS}
         )
-        if "event_type" not in evento:
-            evento["event_type"] = record.getMessage().split(" ", 1)[0]
-            evento["mensaje"] = record.getMessage()
         return json.dumps(evento, default=str)
 
 
@@ -66,13 +62,11 @@ def _ms(desde, hasta):
     return (hasta - desde) * 1000
 
 
-def instrumentar_peticiones(app, estado_circuito, endpoints=("perfil",)):
-    """Registra un evento con las 17 columnas de la Fase 0.4 por cada petición.
+def instrumentar_peticiones(app, estado_circuito):
+    """Registra un evento con las 17 columnas de la Fase 0.4 por cada /perfil.
 
-    Solo instrumenta los `endpoints` indicados: /health y demás rutas de
-    servicio no son peticiones del experimento y ensuciarían el dataset.
-
-    Los endpoints anotan en `g` lo que la instrumentación no puede deducir sola:
+    Se excluye /health porque no es una petición del experimento. El endpoint
+    anota en `g` lo que la instrumentación no puede deducir sola:
     `timestamp_deteccion`, `timestamp_respuesta_cache`, `hit_miss`,
     `fuente_respuesta`, `resultado` y `tipo_error`.
     """
@@ -80,7 +74,7 @@ def instrumentar_peticiones(app, estado_circuito, endpoints=("perfil",)):
 
     @app.before_request
     def _iniciar_medicion():
-        if request.endpoint not in endpoints:
+        if request.endpoint != "perfil":
             return
         g.request_id = request.headers.get("X-Request-Id") or f"local-{uuid.uuid4()}"
         g.timestamp_inicio = time.monotonic()
