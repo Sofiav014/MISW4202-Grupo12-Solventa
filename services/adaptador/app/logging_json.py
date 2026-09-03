@@ -11,8 +11,8 @@ from flask import g, request
 
 from app.config import EJECUCION_ID, ESCENARIO, LOG_PATH
 
-# Vocabulario de tipo_error para la columna homónima de la Fase 0.4.
-TIPO_ERROR_0_4 = {
+# Traduce el tipo interno de OpenFinanceError al valor de la columna tipo_error.
+TIPO_ERROR_PROVEEDOR = {
     "timeout": "PROVIDER_TIMEOUT",
     "conexion": "PROVIDER_UNAVAILABLE",
     "respuesta_invalida": "PROVIDER_INVALID_RESPONSE",
