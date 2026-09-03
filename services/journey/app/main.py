@@ -19,7 +19,11 @@ def cotizar():
     datos = request.get_json(silent=True) or {}
     # Pide el perfil al adaptador (que decide: proveedor o caché)
     cliente_id = datos.get("cliente_id", "12345")
-    resp = requests.get(f"{ADAPTADOR_URL}/perfil/{cliente_id}", timeout=5)
+    resp = requests.get(
+        f"{ADAPTADOR_URL}/perfil/{cliente_id}",
+        timeout=5,
+        headers={"X-Request-Id": request_id},
+    )
     if resp.status_code != 200:
             detalle = resp.json()
             return jsonify(

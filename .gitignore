@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Salida de las corridas del experimento (Fase 4)
+resultados/
