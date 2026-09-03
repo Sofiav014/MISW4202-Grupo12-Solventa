@@ -1,8 +1,10 @@
 """Microservicio Adaptador: entrega perfiles al journey de cotización."""
 import logging
+import time
 
 import pybreaker
 from flask import Flask, jsonify
+from app.cache import CacheMissError, leer_perfil
 from app.circuit_breaker import breaker
 from app.config import PORT
 from app.clientes.open_finance import OpenFinanceClient, OpenFinanceError
@@ -28,11 +30,21 @@ def health():
 def perfil(cliente_id):
     try:
         return jsonify(_consultar_open_finance(cliente_id))
-    except pybreaker.CircuitBreakerError:
-        # TODO(3.3): fallback a caché en lugar de este 503.
-        return jsonify(tipo_error="circuito_abierto", mensaje="Open Finance no disponible temporalmente"), 503
-    except OpenFinanceError as exc:
-        return jsonify(tipo_error=exc.tipo, mensaje=exc.mensaje), 503
+    except (pybreaker.CircuitBreakerError, OpenFinanceError) as exc:
+        instante_deteccion = time.monotonic()
+        tipo_falla = (
+            "circuito_abierto" if isinstance(exc, pybreaker.CircuitBreakerError) else exc.tipo
+        )
+        try:
+            return jsonify(leer_perfil(cliente_id, instante_deteccion))
+        except CacheMissError:
+            return (
+                jsonify(
+                    tipo_error="cache_miss",
+                    mensaje=f"Open Finance no disponible ({tipo_falla}) y no hay perfil en caché",
+                ),
+                503,
+            )
 
 
 if __name__ == "__main__":
