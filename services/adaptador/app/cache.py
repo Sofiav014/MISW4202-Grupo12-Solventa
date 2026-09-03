@@ -1,11 +1,12 @@
-"""Fallback a caché de Redis cuando Open Finance no responde."""
+"""Fallback a caché de Redis cuando Open Finance no responde, y write-back
+cuando responde bien."""
 import json
 import logging
 import time
 
 import redis
 
-from app.config import REDIS_HOST, REDIS_PORT
+from app.config import REDIS_HOST, REDIS_PORT, TTL_S
 
 logger = logging.getLogger("adaptador.cache")
 
@@ -21,14 +22,6 @@ def _clave(cliente_id: str) -> str:
 
 
 def leer_perfil(cliente_id: str, instante_deteccion: float) -> dict:
-    """Lee el perfil cacheado tras detectar una falla de Open Finance.
-
-    `instante_deteccion` es el time.monotonic() del momento en que se
-    detectó la falla (timeout, error o circuito abierto) - se captura en
-    main.py, justo donde ocurre. Aquí se toma el instante de lectura y se
-    registran ambos crudos; el cálculo del tiempo de conmutación como
-    métrica del experimento se hace en 4.2, no aquí.
-    """
     valor = _cliente_redis.get(_clave(cliente_id))
     instante_lectura = time.monotonic()
 
@@ -51,3 +44,15 @@ def leer_perfil(cliente_id: str, instante_deteccion: float) -> dict:
         raise CacheMissError(f"No hay perfil cacheado para cliente_id={cliente_id}")
 
     return json.loads(valor)
+
+
+def guardar_perfil(cliente_id: str, perfil: dict) -> None:
+    perfil_cacheado = {**perfil, "fuente": "CACHE"}
+    _cliente_redis.set(_clave(cliente_id), json.dumps(perfil_cacheado), ex=TTL_S)
+
+    logger.info(
+        "cache_write cliente_id=%s ttl_s=%s",
+        cliente_id,
+        TTL_S,
+        extra={"cliente_id": cliente_id, "ttl_s": TTL_S},
+    )

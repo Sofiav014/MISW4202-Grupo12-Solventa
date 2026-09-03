@@ -1,7 +1,4 @@
-"""Tests de integración de /perfil: circuito abierto -> fallback a caché.
-
-Usan el Flask test client y simulan la falla de Open Finance con un doble
-de prueba, sin tocar la red ni un Redis real.
+"""Tests de integración de /perfil: fallback a caché (3.3) y write-back (3.4).
 """
 import json
 import unittest
@@ -27,9 +24,12 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
     def tearDown(self):
         breaker.close()
 
+    @patch("app.main.guardar_perfil")
     @patch("app.main.leer_perfil")
     @patch("app.main.open_finance.obtener_perfil")
-    def test_circuito_abierto_sirve_el_perfil_desde_cache(self, mock_obtener_perfil, mock_leer_perfil):
+    def test_circuito_abierto_sirve_el_perfil_desde_cache(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
         mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
         mock_leer_perfil.return_value = PERFIL_CACHEADO
 
@@ -37,10 +37,14 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 200)
         self.assertEqual(respuesta.get_json(), PERFIL_CACHEADO)
+        mock_guardar_perfil.assert_not_called()
 
+    @patch("app.main.guardar_perfil")
     @patch("app.main.leer_perfil")
     @patch("app.main.open_finance.obtener_perfil")
-    def test_circuito_abierto_sin_perfil_en_cache_devuelve_503(self, mock_obtener_perfil, mock_leer_perfil):
+    def test_circuito_abierto_sin_perfil_en_cache_devuelve_503(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
         from app.cache import CacheMissError
 
         mock_obtener_perfil.side_effect = OpenFinanceError("conexion", "caído")
@@ -50,9 +54,13 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 503)
         self.assertEqual(respuesta.get_json()["tipo_error"], "cache_miss")
+        mock_guardar_perfil.assert_not_called()
 
+    @patch("app.main.guardar_perfil")
     @patch("app.main.open_finance.obtener_perfil")
-    def test_proveedor_ok_no_toca_la_cache(self, mock_obtener_perfil):
+    def test_proveedor_ok_escribe_en_cache_y_responde_el_perfil_original(
+        self, mock_obtener_perfil, mock_guardar_perfil
+    ):
         perfil_real = {**PERFIL_CACHEADO, "fuente": "OPEN_FINANCE"}
         mock_obtener_perfil.return_value = perfil_real
 
@@ -60,6 +68,7 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 200)
         self.assertEqual(respuesta.get_json(), perfil_real)
+        mock_guardar_perfil.assert_called_once_with("12345", perfil_real)
 
 
 if __name__ == "__main__":

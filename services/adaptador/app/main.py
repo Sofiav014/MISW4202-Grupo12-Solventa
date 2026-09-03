@@ -4,7 +4,7 @@ import time
 
 import pybreaker
 from flask import Flask, jsonify
-from app.cache import CacheMissError, leer_perfil
+from app.cache import CacheMissError, guardar_perfil, leer_perfil
 from app.circuit_breaker import breaker
 from app.config import PORT
 from app.clientes.open_finance import OpenFinanceClient, OpenFinanceError
@@ -29,7 +29,7 @@ def health():
 @app.get("/perfil/<cliente_id>")
 def perfil(cliente_id):
     try:
-        return jsonify(_consultar_open_finance(cliente_id))
+        perfil_obtenido = _consultar_open_finance(cliente_id)
     except (pybreaker.CircuitBreakerError, OpenFinanceError) as exc:
         instante_deteccion = time.monotonic()
         tipo_falla = (
@@ -45,6 +45,8 @@ def perfil(cliente_id):
                 ),
                 503,
             )
+    guardar_perfil(cliente_id, perfil_obtenido)
+    return jsonify(perfil_obtenido)
 
 
 if __name__ == "__main__":
