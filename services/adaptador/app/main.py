@@ -29,8 +29,7 @@ def _consultar_open_finance(cliente_id):
 
 @app.get("/health")
 def health():
-    circuito = breaker.current_state.upper().replace("-", "_")
-    return jsonify(status="ok", service="adaptador", circuito=circuito)
+    return jsonify(status="ok", service="adaptador", circuito=_estado_circuito())
 
 
 @app.get("/perfil/<cliente_id>")
@@ -49,8 +48,6 @@ def perfil(cliente_id):
             # Condición límite (Fase 0.2): no hay dato que servir, así que es un
             # fallo controlado y no cuenta contra la meta de disponibilidad.
             g.timestamp_respuesta_cache = time.monotonic()
-            # hit_miss de 0.4 solo admite HIT|MISS|N/A; el vencido se distingue
-            # por tipo_error=CACHE_EXPIRED.
             g.hit_miss, g.fuente_respuesta = "MISS", "NONE"
             g.resultado, g.tipo_error = "fallido", sin_dato.tipo_error
             return (
