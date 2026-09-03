@@ -1,25 +1,34 @@
-"""Tests del fallback a caché (3.3) y del write-back (3.4).
+"""Tests del fallback a caché (3.3), del write-back (3.4) y del manejo de cache
+miss y perfil vencido (3.5).
 """
 import json
 import time
 import unittest
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
-from app.cache import CacheMissError, guardar_perfil, leer_perfil
+from app.cache import CacheExpiredError, CacheMissError, guardar_perfil, leer_perfil
 from app.config import TTL_S
+
+
+def _hace_segundos(segundos: float) -> str:
+    """Timestamp ISO-8601 con sufijo Z, como el que emite Open Finance."""
+    marca = datetime.now(timezone.utc) - timedelta(seconds=segundos)
+    return marca.isoformat().replace("+00:00", "Z")
+
 
 PERFIL_CACHEADO = {
     "cliente_id": "12345",
     "score_riesgo": 720,
     "fuente": "CACHE",
-    "timestamp_perfil": "2026-08-31T10:00:00Z",
+    "timestamp_perfil": _hace_segundos(0),
 }
 
 PERFIL_DE_OPEN_FINANCE = {
     "cliente_id": "12345",
     "score_riesgo": 720,
     "fuente": "OPEN_FINANCE",
-    "timestamp_perfil": "2026-08-31T10:00:00Z",
+    "timestamp_perfil": _hace_segundos(0),
 }
 
 
@@ -37,8 +46,11 @@ class TestLeerPerfilDeCache(unittest.TestCase):
     def test_cache_miss_lanza_cachemisserror(self, mock_redis):
         mock_redis.get.return_value = None
 
-        with self.assertRaises(CacheMissError):
+        with self.assertRaises(CacheMissError) as capturado:
             leer_perfil("99999", time.monotonic())
+
+        self.assertEqual(capturado.exception.tipo_error, "CACHE_MISS")
+        self.assertEqual(capturado.exception.hit_miss, "MISS")
 
     @patch("app.cache._cliente_redis")
     def test_hit_registra_los_instantes_crudos_en_el_log(self, mock_redis):
@@ -49,7 +61,7 @@ class TestLeerPerfilDeCache(unittest.TestCase):
             leer_perfil("12345", instante_deteccion)
 
         linea = capturado.output[0]
-        self.assertIn("resultado=hit", linea)
+        self.assertIn("hit_miss=HIT", linea)
         self.assertIn("cliente_id=12345", linea)
         self.assertIn(f"instante_deteccion={instante_deteccion}", linea)
         self.assertIn("instante_lectura=", linea)
@@ -62,7 +74,64 @@ class TestLeerPerfilDeCache(unittest.TestCase):
             with self.assertRaises(CacheMissError):
                 leer_perfil("99999", time.monotonic())
 
-        self.assertIn("resultado=miss", capturado.output[0])
+        self.assertIn("hit_miss=MISS", capturado.output[0])
+
+
+class TestPerfilVencido(unittest.TestCase):
+    """3.5: distinguir "venció" de "nunca existió" evaluando timestamp_perfil."""
+
+    @patch("app.cache._cliente_redis")
+    def test_perfil_dentro_del_ttl_se_sirve(self, mock_redis):
+        perfil = {**PERFIL_CACHEADO, "timestamp_perfil": _hace_segundos(TTL_S - 10)}
+        mock_redis.get.return_value = json.dumps(perfil)
+
+        self.assertEqual(leer_perfil("12345", time.monotonic()), perfil)
+
+    @patch("app.cache._cliente_redis")
+    def test_perfil_vencido_lanza_cacheexpirederror(self, mock_redis):
+        perfil = {**PERFIL_CACHEADO, "timestamp_perfil": _hace_segundos(TTL_S + 60)}
+        mock_redis.get.return_value = json.dumps(perfil)
+
+        with self.assertRaises(CacheExpiredError) as capturado:
+            leer_perfil("12345", time.monotonic())
+
+        self.assertEqual(capturado.exception.tipo_error, "CACHE_EXPIRED")
+        self.assertEqual(capturado.exception.hit_miss, "EXPIRED")
+
+    @patch("app.cache._cliente_redis")
+    def test_vencido_no_se_confunde_con_cache_miss(self, mock_redis):
+        mock_redis.get.return_value = json.dumps(
+            {**PERFIL_CACHEADO, "timestamp_perfil": _hace_segundos(TTL_S + 60)}
+        )
+
+        with self.assertRaises(CacheExpiredError):
+            leer_perfil("12345", time.monotonic())
+
+    @patch("app.cache._cliente_redis")
+    def test_vencido_registra_hit_miss_expired_en_el_log(self, mock_redis):
+        mock_redis.get.return_value = json.dumps(
+            {**PERFIL_CACHEADO, "timestamp_perfil": _hace_segundos(TTL_S + 60)}
+        )
+
+        with self.assertLogs("adaptador.cache", level="INFO") as capturado:
+            with self.assertRaises(CacheExpiredError):
+                leer_perfil("12345", time.monotonic())
+
+        self.assertIn("hit_miss=EXPIRED", capturado.output[0])
+
+    @patch("app.cache._cliente_redis")
+    def test_perfil_sin_timestamp_se_sirve_como_fresco(self, mock_redis):
+        perfil = {k: v for k, v in PERFIL_CACHEADO.items() if k != "timestamp_perfil"}
+        mock_redis.get.return_value = json.dumps(perfil)
+
+        self.assertEqual(leer_perfil("12345", time.monotonic()), perfil)
+
+    @patch("app.cache._cliente_redis")
+    def test_perfil_con_timestamp_ilegible_se_sirve_como_fresco(self, mock_redis):
+        perfil = {**PERFIL_CACHEADO, "timestamp_perfil": "no-es-una-fecha"}
+        mock_redis.get.return_value = json.dumps(perfil)
+
+        self.assertEqual(leer_perfil("12345", time.monotonic()), perfil)
 
 
 class TestGuardarPerfilEnCache(unittest.TestCase):
