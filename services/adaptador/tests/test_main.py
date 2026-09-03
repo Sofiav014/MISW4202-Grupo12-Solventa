@@ -1,9 +1,11 @@
-"""Tests de integración de /perfil: fallback a caché (3.3) y write-back (3.4).
+"""Tests de integración de /perfil: fallback a caché (3.3), write-back (3.4) y
+manejo de cache miss y perfil vencido (3.5).
 """
 import json
 import unittest
 from unittest.mock import patch
 
+from app.cache import CacheExpiredError, CacheMissError
 from app.circuit_breaker import breaker
 from app.clientes.open_finance import OpenFinanceError
 from app.main import app
@@ -45,15 +47,13 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
     def test_circuito_abierto_sin_perfil_en_cache_devuelve_503(
         self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
     ):
-        from app.cache import CacheMissError
-
         mock_obtener_perfil.side_effect = OpenFinanceError("conexion", "caído")
         mock_leer_perfil.side_effect = CacheMissError("sin perfil")
 
         respuesta = self.client.get("/perfil/99999")
 
         self.assertEqual(respuesta.status_code, 503)
-        self.assertEqual(respuesta.get_json()["tipo_error"], "cache_miss")
+        self.assertEqual(respuesta.get_json()["tipo_error"], "CACHE_MISS")
         mock_guardar_perfil.assert_not_called()
 
     @patch("app.main.guardar_perfil")
@@ -69,6 +69,77 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
         self.assertEqual(respuesta.status_code, 200)
         self.assertEqual(respuesta.get_json(), perfil_real)
         mock_guardar_perfil.assert_called_once_with("12345", perfil_real)
+
+
+class TestCondicionLimite(unittest.TestCase):
+    """3.5: cache miss y perfil vencido como condición límite, no como error genérico."""
+
+    def setUp(self):
+        self.client = app.test_client()
+        breaker.close()
+
+    def tearDown(self):
+        breaker.close()
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_cache_miss_puro_se_etiqueta_como_condicion_limite(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
+        mock_leer_perfil.side_effect = CacheMissError("sin perfil")
+
+        respuesta = self.client.get("/perfil/99999")
+        cuerpo = respuesta.get_json()
+
+        self.assertEqual(respuesta.status_code, 503)
+        self.assertEqual(cuerpo["resultado"], "fallido")
+        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["hit_miss"], "MISS")
+        self.assertEqual(cuerpo["tipo_error"], "CACHE_MISS")
+        self.assertTrue(cuerpo["condicion_limite"])
+        mock_guardar_perfil.assert_not_called()
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_perfil_vencido_se_distingue_del_cache_miss(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
+        mock_leer_perfil.side_effect = CacheExpiredError("perfil vencido")
+
+        respuesta = self.client.get("/perfil/12345")
+        cuerpo = respuesta.get_json()
+
+        self.assertEqual(respuesta.status_code, 503)
+        self.assertEqual(cuerpo["resultado"], "fallido")
+        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["hit_miss"], "EXPIRED")
+        self.assertEqual(cuerpo["tipo_error"], "CACHE_EXPIRED")
+        self.assertTrue(cuerpo["condicion_limite"])
+        mock_guardar_perfil.assert_not_called()
+
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_sin_dato_que_servir_no_devuelve_perfil(
+        self, mock_obtener_perfil, mock_leer_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("conexion", "caído")
+
+        for excepcion in (
+            CacheMissError("sin perfil"),
+            CacheExpiredError("perfil vencido"),
+        ):
+            with self.subTest(excepcion=type(excepcion).__name__):
+                mock_leer_perfil.side_effect = excepcion
+                breaker.close()
+
+                respuesta = self.client.get("/perfil/12345")
+
+                self.assertEqual(respuesta.status_code, 503)
+                self.assertNotIn("score_riesgo", respuesta.get_json())
 
 
 if __name__ == "__main__":

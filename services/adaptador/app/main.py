@@ -4,7 +4,7 @@ import time
 
 import pybreaker
 from flask import Flask, jsonify
-from app.cache import CacheMissError, guardar_perfil, leer_perfil
+from app.cache import CacheExpiredError, CacheMissError, guardar_perfil, leer_perfil
 from app.circuit_breaker import breaker
 from app.config import PORT
 from app.clientes.open_finance import OpenFinanceClient, OpenFinanceError
@@ -36,15 +36,22 @@ def perfil(cliente_id):
             "circuito_abierto" if isinstance(exc, pybreaker.CircuitBreakerError) else exc.tipo
         )
         try:
-            return jsonify(leer_perfil(cliente_id, instante_deteccion))
-        except CacheMissError:
+            perfil_cacheado = leer_perfil(cliente_id, instante_deteccion)
+        except (CacheMissError, CacheExpiredError) as sin_dato:
+            # Condición límite (Fase 0.2): no hay dato que servir, así que es un
+            # fallo controlado y no cuenta contra la meta de disponibilidad.
             return (
                 jsonify(
-                    tipo_error="cache_miss",
-                    mensaje=f"Open Finance no disponible ({tipo_falla}) y no hay perfil en caché",
+                    resultado="fallido",
+                    fuente_respuesta="ninguno",
+                    hit_miss=sin_dato.hit_miss,
+                    tipo_error=sin_dato.tipo_error,
+                    condicion_limite=True,
+                    mensaje=f"Open Finance no disponible ({tipo_falla}): {sin_dato}",
                 ),
                 503,
             )
+        return jsonify(perfil_cacheado)
     guardar_perfil(cliente_id, perfil_obtenido)
     return jsonify(perfil_obtenido)
 

@@ -13,6 +13,8 @@ services:
 
   adaptador:
     build: ./services/adaptador
+    ports:
+      - "8001:8001"                     # expuesto para probar /perfil directamente
     environment:
       MOCK_URL: http://mock-openfinance:8002
       REDIS_HOST: redis
@@ -27,6 +29,8 @@ services:
 
   mock-openfinance:
     build: ./services/mock-openfinance
+    ports:
+      - "8002:8002"                     # expuesto para cambiar el modo vía POST /config
     environment:
       MODO: ${MODO}
       AUTO_REPARAR_SEGUNDOS: ${AUTO_REPARAR_SEGUNDOS}
