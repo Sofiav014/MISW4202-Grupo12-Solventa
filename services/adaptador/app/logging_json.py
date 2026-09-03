@@ -11,8 +11,7 @@ from flask import g, request
 
 from app.config import EJECUCION_ID, ESCENARIO, LOG_PATH
 
-# Vocabulario de tipo_error para el log. La Fase 0.4 no fija valores canónicos
-# ("tipo de error ocurrido, si aplica"), así que se propone este al equipo.
+# Vocabulario de tipo_error para la columna homónima de la Fase 0.4.
 TIPO_ERROR_0_4 = {
     "timeout": "PROVIDER_TIMEOUT",
     "conexion": "PROVIDER_UNAVAILABLE",
