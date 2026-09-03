@@ -24,6 +24,11 @@ services:
       RESET_TIMEOUT_S: ${RESET_TIMEOUT_S}
       HALF_OPEN_MAX: ${HALF_OPEN_MAX}
       TTL_S: ${TTL_S}
+      EJECUCION_ID: ${EJECUCION_ID}
+      ESCENARIO: ${ESCENARIO}
+      LOG_DIR: ${LOG_DIR}
+    volumes:
+      - ./resultados:${LOG_DIR}         # el .jsonl de la corrida queda en el host
     depends_on: [mock-openfinance, redis]
     networks: [solventa]
 
