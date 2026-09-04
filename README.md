@@ -128,3 +128,90 @@ POST /config
 ```
 
 Esto permite cambiar el comportamiento del proveedor y ejecutar los distintos escenarios del experimento sin modificar el código de los servicios.
+
+## Evidencia de ejecución por corrida (4.3)
+
+El paquete `experimentos` construye y persiste un `manifest.json` con las
+condiciones efectivas de una corrida. El manifest registra metadatos; no cambia
+el modo del Mock, no administra Redis o el Circuit Breaker y no lanza Locust.
+
+La configuración del adaptador (`EJECUCION_ID`, `ESCENARIO`, `FAIL_MAX`,
+`RESET_TIMEOUT_S`, `TTL_S`, `TIMEOUT_MS` y `LOG_DIR`) se lee de
+`services.adaptador.app.config`. El modo vigente del Mock y la configuración de
+carga se reciben explícitamente para evitar registrar valores ficticios o un
+modo de arranque que ya haya cambiado mediante `POST /config`.
+
+La persistencia utiliza esta estructura y nunca sobrescribe un manifest:
+
+```text
+resultados/
+└── escenario_<A-G>/
+    └── <corrida_id>/
+        ├── manifest.json
+        └── results.csv  # integración futura; 4.3 no lo crea ni analiza
+```
+
+Ejemplo programático, usando valores reales recibidos por el futuro
+orquestador de la corrida:
+
+```python
+from pathlib import Path
+
+from experimentos import (
+    ConfiguracionCarga,
+    ConfiguracionMockOpenFinance,
+    construir_manifest,
+    guardar_manifest,
+)
+
+
+def registrar_condiciones_corrida(
+    modo_mock: str,
+    usuarios: int,
+    duration_seconds: int,
+    spawn_rate: float | None,
+    auto_repair_seconds: int | None = None,
+) -> Path:
+    manifest = construir_manifest(
+        ConfiguracionMockOpenFinance(
+            modo=modo_mock,
+            auto_repair_seconds=auto_repair_seconds,
+        ),
+        ConfiguracionCarga(
+            usuarios=usuarios,
+            duration_seconds=duration_seconds,
+            spawn_rate=spawn_rate,
+        ),
+    )
+    return guardar_manifest(manifest)
+```
+
+### Fronteras pendientes
+
+**Campo:** modo vigente del Mock y `auto_repair_seconds` cuando aplique.
+
+**Estado actual:** contrato tipado obligatorio; 4.3 no consulta ni configura el Mock.
+
+**Proveedor futuro:** Mock OpenFinance/I1 u orquestador de escenarios.
+
+**Contrato esperado:** `ConfiguracionMockOpenFinance` con uno de
+`normal | lento | caido | caida_temporal` y autorreparación positiva para el
+modo temporal.
+
+**Campo:** `usuarios`, `duration_seconds` y, si está disponible, `spawn_rate`.
+
+**Estado actual:** contrato tipado sin valores predeterminados de ejecución.
+
+**Proveedor futuro:** Locust/I4 u orquestador de carga.
+
+**Contrato esperado:** `ConfiguracionCarga` con usuarios y duración positivos;
+`spawn_rate` positivo o ausente.
+
+**Campo:** significado operativo de los escenarios A–G.
+
+**Estado actual:** el repositorio solo dispone de la etiqueta `ESCENARIO`.
+
+**Proveedor futuro:** protocolo experimental.
+
+**Contrato esperado:** entregar una etiqueta entre `A` y `G`; 4.3 la registra
+sin ejecutar ni interpretar el escenario.
