@@ -95,7 +95,7 @@ class TestCondicionLimite(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 503)
         self.assertEqual(cuerpo["resultado"], "fallido")
-        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["fuente_respuesta"], "NONE")
         self.assertEqual(cuerpo["hit_miss"], "MISS")
         self.assertEqual(cuerpo["tipo_error"], "CACHE_MISS")
         self.assertTrue(cuerpo["condicion_limite"])
@@ -115,7 +115,7 @@ class TestCondicionLimite(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 503)
         self.assertEqual(cuerpo["resultado"], "fallido")
-        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["fuente_respuesta"], "NONE")
         self.assertEqual(cuerpo["hit_miss"], "EXPIRED")
         self.assertEqual(cuerpo["tipo_error"], "CACHE_EXPIRED")
         self.assertTrue(cuerpo["condicion_limite"])
