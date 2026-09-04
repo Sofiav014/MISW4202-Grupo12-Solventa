@@ -219,3 +219,6 @@ __marimo__/
 
 # Salida de las corridas del experimento (Fase 4)
 resultados/
+
+# Copia local de la wiki de GitHub (no se referencia como submódulo en el repo)
+/MISW4202-Grupo12-Solventa.wiki/
