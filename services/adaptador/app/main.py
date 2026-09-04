@@ -4,7 +4,7 @@ import time
 import pybreaker
 from flask import Flask, g, jsonify
 from app.cache import CacheExpiredError, CacheMissError, guardar_perfil, leer_perfil
-from app.circuit_breaker import breaker
+from app.circuit_breaker import breaker, registrar_llamada_evitada
 from app.config import PORT
 from app.clientes.open_finance import OpenFinanceClient, OpenFinanceError
 from app.logging_json import (
@@ -38,6 +38,8 @@ def health():
 
 @app.get("/perfil/<cliente_id>")
 def perfil(cliente_id):
+    if breaker.current_state == "open":
+        registrar_llamada_evitada()
     try:
         perfil_obtenido = _consultar_open_finance(cliente_id)
     except (pybreaker.CircuitBreakerError, OpenFinanceError) as exc:

@@ -6,12 +6,19 @@ import time
 from datetime import datetime, timezone
 
 import redis
+from flask import g, has_request_context
 
 from app.config import REDIS_HOST, REDIS_PORT, TTL_S
 
 logger = logging.getLogger("adaptador.cache")
 
 _cliente_redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+
+
+def _request_id_actual():
+    """El request_id de la petición en curso (lo deja logging_json.py en g),
+    o None fuera de un contexto de petición (p. ej. en tests)."""
+    return g.get("request_id") if has_request_context() else None
 
 
 class CacheMissError(Exception):
@@ -72,8 +79,12 @@ def leer_perfil(cliente_id: str, instante_deteccion: float) -> dict:
         instante_deteccion,
         instante_lectura,
         extra={
+            "event_type": "cache_op",
+            "request_id": _request_id_actual(),
+            "operacion": "lectura",
             "hit_miss": hit_miss,
             "cliente_id": cliente_id,
+            "fuente": perfil.get("fuente") if perfil is not None else None,
             "instante_deteccion": instante_deteccion,
             "instante_lectura": instante_lectura,
         },
@@ -90,6 +101,7 @@ def leer_perfil(cliente_id: str, instante_deteccion: float) -> dict:
 
 
 def guardar_perfil(cliente_id: str, perfil: dict) -> None:
+    fuente_original = perfil.get("fuente")
     perfil_cacheado = {**perfil, "fuente": "CACHE"}
     _cliente_redis.set(_clave(cliente_id), json.dumps(perfil_cacheado), ex=TTL_S)
 
@@ -97,5 +109,12 @@ def guardar_perfil(cliente_id: str, perfil: dict) -> None:
         "cache_write cliente_id=%s ttl_s=%s",
         cliente_id,
         TTL_S,
-        extra={"cliente_id": cliente_id, "ttl_s": TTL_S},
+        extra={
+            "event_type": "cache_op",
+            "request_id": _request_id_actual(),
+            "operacion": "escritura",
+            "cliente_id": cliente_id,
+            "fuente": fuente_original,
+            "ttl_s": TTL_S,
+        },
     )

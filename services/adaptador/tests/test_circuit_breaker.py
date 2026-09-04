@@ -5,7 +5,11 @@ from unittest.mock import Mock
 
 import pybreaker
 
-from app.circuit_breaker import BreakerEventListener
+from app.circuit_breaker import (
+    BreakerEventListener,
+    contador_llamadas_evitadas,
+    registrar_llamada_evitada,
+)
 
 FAIL_MAX = 2
 RESET_TIMEOUT_S = 0.05
@@ -107,6 +111,58 @@ class _ListenerDePrueba(pybreaker.CircuitBreakerListener):
 
     def state_change(self, cb, old_state, new_state):
         self.eventos.append((old_state.name, new_state.name))
+
+
+class TestBreakerEventListenerLoggea(unittest.TestCase):
+    """4.2: las transiciones se registran con event_type y request_id, no
+    solo como texto plano, para que se puedan filtrar en Pandas."""
+
+    def test_transicion_incluye_event_type_cb_transition(self):
+        breaker = _nuevo_breaker()
+        protegida = breaker(Mock(side_effect=RuntimeError("x")))
+
+        with self.assertLogs("adaptador.circuit_breaker", level="INFO") as capturado:
+            for _ in range(FAIL_MAX - 1):
+                with self.assertRaises(RuntimeError):
+                    protegida()
+            with self.assertRaises(pybreaker.CircuitBreakerError):
+                protegida()
+
+        evento = capturado.records[0]
+        self.assertEqual(evento.event_type, "cb_transition")
+        self.assertEqual(evento.estado_anterior, "closed")
+        self.assertEqual(evento.estado_nuevo, "open")
+
+    def test_request_id_es_none_fuera_de_un_contexto_de_peticion(self):
+        breaker = _nuevo_breaker()
+        protegida = breaker(Mock(side_effect=RuntimeError("x")))
+
+        with self.assertLogs("adaptador.circuit_breaker", level="INFO") as capturado:
+            for _ in range(FAIL_MAX - 1):
+                with self.assertRaises(RuntimeError):
+                    protegida()
+            with self.assertRaises(pybreaker.CircuitBreakerError):
+                protegida()
+
+        self.assertIsNone(capturado.records[0].request_id)
+
+
+class TestContadorLlamadasEvitadas(unittest.TestCase):
+    def test_registrar_llamada_evitada_incrementa_el_contador_en_uno(self):
+        antes = contador_llamadas_evitadas()
+
+        registrar_llamada_evitada()
+
+        self.assertEqual(contador_llamadas_evitadas(), antes + 1)
+
+    def test_registra_el_evento_con_event_type_cb_call_skipped(self):
+        with self.assertLogs("adaptador.circuit_breaker", level="INFO") as capturado:
+            registrar_llamada_evitada()
+
+        evento = capturado.records[0]
+        self.assertEqual(evento.event_type, "cb_call_skipped")
+        self.assertIsNone(evento.request_id)
+        self.assertEqual(evento.total_llamadas_evitadas, contador_llamadas_evitadas())
 
 
 if __name__ == "__main__":

@@ -76,6 +76,29 @@ class TestLeerPerfilDeCache(unittest.TestCase):
 
         self.assertIn("hit_miss=MISS", capturado.output[0])
 
+    @patch("app.cache._cliente_redis")
+    def test_hit_incluye_event_type_cache_op_y_fuente_del_perfil(self, mock_redis):
+        mock_redis.get.return_value = json.dumps(PERFIL_CACHEADO)
+
+        with self.assertLogs("adaptador.cache", level="INFO") as capturado:
+            leer_perfil("12345", time.monotonic())
+
+        evento = capturado.records[0]
+        self.assertEqual(evento.event_type, "cache_op")
+        self.assertEqual(evento.operacion, "lectura")
+        self.assertEqual(evento.fuente, "CACHE")
+        self.assertIsNone(evento.request_id)
+
+    @patch("app.cache._cliente_redis")
+    def test_miss_no_tiene_fuente_porque_no_hay_perfil(self, mock_redis):
+        mock_redis.get.return_value = None
+
+        with self.assertLogs("adaptador.cache", level="INFO") as capturado:
+            with self.assertRaises(CacheMissError):
+                leer_perfil("99999", time.monotonic())
+
+        self.assertIsNone(capturado.records[0].fuente)
+
 
 class TestPerfilVencido(unittest.TestCase):
     """3.5: distinguir "venció" de "nunca existió" evaluando timestamp_perfil."""
@@ -161,6 +184,18 @@ class TestGuardarPerfilEnCache(unittest.TestCase):
         linea = capturado.output[0]
         self.assertIn("cliente_id=12345", linea)
         self.assertIn(f"ttl_s={TTL_S}", linea)
+
+    @patch("app.cache._cliente_redis")
+    def test_escritura_incluye_event_type_cache_op_y_fuente_original(self, mock_redis):
+        with self.assertLogs("adaptador.cache", level="INFO") as capturado:
+            guardar_perfil("12345", PERFIL_DE_OPEN_FINANCE)
+
+        evento = capturado.records[0]
+        self.assertEqual(evento.event_type, "cache_op")
+        self.assertEqual(evento.operacion, "escritura")
+        # Se registra la fuente ORIGINAL (antes de forzarla a "CACHE" al guardar).
+        self.assertEqual(evento.fuente, "OPEN_FINANCE")
+        self.assertIsNone(evento.request_id)
 
 
 if __name__ == "__main__":

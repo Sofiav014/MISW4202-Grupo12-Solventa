@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from app.cache import CacheExpiredError, CacheMissError
-from app.circuit_breaker import breaker
+from app.circuit_breaker import breaker, contador_llamadas_evitadas
 from app.clientes.open_finance import OpenFinanceError
 from app.main import app
 
@@ -95,7 +95,7 @@ class TestCondicionLimite(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 503)
         self.assertEqual(cuerpo["resultado"], "fallido")
-        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["fuente_respuesta"], "NONE")
         self.assertEqual(cuerpo["hit_miss"], "MISS")
         self.assertEqual(cuerpo["tipo_error"], "CACHE_MISS")
         self.assertTrue(cuerpo["condicion_limite"])
@@ -115,7 +115,7 @@ class TestCondicionLimite(unittest.TestCase):
 
         self.assertEqual(respuesta.status_code, 503)
         self.assertEqual(cuerpo["resultado"], "fallido")
-        self.assertEqual(cuerpo["fuente_respuesta"], "ninguno")
+        self.assertEqual(cuerpo["fuente_respuesta"], "NONE")
         self.assertEqual(cuerpo["hit_miss"], "EXPIRED")
         self.assertEqual(cuerpo["tipo_error"], "CACHE_EXPIRED")
         self.assertTrue(cuerpo["condicion_limite"])
@@ -140,6 +140,46 @@ class TestCondicionLimite(unittest.TestCase):
 
                 self.assertEqual(respuesta.status_code, 503)
                 self.assertNotIn("score_riesgo", respuesta.get_json())
+
+
+class TestContadorLlamadasEvitadasEnElEndpoint(unittest.TestCase):
+    """4.2: contar las peticiones que llegan con el circuito ya abierto."""
+
+    def setUp(self):
+        self.client = app.test_client()
+        breaker.close()
+
+    def tearDown(self):
+        breaker.close()
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_segunda_peticion_con_circuito_ya_abierto_incrementa_el_contador(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
+        mock_leer_perfil.return_value = PERFIL_CACHEADO
+
+        self.client.get("/perfil/12345")  # esta abre el circuito, no es "evitada"
+        self.assertEqual(breaker.current_state, "open")
+        antes = contador_llamadas_evitadas()
+
+        self.client.get("/perfil/12345")  # esta ya llega con el circuito abierto
+
+        self.assertEqual(contador_llamadas_evitadas(), antes + 1)
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_circuito_cerrado_no_incrementa_el_contador(
+        self, mock_obtener_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.return_value = PERFIL_CACHEADO
+        antes = contador_llamadas_evitadas()
+
+        self.client.get("/perfil/12345")
+
+        self.assertEqual(contador_llamadas_evitadas(), antes)
 
 
 if __name__ == "__main__":
