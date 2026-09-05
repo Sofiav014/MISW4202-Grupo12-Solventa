@@ -148,7 +148,7 @@ resultados/
 └── escenario_<A-G>/
     └── <corrida_id>/
         ├── manifest.json
-        └── results.csv  # integración futura; 4.3 no lo crea ni analiza
+        └── results.csv  # producido por 5.4; 4.3 no lo crea ni analiza
 ```
 
 Ejemplo programático, usando valores reales recibidos por el futuro
@@ -215,3 +215,18 @@ modo temporal.
 
 **Contrato esperado:** entregar una etiqueta entre `A` y `G`; 4.3 la registra
 sin ejecutar ni interpretar el escenario.
+
+## Guardar resultados de una corrida (5.4)
+
+La operación `guardar-resultados` recibe los manifests de 4.3 y separa las
+peticiones de `adaptador.jsonl` por escenario y ejecución. Completa cada carpeta
+con `results.csv`, procedencia y constancia de integridad, conservando los CSV
+agregados existentes. Funciona sin Locust ni servicios levantados y no exige
+que otro productor exporte un archivo de peticiones por corrida.
+
+```bash
+python load-testing/run_escenario.py guardar-resultados --manifests-dir resultados --log-compartido resultados/adaptador.jsonl --resultados-dir resultados
+```
+
+Contratos, adjuntos opcionales, API, límites y pruebas:
+[Actividad 5.4 — Guardar resultados](docs/actividad_5_4.md).

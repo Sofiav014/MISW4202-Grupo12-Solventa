@@ -1,0 +1,11 @@
+{
+  "archivo_fuente": "adaptador.jsonl",
+  "criterio_seleccion": "event_type=request; escenario y ejecucion_id coinciden con el manifest; sin filtro temporal",
+  "limitaciones": [
+    "No se dispone de inicio y fin reales de medicion ni de una marca de fase por peticion. Se conservan todas las peticiones de la identidad, incluido posible warm-up y preparacion.",
+    "El manifest se guarda antes de lanzar Locust y puede reutilizarse; su timestamp no certifica el inicio real. timestamp_inicio/fin del log son monotonicos; los Timestamp de stats_history son muestras, no limites de ejecucion.",
+    "No se infiere el fin como timestamp del manifest mas duracion configurada. Ejecuciones distintas que reutilicen escenario y ejecucion_id no son distinguibles."
+  ],
+  "sha256_fuente": "f86aae4dbf002bcc8830d341f942add56273805630ea6eaa472cf8d8b5ec9822",
+  "ventana_medicion_confirmada": false
+}
