@@ -1,21 +1,9 @@
 """Definición de los escenarios A-G del experimento HA2.
 
-Cada escenario fija el modo del mock Open Finance y el estado esperado de
-caché/breaker al iniciar la corrida medida, además de valores por defecto de
-carga (usuarios/spawn-rate/duración) — todos sobreescribibles por línea de
-comandos en run_escenario.py.
-
-`preparar` deja el sistema en las condiciones iniciales propias del
-escenario, y corre DESPUÉS del warm-up (run_escenario.py se encarga de que
-el warm-up golpee infraestructura ya reseteada pero todavía en modo normal).
-Si `preparar` corriera antes del warm-up, el tráfico descartable del warm-up
-sería el que dispara la apertura del breaker en B/C/E (FAIL_MAX=1 abre con
-la primera falla), y la corrida medida arrancaría con el circuito ya abierto
-en vez de mostrar la transición CLOSED->OPEN que el escenario busca medir.
-
-`secuencia_especial`, cuando existe, corre en paralelo con la corrida medida
-(solo el escenario E la necesita, para reparar el proveedor a mitad de
-camino).
+Fija modo del mock, carga por defecto y estado esperado de caché/breaker por
+escenario — todo sobreescribible por CLI en run_escenario.py. `preparar`
+corre después del warm-up (si no, el warm-up sería el que abre el breaker en
+B/C/E). `secuencia_especial` corre en paralelo a la corrida medida (solo E).
 """
 from dataclasses import dataclass, field
 from typing import Callable, Optional
@@ -30,9 +18,15 @@ CLIENTE_SIN_CACHE = "99999"  # dejado sin sembrar a propósito (ver scripts/seed
 # tiempo, arruinando la condición MISS que el escenario F necesita medir.
 CLIENTE_WARMUP = "00000"
 
+# D no mantiene al proveedor degradado, así que pybreaker se auto-cierra al
+# expirar RESET_TIMEOUT_S; una corrida de 60s medía sobre todo tráfico ya
+# recuperado. Se acota a una fracción del timeout para quedarse dentro de OPEN.
+DURACION_D_S = max(round(control.RESET_TIMEOUT_S * 0.6), 3)
 
 @dataclass
 class Escenario:
+    """Parámetros de carga y condiciones iniciales de un escenario A-G."""
+
     letra: str
     nombre: str
     modo_proveedor: str
@@ -46,44 +40,49 @@ class Escenario:
 
 
 def _preparar_a(esc: "Escenario") -> None:
-    control.configurar_mock("normal")  # ya normal tras el reset; explícito por claridad
+    """Deja el mock en modo normal: sin latencia ni errores artificiales."""
+    control.configurar_mock("normal")
 
 
 def _preparar_b(esc: "Escenario") -> None:
+    """Precarga caché y pone el mock en modo lento (900-1200ms)."""
     control.calentar_cache(esc.cliente_ids)
     control.configurar_mock("lento")
 
 
 def _preparar_c(esc: "Escenario") -> None:
+    """Precarga caché y pone el mock en modo caído (100% de error)."""
     control.calentar_cache(esc.cliente_ids)
     control.configurar_mock("caido")
 
 
 def _preparar_d(esc: "Escenario") -> None:
+    """Precarga caché, fuerza el breaker a OPEN y deja el mock en normal.
+
+    El proveedor queda sano pero el breaker sigue OPEN hasta que expire
+    RESET_TIMEOUT_S (ver DURACION_D_S, que acota la corrida a ese margen).
+    """
     control.calentar_cache(esc.cliente_ids)
     control.configurar_mock("caido")
     control.provocar_apertura_circuito(esc.cliente_ids[0])
-    # El proveedor ya está sano; el breaker se queda OPEN hasta RESET_TIMEOUT_S.
     control.configurar_mock("normal")
 
 
 def _preparar_e(esc: "Escenario") -> None:
+    """Precarga caché y fuerza el breaker a OPEN con el mock caído.
+
+    El mock vuelve a normal a mitad de la corrida medida (ver _secuencia_e).
+    """
     control.calentar_cache(esc.cliente_ids)
     control.configurar_mock("caido")
     control.provocar_apertura_circuito(esc.cliente_ids[0])
-    # El mock vuelve a NORMAL a mitad de la corrida medida: ver _secuencia_e.
 
 
 def _secuencia_e(esc: "Escenario") -> None:
-    """Repara el proveedor bien antes de que expire RESET_TIMEOUT_S.
+    """Repara el mock a normal antes de que expire RESET_TIMEOUT_S.
 
-    El breaker se abrió durante `preparar` (justo antes de que arranque la
-    corrida medida), así que su propio reloj de RESET_TIMEOUT_S ya viene
-    corriendo. Si esta reparación tardara *más* que ese tiempo, el intento en
-    HALF_OPEN caería sobre un proveedor todavía caído, fallaría, y el breaker
-    reabriría reiniciando el conteo — perdiendo la recuperación dentro de la
-    ventana de la corrida. Por eso reparamos temprano (30% del timeout, con
-    piso de 1s) y dejamos el resto del tiempo como margen.
+    Repara temprano (30% del timeout): si tardara más, el intento en
+    HALF_OPEN caería sobre un proveedor aún caído y reabriría el breaker.
     """
     import time
 
@@ -92,12 +91,17 @@ def _secuencia_e(esc: "Escenario") -> None:
 
 
 def _preparar_f(esc: "Escenario") -> None:
-    # cliente_ids de este escenario nunca se siembran; el reset ya los dejó en MISS.
+    """Pone el mock degradado y fuerza el breaker a OPEN, sin caché (MISS).
+
+    Los cliente_ids de este escenario nunca se siembran; el reset ya los
+    dejó sin dato en Redis.
+    """
     control.configurar_mock(esc.modo_proveedor)
     control.provocar_apertura_circuito(esc.cliente_ids[0])
 
 
 def _preparar_g(esc: "Escenario") -> None:
+    """Precarga caché y aplica el modo del proveedor configurado."""
     control.calentar_cache(esc.cliente_ids)
     control.configurar_mock(esc.modo_proveedor)
 
@@ -116,8 +120,8 @@ ESCENARIOS = {
         notas="100% de error; CLOSED->OPEN; cache HIT.",
     ),
     "D": Escenario(
-        "D", "Circuito abierto", "normal", 10, 2, "60s", list(CLIENTES_CACHEADOS), _preparar_d,
-        notas="Breaker forzado a OPEN antes de medir; caché ya poblada (HIT).",
+        "D", "Circuito abierto", "normal", 10, 10, f"{DURACION_D_S}s", list(CLIENTES_CACHEADOS), _preparar_d,
+        notas=f"Breaker forzado a OPEN antes de medir; caché HIT. Duración acotada a {DURACION_D_S}s para no diluirse con tráfico ya recuperado.",
     ),
     "E": Escenario(
         "E", "Recuperación", "caido", 10, 2, "60s", list(CLIENTES_CACHEADOS), _preparar_e,

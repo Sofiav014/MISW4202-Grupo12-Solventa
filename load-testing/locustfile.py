@@ -1,7 +1,9 @@
-# Locustfile del experimento HA2 — dueño: I3 (carga)
-# Simula el tráfico de clientes golpeando el journey (POST /cotizar). El
-# estado del proveedor/breaker/caché se prepara aparte con run_escenario.py;
-# este archivo únicamente genera carga.
+"""Locustfile del experimento HA2.
+
+Simula el tráfico de clientes golpeando el journey (POST /cotizar). El
+estado del proveedor/breaker/caché se prepara aparte con run_escenario.py;
+este archivo únicamente genera carga.
+"""
 import os
 import random
 
@@ -23,6 +25,7 @@ class UsuarioCotizacion(HttpUser):
 
     @task
     def cotizar(self):
+        """Pide una cotización a un cliente al azar del pool y registra el resultado."""
         cliente_id = random.choice(CLIENTE_IDS)
         with self.client.post(
             "/cotizar",
