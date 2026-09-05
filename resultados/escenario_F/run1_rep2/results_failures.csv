@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+POST,/cotizar[F],CatchResponseError('status=503 tipo_error=CACHE_MISS'),1861

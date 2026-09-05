@@ -14,7 +14,8 @@ load-testing/
 ├── locustfile.py       # el usuario simulado: POST /cotizar
 ├── control.py          # mock (POST /config), Redis, reinicio del adaptador
 ├── escenarios.py        # tabla de escenarios A-G (modo, carga, estado esperado)
-└── run_escenario.py     # orquestador: reset -> preparación -> warm-up -> medición
+├── run_escenario.py     # orquestador: reset -> preparación -> warm-up -> medición
+└── RESULTADOS.md         # qué es cada CSV/campo del jsonl y cómo interpretarlos
 ```
 
 ## Preparar el ambiente
@@ -76,10 +77,15 @@ corridas quedaron OK, cuáles fallaron y por qué) y el proceso termina con
 código de salida 1 si hubo alguna falla del harness (no cuentan las fallas
 HTTP esperadas de C/D/F, esas ya se miden con `--exit-code-on-error 0`).
 
-Los resultados quedan en `resultados/locust/escenario_<X>/<ejecucion_id>_repN_stats.csv`
-(y `_stats_history.csv`, `_failures.csv`). Para correlacionarlos con el
-registro estructurado del adaptador (`resultados/adaptador.jsonl`), usa el
-mismo `<ejecucion_id>_repN` como `ejecucion_id`.
+Cada corrida deja su propia carpeta `resultados/escenario_<X>/<ejecucion_id>_repN/`
+con `manifest.json` (condiciones efectivas: breaker, cache, mock, carga —
+ver `experimentos/manifest.py` en la raíz del repo) y `results_stats.csv`
+(+ `_stats_history.csv`, `_failures.csv`) juntos. Antes de reportar la
+corrida se verifica que el CSV tenga al menos una request — si no, aborta.
+Para correlacionar con el registro estructurado del adaptador
+(`resultados/adaptador.jsonl`), usa el mismo `<ejecucion_id>_repN` como
+`ejecucion_id`. Qué es cada archivo/columna y cómo interpretarlos: ver
+[RESULTADOS.md](RESULTADOS.md).
 
 ### Flags relevantes
 
@@ -103,10 +109,20 @@ mismo `<ejecucion_id>_repN` como `ejecucion_id`.
 | A — Baseline          | NORMAL                                   | CLOSED                             | disponible            | 10 users, spawn 2, 60s   |
 | B — Lentitud          | LENTO (900–1200ms > 700ms)               | CLOSED → OPEN                      | HIT (precargado)      | 10 users, spawn 2, 60s   |
 | C — Caída total       | CAÍDO (100% error)                       | CLOSED → OPEN                      | HIT (precargado)      | 10 users, spawn 2, 60s   |
-| D — Circuito abierto  | NORMAL (forzado tras abrir)              | OPEN (forzado antes de medir)      | HIT (precargado)      | 10 users, spawn 2, 60s   |
+| D — Circuito abierto  | NORMAL (forzado tras abrir)              | OPEN (forzado antes de medir)      | HIT (precargado)      | 10 users, spawn 10, `0.6×RESET_TIMEOUT_S`* |
 | E — Recuperación      | CAÍDO → NORMAL (a mitad de corrida)      | CLOSED → OPEN → HALF_OPEN → CLOSED | HIT (precargado)      | 10 users, spawn 2, 60s   |
 | F — Cache miss        | CAÍDO (override con `--modo-proveedor`)  | OPEN (forzado antes de medir)      | MISS (nunca sembrado) | 10 users, spawn 2, 60s   |
 | G — Carga concurrente | NORMAL (override con `--modo-proveedor`) | según degradación                  | HIT (precargado)      | 50 users, spawn 10, 120s |
+
+\* D deja el proveedor sano y solo fuerza el breaker a OPEN, así que nada lo
+mantiene degradado: pybreaker lo cierra solo apenas expira `RESET_TIMEOUT_S`
+(10s por default). Una corrida de 60s como el resto diluía la ventana medida
+con tráfico ya recuperado (mediana ~470ms, igual que A). Por eso D acota su
+duración a `0.6×RESET_TIMEOUT_S` (6s por default) y sube el spawn-rate para
+llegar a concurrencia plena casi de inmediato — así la ventana medida cae
+entera dentro del circuito abierto (mediana ~8ms, igual que B/C ya abiertos).
+Se recalcula solo con `RESET_TIMEOUT_S` del `.env`, así que si lo cambiás no
+hace falta tocar `escenarios.py`.
 
 Detalle de cómo se provoca cada condición está en `escenarios.py` (funciones
 `_preparar_*`) y `control.py`.
@@ -145,11 +161,20 @@ Variables que lee `locustfile.py`:
   entre corridas. Por eso el reset es más lento que un simple restart, pero
   es lo que garantiza reproducibilidad y logs con el `ESCENARIO`/`EJECUCION_ID`
   correctos (esas variables solo se releen al recrear el contenedor).
-- `control.py` lee `.env` en la raíz del repo (sin pisar variables ya
+- `control.py` lee `.env` en la raíz del repo (sin sobrescribir variables ya
   definidas en el shell) para compartir `TTL_S`/`RESET_TIMEOUT_S` con
   docker-compose — así el escenario E espera el `RESET_TIMEOUT_S` real
   configurado, no un valor hardcodeado.
-- El escenario E corre una `secuencia_especial` en un hilo aparte que espera
-  `RESET_TIMEOUT_S + 1s` y recién ahí vuelve el mock a `normal`, para que la
-  transición HALF_OPEN → CLOSED ocurra durante la corrida medida y quede
-  reflejada en las stats de Locust y en el log del adaptador.
+- El escenario E corre una `secuencia_especial` en un hilo aparte que repara
+  el mock temprano (30% de `RESET_TIMEOUT_S`), antes de que pybreaker
+  intente el trial en HALF_OPEN — si reparara después, el trial caería sobre
+  un proveedor aún caído y el breaker reabriría en vez de cerrar.
+- `run_escenario.py` usa `experimentos.construir_manifest`/`guardar_manifest`
+  (paquete en la raíz del repo) para dejar `manifest.json` junto a los CSV de
+  cada corrida. `guardar_manifest` abre el archivo en modo exclusivo (`"x"`)
+  y si ya existe lanza `ManifestExistenteError` a propósito: es evidencia de
+  la corrida, no un archivo de estado para ir actualizando. Si se pudiera
+  sobrescribir, re-correr el mismo `--ejecucion-id` con otros parámetros
+  dejaría un manifest que ya no describe los CSV que tiene al lado. Por eso,
+  al repetir un `--ejecucion-id`, los CSV se actualizan pero el primer
+  manifest queda intacto — si necesitás uno nuevo, usá otro `--ejecucion-id`.

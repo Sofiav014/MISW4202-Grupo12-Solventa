@@ -37,7 +37,9 @@ Ejemplos:
   python run_escenario.py --escenario TODOS --repeticiones 3 --ejecucion-id suite1
 """
 import argparse
+import csv
 import os
+import re
 import subprocess
 import sys
 import threading
@@ -49,8 +51,20 @@ from escenarios import CLIENTE_WARMUP, ESCENARIOS
 RAIZ = Path(__file__).resolve().parent
 LOCUSTFILE = RAIZ / "locustfile.py"
 
+_PATRON_DURACION = re.compile(r"^(?:(?P<h>\d+)h)?(?:(?P<m>\d+)m)?(?:(?P<s>\d+)s?)?$")
+
+
+def segundos_desde_duracion(cadena: str) -> int:
+    """Convierte '90s'/'2m'/'1h30m'/'90' a segundos, para el manifest."""
+    coincidencia = _PATRON_DURACION.fullmatch(cadena.strip())
+    if not coincidencia or not any(coincidencia.groups()):
+        raise ValueError(f"duración inválida: {cadena!r}")
+    h, m, s = (int(g) if g else 0 for g in coincidencia.groups())
+    return h * 3600 + m * 60 + s
+
 
 def parse_args():
+    """Define y parsea los argumentos de línea de comandos del orquestador."""
     p = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -92,11 +106,12 @@ def parse_args():
         help="Si un escenario/repetición falla (error del harness, no fallas HTTP esperadas), "
         "sigue con el resto de la suite en vez de abortar",
     )
-    p.add_argument("--resultados-dir", default=str(RAIZ.parent / "resultados" / "locust"))
+    p.add_argument("--resultados-dir", default=str(RAIZ.parent / "resultados"))
     return p.parse_args()
 
 
 def resolver_escenarios(valor: str) -> list:
+    """Traduce '--escenario' (letra, lista o TODOS) a una lista de letras válidas."""
     if valor.strip().upper() == "TODOS":
         return sorted(ESCENARIOS)
     letras = [l.strip().upper() for l in valor.split(",") if l.strip()]
@@ -110,6 +125,11 @@ def resolver_escenarios(valor: str) -> list:
 
 
 def ejecutar_locust(*, host, duracion, usuarios, spawn_rate, escenario, cliente_ids, csv_prefix):
+    """Corre Locust en modo headless con los parámetros dados y espera a que termine.
+
+    Si `csv_prefix` es None, la corrida es descartable (solo resumen en
+    consola); si no, escribe los CSV de resultados con ese prefijo.
+    """
     env = os.environ.copy()
     env["ESCENARIO"] = escenario
     env["CLIENTE_IDS"] = ",".join(cliente_ids)
@@ -134,7 +154,23 @@ def ejecutar_locust(*, host, duracion, usuarios, spawn_rate, escenario, cliente_
     subprocess.run(cmd, check=True, env=env, cwd=RAIZ)
 
 
+def verificar_integridad_minima(csv_prefix: str) -> None:
+    """Chequeo mínimo antes de pasar a análisis: el CSV existe y tiene tráfico."""
+    ruta = Path(f"{csv_prefix}_stats.csv")
+    if not ruta.exists():
+        raise RuntimeError(f"no se generó {ruta.name}")
+    with ruta.open() as f:
+        filas = {fila["Name"]: fila for fila in csv.DictReader(f)}
+    agregada = filas.get("Aggregated")
+    if agregada is None:
+        raise RuntimeError(f"{ruta.name} no tiene fila 'Aggregated'")
+    if int(agregada["Request Count"]) == 0:
+        raise RuntimeError(f"{ruta.name} quedó con 0 requests — la corrida no generó tráfico")
+
+
 def correr_repeticion(esc, args, indice):
+    """Ejecuta una repetición completa de un escenario: reset, warm-up,
+    preparación de condiciones, manifest y la corrida de Locust medida."""
     id_corrida = f"{args.ejecucion_id}_rep{indice}"
     print(f"\n=== Escenario {esc.letra} ({esc.nombre}) — corrida {id_corrida} ===")
     print(f"    {esc.notas}")
@@ -148,10 +184,7 @@ def correr_repeticion(esc, args, indice):
     )
 
     if not args.sin_warmup:
-        # Corre contra el estado neutro (mock normal, breaker recién reseteado) y
-        # con un cliente dedicado: las condiciones propias del escenario (mock
-        # degradado, breaker forzado, cache miss) se establecen recién después,
-        # para que la corrida medida -no el warm-up- capture sus transiciones.
+        # Contra estado neutro y cliente dedicado, antes de preparar el escenario.
         print(f"-> warm-up ({args.warmup_usuarios} usuarios, {args.warmup_duracion}, descartado)...")
         ejecutar_locust(
             host=args.journey_url,
@@ -166,12 +199,24 @@ def correr_repeticion(esc, args, indice):
     print(f"-> preparando condiciones iniciales del escenario {esc.letra}...")
     esc.preparar(esc)
 
+    directorio_corrida = Path(args.resultados_dir) / f"escenario_{esc.letra}" / id_corrida
+    ruta_manifest = control.guardar_manifest_corrida(
+        escenario=esc.letra,
+        corrida_id=id_corrida,
+        modo_mock=esc.modo_proveedor,
+        usuarios=esc.usuarios,
+        duration_seconds=segundos_desde_duracion(esc.duracion),
+        spawn_rate=esc.spawn_rate,
+        resultados_dir=Path(args.resultados_dir),
+    )
+    print(f"-> manifest: {ruta_manifest or '(ya existía, no se sobrescribió)'}")
+
     hilo_secuencia = None
     if esc.secuencia_especial is not None:
         hilo_secuencia = threading.Thread(target=esc.secuencia_especial, args=(esc,), daemon=True)
         hilo_secuencia.start()
 
-    csv_prefix = str(Path(args.resultados_dir) / f"escenario_{esc.letra}" / id_corrida)
+    csv_prefix = str(directorio_corrida / "results")
     ejecutar_locust(
         host=args.journey_url,
         duracion=esc.duracion,
@@ -185,10 +230,12 @@ def correr_repeticion(esc, args, indice):
     if hilo_secuencia is not None:
         hilo_secuencia.join(timeout=5)
 
+    verificar_integridad_minima(csv_prefix)
     print(f"-> resultados: {csv_prefix}_stats.csv")
 
 
 def _aplicar_overrides(esc, args) -> None:
+    """Sobrescribe los valores por defecto de un escenario con los flags de CLI presentes."""
     if args.usuarios is not None:
         esc.usuarios = args.usuarios
     if args.spawn_rate is not None:
@@ -202,6 +249,7 @@ def _aplicar_overrides(esc, args) -> None:
 
 
 def main():
+    """Corre todas las combinaciones escenario x repetición pedidas y resume el resultado."""
     args = parse_args()
     letras = resolver_escenarios(args.escenario)
 
