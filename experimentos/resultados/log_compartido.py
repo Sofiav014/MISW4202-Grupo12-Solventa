@@ -1,4 +1,4 @@
-"""Adaptador 5.4: separa peticiones de un JSONL compartido, sin ejecutar corridas."""
+"""Separa peticiones de un JSONL compartido, sin ejecutar el experimento."""
 
 from __future__ import annotations
 

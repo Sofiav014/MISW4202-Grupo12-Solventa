@@ -112,7 +112,8 @@ class AlmacenResultadosLocal:
     """Completa una carpeta por escenario/corrida, conservando evidencia preexistente.
 
     Requiere un filesystem local con hard links. El productor debe haber terminado
-    de escribir; el lock solo coordina escritores 5.4, no al runner de 5.3.
+    de escribir; el lock solo coordina a los escritores de evidencia, no al
+    proceso que ejecuta el experimento.
     """
 
     def __init__(self, directorio_resultados: str | Path) -> None:
@@ -152,7 +153,7 @@ class AlmacenResultadosLocal:
             if evidencia.procedencia is not None:
                 archivos["procedencia.json"] = _json_bytes(asdict(evidencia.procedencia))
             validar_registros(modelo, interpretar_csv(archivos["results.csv"], "results.csv"))
-            # Incorpora adjuntos ya creados por 5.3 sin moverlos ni modificarlos.
+            # Incorpora adjuntos ya generados por el experimento sin moverlos ni modificarlos.
             for nombre in COLUMNAS_ADJUNTOS:
                 ruta = _ruta_segura(self.raiz, destino / nombre)
                 if os.path.lexists(ruta):

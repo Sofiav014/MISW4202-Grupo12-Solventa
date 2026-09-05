@@ -76,7 +76,7 @@ def validar_evidencia(evidencia: EvidenciaCorrida) -> None:
     if not isinstance(evidencia, EvidenciaCorrida):
         raise ErrorIntegridadResultados("se requiere una EvidenciaCorrida")
     if not isinstance(evidencia.manifest, EntradaManifest) or not isinstance(evidencia.manifest.modelo, ManifestCorrida):
-        raise ErrorIntegridadResultados("se requiere una EntradaManifest con el DTO de 4.3")
+        raise ErrorIntegridadResultados("se requiere una EntradaManifest con el DTO del manifest")
     if not isinstance(evidencia.registros, TablaRegistros):
         raise ErrorIntegridadResultados("se requiere una TablaRegistros")
     original = interpretar_manifest(evidencia.manifest.contenido)

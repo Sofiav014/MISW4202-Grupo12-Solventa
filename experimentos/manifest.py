@@ -163,7 +163,7 @@ class ConfiguracionMockOpenFinance:
 
 @dataclass(frozen=True)
 class ConfiguracionCarga:
-    """Contrato temporal para los datos que suministrara Locust/I4.
+    """Contrato temporal para los datos que suministrara Locust.
 
     Usuarios y duracion son obligatorios. ``spawn_rate`` puede ser ``None``
     exclusivamente cuando el proveedor de carga aun no entrega ese dato.

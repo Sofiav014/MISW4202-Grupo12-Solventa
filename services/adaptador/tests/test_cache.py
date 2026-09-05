@@ -1,5 +1,5 @@
-"""Tests del fallback a caché (3.3), del write-back (3.4) y del manejo de cache
-miss y perfil vencido (3.5).
+"""Tests del fallback a caché, del write-back y del manejo de cache miss y
+perfil vencido.
 """
 import json
 import time
@@ -101,7 +101,7 @@ class TestLeerPerfilDeCache(unittest.TestCase):
 
 
 class TestPerfilVencido(unittest.TestCase):
-    """3.5: distinguir "venció" de "nunca existió" evaluando timestamp_perfil."""
+    """Distingue "venció" de "nunca existió" evaluando timestamp_perfil."""
 
     @patch("app.cache._cliente_redis")
     def test_perfil_dentro_del_ttl_se_sirve(self, mock_redis):

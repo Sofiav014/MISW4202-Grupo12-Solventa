@@ -114,8 +114,8 @@ class _ListenerDePrueba(pybreaker.CircuitBreakerListener):
 
 
 class TestBreakerEventListenerLoggea(unittest.TestCase):
-    """4.2: las transiciones se registran con event_type y request_id, no
-    solo como texto plano, para que se puedan filtrar en Pandas."""
+    """Las transiciones se registran con event_type y request_id, no solo como
+    texto plano, para que se puedan filtrar en Pandas."""
 
     def test_transicion_incluye_event_type_cb_transition(self):
         breaker = _nuevo_breaker()

@@ -1,4 +1,4 @@
-"""Contratos de entrada y almacenamiento de evidencia de la actividad 5.4."""
+"""Contratos de entrada y almacenamiento de evidencia de ejecuciones."""
 
 from __future__ import annotations
 
@@ -52,7 +52,7 @@ class PaqueteExistenteError(ErrorPersistenciaResultados):
 
 @dataclass(frozen=True)
 class EntradaManifest:
-    """DTO real de 4.3 junto con sus bytes originales, que se conservaran."""
+    """DTO del manifest junto con sus bytes originales, que se conservaran."""
 
     modelo: ManifestCorrida
     contenido: bytes

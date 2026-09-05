@@ -1,4 +1,4 @@
-"""Punto de entrada unico: regenera todas las tablas y graficas de la tarea 6.1.
+"""Punto de entrada unico: regenera todas las tablas y graficas del analisis.
 
 Uso:
     python -m analisis.procesar
@@ -48,7 +48,7 @@ def _formatear(tabla: pd.DataFrame) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    analizador = argparse.ArgumentParser(description="Procesa los resultados de la Fase 5.")
+    analizador = argparse.ArgumentParser(description="Procesa los resultados del experimento.")
     analizador.add_argument(
         "--salida",
         type=Path,
@@ -99,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print()
     print("=" * 78)
-    print("RESUMEN POR ESCENARIO — bloque entregable 6.1 (A, B, C, G)")
+    print("RESUMEN POR ESCENARIO (A, B, C, G)")
     print("=" * 78)
     print(_formatear(entregable[COLUMNAS_INFORME]))
 

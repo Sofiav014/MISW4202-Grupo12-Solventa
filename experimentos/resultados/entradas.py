@@ -74,7 +74,7 @@ def interpretar_json(contenido: bytes, contexto: str) -> ValorJSON:
 
 
 def interpretar_manifest(contenido: bytes, contexto: str = "manifest") -> EntradaManifest:
-    """Reconstituye los DTO de 4.3 sin defaults experimentales ni cambio de schema."""
+    """Reconstituye los DTO del manifest sin defaults experimentales ni cambio de schema."""
     datos = interpretar_json(contenido, contexto)
     try:
         if not isinstance(datos, dict):
@@ -110,7 +110,7 @@ def interpretar_manifest(contenido: bytes, contexto: str = "manifest") -> Entrad
 
 
 def leer_manifest(ruta: str | Path) -> EntradaManifest:
-    """Recibe un manifest ya producido por la actividad 4.3."""
+    """Recibe un manifest ya generado por el registro de condiciones."""
     return interpretar_manifest(leer_archivo(ruta), str(ruta))
 
 

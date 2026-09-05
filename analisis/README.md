@@ -1,9 +1,9 @@
-# Análisis de resultados — Fase 6
+# Análisis de resultados
 
-Procesamiento en Pandas de los datos reales de la Fase 5 para validar el ASR HA2.
+Procesamiento en Pandas de los datos reales del experimento para validar el ASR HA2.
 No se simula ni se genera ningún dato. Un solo cuaderno (`reporte_analisis.ipynb`)
-reúne las actividades completadas hasta ahora: **6.1** (A, B, C, G), **6.2** (el costo
-del disparo frente al circuito ya abierto, en B, C y D) y **6.3** (recuperación en E).
+reúne el análisis hecho hasta ahora: métricas de A, B, C y G; el costo
+del disparo frente al circuito ya abierto en B, C y D; y la recuperación del breaker en E.
 
 ## Ejecución
 
@@ -27,26 +27,25 @@ analisis/
 │   ├── metricas.py      # una función pura por métrica
 │   ├── locust.py        # throughput y contraste externa/interna
 │   ├── graficas.py      # una función por figura
-│   ├── recuperacion.py  # 6.3: recuperación del breaker en E (lee 5.4, no ejecuta nada)
-│   └── salidas/         # 6 tablas CSV y 10 gráficas PNG (6.1 + 6.2; 6.3 no exporta)
+│   ├── recuperacion.py  # recuperación del breaker en E (lee la evidencia guardada, no ejecuta nada)
+│   └── salidas/         # 6 tablas CSV y 10 gráficas PNG (la recuperación de E no exporta)
 └── reportes/
-    └── reporte_analisis.ipynb   # 6.1 (A, B, C, G) + 6.2 (B, C, D) + 6.3 (E)
+    └── reporte_analisis.ipynb   # A, B, C, G + B, C, D + E
 ```
 
-La lógica vive en `procesamiento/` y no en el cuaderno para que 6.4 (F, condición
-límite de caché vacía) reutilice el mismo motor con un `import`, con una sola
-definición por fórmula.
+La lógica vive en `procesamiento/` y no en el cuaderno para que el análisis de F
+(condición límite de caché vacía) reutilice el mismo motor con un `import`, con una
+sola definición por fórmula.
 
 ## Fuente de datos: JSONL, no los CSV de Locust
 
-La tarea decía "cargar los CSV por escenario". **Con los datos que existen eso no es
-posible** y la desviación debe declararse en el informe: los `results_stats.csv` son
-agregados por endpoint, sin estado del circuito, `hit_miss` ni `tiempo_conmutacion_ms`.
-Además Locust no distingue una respuesta del proveedor de una degradada desde caché
-(ambas son HTTP 200).
+Los `results_stats.csv` son agregados por endpoint, sin estado del circuito,
+`hit_miss` ni `tiempo_conmutacion_ms`, así que no permiten validar el ASR por sí
+solos y la desviación debe declararse en el informe. Además Locust no distingue
+una respuesta del proveedor de una degradada desde caché (ambas son HTTP 200).
 
 La fuente es **`resultados/adaptador.jsonl`**: 27.533 peticiones, una fila cada una,
-con el esquema congelado en la Fase 0.4. De Locust solo salen el throughput y el
+con el esquema de instrumentación. De Locust solo salen el throughput y el
 contraste entre latencia externa e interna.
 
 ## El cuidado de método
@@ -83,7 +82,7 @@ dejar que el propio tráfico lo dispare.
 2. **A y G no ejercitan el ASR.** Cero conmutaciones: las métricas de conmutación y
    hit rate quedan **indefinidas** (`N/A`), no cumplidas ni incumplidas.
 3. **El 100 % de disponibilidad supone caché poblada.** El escenario F (caché vacía)
-   es la condición límite y se reporta aparte (tarea 6.4).
+   es la condición límite y se reporta aparte.
 4. **El registro interno tiene ~5 % más peticiones que Locust** (A: 773 vs 708): el
    Adaptador registra peticiones fuera de la ventana de medición de Locust. No afecta
    las métricas, que son proporciones.
@@ -92,16 +91,16 @@ dejar que el propio tráfico lo dispare.
 
 ## Alcance
 
-El motor soporta A–G. **6.1** (tablas y gráficas de A, B, C y G), **6.2** (el
-desglose del disparo del corte frente al circuito ya abierto, en B, C y D) y **6.3**
-(recuperación del breaker en E, con verificación de integridad contra las entradas
-reales de 5.4) ya están resueltas, las tres integradas en `reporte_analisis.ipynb`.
-Queda pendiente **6.4**, la condición límite de caché vacía (F).
+El motor soporta A–G. Ya están resueltos: las tablas y gráficas de A, B, C y G; el
+desglose del disparo del corte frente al circuito ya abierto en B, C y D; y la
+recuperación del breaker en E, con verificación de integridad contra la evidencia
+guardada. Los tres están integrados en `reporte_analisis.ipynb`. Queda pendiente
+la condición límite de caché vacía (F).
 
-**Nota de reproducibilidad para 6.3:** sus celdas se preservan en el cuaderno con la
-salida ya calculada, sin re-ejecutar, porque `recuperacion.load_results()` verifica
-el hash SHA-256 de cada archivo de `resultados/escenario_E/*` contra el que registra
-su `integridad.json`, y ahora mismo `manifest.json` no coincide con ese hash — quedaron
-en commits distintos (`50b4d70` y `7b89423`). No es un problema introducido por este
-cuaderno ni por 6.1/6.2; re-ejecutar 6.3 en limpio requiere antes resolver esa
+**Nota de reproducibilidad para la recuperación de E:** sus celdas se preservan en el
+cuaderno con la salida ya calculada, sin re-ejecutar, porque `recuperacion.load_results()`
+verifica el hash SHA-256 de cada archivo de `resultados/escenario_E/*` contra el que
+registra su `integridad.json`, y ahora mismo `manifest.json` no coincide con ese hash —
+quedaron en commits distintos (`50b4d70` y `7b89423`). No es un problema introducido por
+este cuaderno; re-ejecutar esa sección en limpio requiere antes resolver esa
 discrepancia de datos.

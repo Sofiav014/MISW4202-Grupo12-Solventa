@@ -1,4 +1,4 @@
-"""API de 5.4: recibir, validar, vincular y guardar evidencia de una corrida."""
+"""API para recibir, validar, vincular y guardar evidencia de una ejecución."""
 
 from .contratos import (
     AdjuntoCSV, AlmacenResultados, EntradaManifest, ErrorEntradaResultados,

@@ -1,5 +1,5 @@
-"""Tests de integración de /perfil: fallback a caché (3.3), write-back (3.4) y
-manejo de cache miss y perfil vencido (3.5).
+"""Tests de integración de /perfil: fallback a caché, write-back y manejo de
+cache miss y perfil vencido.
 """
 import json
 import unittest
@@ -72,7 +72,7 @@ class TestFallbackACacheEnElEndpoint(unittest.TestCase):
 
 
 class TestCondicionLimite(unittest.TestCase):
-    """3.5: cache miss y perfil vencido como condición límite, no como error genérico."""
+    """Cache miss y perfil vencido como condición límite, no como error genérico."""
 
     def setUp(self):
         self.client = app.test_client()
@@ -143,7 +143,7 @@ class TestCondicionLimite(unittest.TestCase):
 
 
 class TestContadorLlamadasEvitadasEnElEndpoint(unittest.TestCase):
-    """4.2: contar las peticiones que llegan con el circuito ya abierto."""
+    """Cuenta las peticiones que llegan con el circuito ya abierto."""
 
     def setUp(self):
         self.client = app.test_client()
@@ -183,8 +183,8 @@ class TestContadorLlamadasEvitadasEnElEndpoint(unittest.TestCase):
 
 
 class TestBypassDirectoConCircuitoAbierto(unittest.TestCase):
-    """3.6: con el circuito ya abierto, no se debe volver a invocar a Open
-    Finance - el fallback a Redis debe ser directo, con o sin dato servible.
+    """Con el circuito ya abierto, no se debe volver a invocar a Open Finance:
+    el fallback a Redis debe ser directo, con o sin dato servible.
     """
 
     def setUp(self):

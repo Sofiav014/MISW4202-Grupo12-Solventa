@@ -1,4 +1,4 @@
-"""Metricas del experimento HA2, con las formulas congeladas en la Fase 0.4.
+"""Metricas del experimento HA2, con las formulas del esquema de instrumentacion.
 
 Todas las funciones son puras: reciben el DataFrame de peticiones y devuelven
 un DataFrame de resultados. Una metrica cuyo denominador es cero devuelve NaN
@@ -142,7 +142,7 @@ def latencia(df: pd.DataFrame, por: list[str] | None = None) -> pd.DataFrame:
 def por_poblacion(df: pd.DataFrame) -> pd.DataFrame:
     """Desglose por poblacion: TRIGGER, CIRCUITO_ABIERTO y NORMAL.
 
-    Es el nucleo del cuidado de metodo de la Fase 6. La peticion que dispara
+    La peticion que dispara
     el corte paga el timeout completo del proveedor; las que encuentran el
     circuito ya abierto van directo a cache y cuestan ordenes de magnitud
     menos. El agregado por escenario oculta esa diferencia.

@@ -1,6 +1,6 @@
 # Experimento HA: Solventa
 
-Implementación base del experimento **HA2**, utilizando microservicios independientes y Docker Compose.
+Implementación base del experimento **HA2**, con microservicios independientes y Docker Compose.
 
 La configuración compartida se gestiona mediante el archivo `.env`, mientras que cada servicio mantiene su implementación dentro del directorio `services/`.
 
@@ -101,15 +101,14 @@ python scripts/seed_redis.py
 
 El script carga los perfiles necesarios para ejecutar los escenarios de prueba asociados al uso de caché.
 
-## Distribución de componentes
+## Componentes
 
-| Componente                   | Responsable | Alcance                                                                                               |
-| ---------------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
-| `services/mock-openfinance/` | I1          | Simulación del proveedor Open Finance, incluyendo modos `lento`, `caido` y `caida_temporal`, y el endpoint `POST /config`. |
-| `services/adaptador/`        | I2          | Timeout, Circuit Breaker y exposición de su estado mediante `/health`.                                |
-| `services/journey/`          | I3          | Implementación del flujo principal mediante el endpoint `POST /cotizar`.                              |
-| `services/adaptador/`        | I4          | Fallback a Redis, actualización de caché y manejo de escenarios de cache miss.                        |
-| `scripts/seed_redis.py`      | I4          | Carga de perfiles de prueba en Redis con TTL.                                                         |
+| Componente                   | Alcance                                                                                               |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `services/mock-openfinance/` | Simulación del proveedor Open Finance, incluyendo modos `lento`, `caido` y `caida_temporal`, y el endpoint `POST /config`. |
+| `services/adaptador/`        | Timeout, Circuit Breaker y exposición de su estado mediante `/health`; fallback a Redis, actualización de caché y manejo de cache miss. |
+| `services/journey/`          | Flujo principal mediante el endpoint `POST /cotizar`.                                                 |
+| `scripts/seed_redis.py`      | Carga de perfiles de prueba en Redis con TTL.                                                         |
 
 ## Configuración
 
@@ -127,12 +126,12 @@ Los escenarios simulados del proveedor Open Finance pueden modificarse durante l
 POST /config
 ```
 
-Esto permite cambiar el comportamiento del proveedor y ejecutar los distintos escenarios del experimento sin modificar el código de los servicios.
+Cambia el comportamiento del proveedor y ejecuta los distintos escenarios del experimento sin modificar el código de los servicios.
 
-## Evidencia de ejecución por corrida (4.3)
+## Evidencia de ejecución
 
 El paquete `experimentos` construye y persiste un `manifest.json` con las
-condiciones efectivas de una corrida. El manifest registra metadatos; no cambia
+condiciones efectivas de una ejecución. El manifest registra metadatos; no cambia
 el modo del Mock, no administra Redis o el Circuit Breaker y no lanza Locust.
 
 La configuración del adaptador (`EJECUCION_ID`, `ESCENARIO`, `FAIL_MAX`,
@@ -148,11 +147,11 @@ resultados/
 └── escenario_<A-G>/
     └── <corrida_id>/
         ├── manifest.json
-        └── results.csv  # producido por 5.4; 4.3 no lo crea ni analiza
+        └── results.csv  # producido al guardar resultados; el manifest no lo crea ni analiza
 ```
 
-Ejemplo programático, usando valores reales recibidos por el futuro
-orquestador de la corrida:
+Ejemplo programático, usando valores reales recibidos por el
+orquestador de la ejecución:
 
 ```python
 from pathlib import Path
@@ -165,7 +164,7 @@ from experimentos import (
 )
 
 
-def registrar_condiciones_corrida(
+def registrar_condiciones_ejecucion(
     modo_mock: str,
     usuarios: int,
     duration_seconds: int,
@@ -190,9 +189,9 @@ def registrar_condiciones_corrida(
 
 **Campo:** modo vigente del Mock y `auto_repair_seconds` cuando aplique.
 
-**Estado actual:** contrato tipado obligatorio; 4.3 no consulta ni configura el Mock.
+**Estado actual:** contrato tipado obligatorio; el registro de condiciones no consulta ni configura el Mock.
 
-**Proveedor futuro:** Mock OpenFinance/I1 u orquestador de escenarios.
+**Proveedor futuro:** Mock OpenFinance u orquestador de escenarios.
 
 **Contrato esperado:** `ConfiguracionMockOpenFinance` con uno de
 `normal | lento | caido | caida_temporal` y autorreparación positiva para el
@@ -202,7 +201,7 @@ modo temporal.
 
 **Estado actual:** contrato tipado sin valores predeterminados de ejecución.
 
-**Proveedor futuro:** Locust/I4 u orquestador de carga.
+**Proveedor futuro:** Locust u orquestador de carga.
 
 **Contrato esperado:** `ConfiguracionCarga` con usuarios y duración positivos;
 `spawn_rate` positivo o ausente.
@@ -213,20 +212,20 @@ modo temporal.
 
 **Proveedor futuro:** protocolo experimental.
 
-**Contrato esperado:** entregar una etiqueta entre `A` y `G`; 4.3 la registra
-sin ejecutar ni interpretar el escenario.
+**Contrato esperado:** entregar una etiqueta entre `A` y `G`; el registro de
+condiciones la guarda sin ejecutar ni interpretar el escenario.
 
-## Guardar resultados de una corrida (5.4)
+## Guardar resultados de una ejecución
 
-La operación `guardar-resultados` recibe los manifests de 4.3 y separa las
+La operación `guardar-resultados` recibe los manifests y separa las
 peticiones de `adaptador.jsonl` por escenario y ejecución. Completa cada carpeta
 con `results.csv`, procedencia y constancia de integridad, conservando los CSV
 agregados existentes. Funciona sin Locust ni servicios levantados y no exige
-que otro productor exporte un archivo de peticiones por corrida.
+que otro productor exporte un archivo de peticiones por ejecución.
 
 ```bash
 python load-testing/run_escenario.py guardar-resultados --manifests-dir resultados --log-compartido resultados/adaptador.jsonl --resultados-dir resultados
 ```
 
 Contratos, adjuntos opcionales, API, límites y pruebas:
-[Actividad 5.4 — Guardar resultados](docs/actividad_5_4.md).
+[Guardar resultados](docs/actividad_5_4.md).
