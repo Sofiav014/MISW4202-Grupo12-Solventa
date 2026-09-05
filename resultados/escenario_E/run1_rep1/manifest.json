@@ -1,0 +1,21 @@
+{
+  "corrida_id": "run1_rep1",
+  "escenario": "E",
+  "timestamp": "2026-09-05T00:09:40.677262Z",
+  "circuit_breaker": {
+    "fail_max": 1,
+    "reset_timeout_seconds": 10
+  },
+  "cache": {
+    "ttl_seconds": 300
+  },
+  "mock_openfinance": {
+    "modo": "caido"
+  },
+  "carga": {
+    "usuarios": 10,
+    "duration_seconds": 60,
+    "spawn_rate": 2.0
+  },
+  "provider_timeout_ms": 700
+}

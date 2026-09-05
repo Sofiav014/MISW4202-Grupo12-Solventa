@@ -1,0 +1,52 @@
+# Orquestación de microservicios — Experimento HA2 (Solventa)
+# Config centralizada en .env. Cada servicio es autónomo (carpeta propia en services/).
+
+services:
+  journey:
+    build: ./services/journey
+    ports:
+      - "8000:8000"                     # único expuesto (lo golpea Locust)
+    environment:
+      ADAPTADOR_URL: http://adaptador:8001
+    depends_on: [adaptador]
+    networks: [solventa]
+
+  adaptador:
+    build: ./services/adaptador
+    ports:
+      - "8001:8001"                     # expuesto para probar /perfil directamente
+    environment:
+      MOCK_URL: http://mock-openfinance:8002
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TIMEOUT_MS: ${TIMEOUT_MS}
+      FAIL_MAX: ${FAIL_MAX}
+      RESET_TIMEOUT_S: ${RESET_TIMEOUT_S}
+      HALF_OPEN_MAX: ${HALF_OPEN_MAX}
+      TTL_S: ${TTL_S}
+      EJECUCION_ID: ${EJECUCION_ID}
+      ESCENARIO: ${ESCENARIO}
+      LOG_DIR: ${LOG_DIR}
+    volumes:
+      - ./resultados:${LOG_DIR}         # el .jsonl de la corrida queda en el host
+    depends_on: [mock-openfinance, redis]
+    networks: [solventa]
+
+  mock-openfinance:
+    build: ./services/mock-openfinance
+    ports:
+      - "8002:8002"                     # expuesto para cambiar el modo vía POST /config
+    environment:
+      MODO: ${MODO}
+      AUTO_REPARAR_SEGUNDOS: ${AUTO_REPARAR_SEGUNDOS}
+    networks: [solventa]
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"                     # expuesto para sembrar perfiles
+    networks: [solventa]
+
+networks:
+  solventa:
+    driver: bridge

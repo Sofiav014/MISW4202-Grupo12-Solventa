@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Copia local de la wiki de GitHub (no se referencia como submódulo en el repo)
+/MISW4202-Grupo12-Solventa.wiki/
