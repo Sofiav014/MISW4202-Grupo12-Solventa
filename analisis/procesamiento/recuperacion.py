@@ -1,7 +1,8 @@
-"""Análisis de recuperación del escenario E (6.3).
+"""Análisis de recuperación del escenario E.
 
-Lee evidencia de 5.4 sin modificarla y devuelve tablas, figuras y conclusiones
-para el notebook. No ejecuta corridas ni produce resultados al importar.
+Lee la evidencia guardada sin modificarla y devuelve tablas, figuras y
+conclusiones para el notebook. No ejecuta pruebas ni produce resultados al
+importar.
 """
 
 from __future__ import annotations
@@ -46,7 +47,7 @@ def check_hash(content: bytes, expected: str, context: str) -> str:
     raise ValueError(f"{context}: discrepancia SHA-256 no explicada por CRLF→LF")
 
 def csv_value(value: Any) -> str:
-    """Representación de celda documentada por 5.4 para cotejar CSV y log."""
+    """Representación de celda usada para cotejar CSV y log."""
     if value is None:
         return ""
     if isinstance(value, str):
@@ -143,7 +144,7 @@ def parse_utc(series: pd.Series, context: str) -> pd.Series:
     return pd.Series(values, index=series.index, dtype="datetime64[ns, UTC]")
 
 def normalize_requests(records: list[dict[str, Any]]) -> pd.DataFrame:
-    """Mapea en un solo lugar el contrato por petición al modelo interno de 6.3."""
+    """Mapea en un solo lugar el contrato por petición al modelo interno."""
     frame = pd.DataFrame(records).rename(columns=REQUEST_MAP_E63)
     required = {"request_id", "corrida_id", "escenario", "timestamp", "fuente_respuesta"}
     if frame.empty or not required <= set(frame):
@@ -359,7 +360,7 @@ def build_summary(requests: pd.DataFrame, transitions: pd.DataFrame,
 
 def plot_recovery(requests: pd.DataFrame, transitions: pd.DataFrame,
                   summary: pd.DataFrame, label: str) -> list[plt.Figure]:
-    """Crea las tres figuras de 6.3; no escribe artefactos externos."""
+    """Crea las tres figuras de recuperación; no escribe artefactos externos."""
     colors = {"CACHE": "#D97706", "PROVIDER": "#047857", "NONE": "#DC2626", "DESCONOCIDA": "#6B7280"}
     state_levels = {"OPEN": 0, "HALF_OPEN": 1, "CLOSED": 2}
     figures = []
@@ -388,7 +389,7 @@ def plot_recovery(requests: pd.DataFrame, transitions: pd.DataFrame,
             inset.set_title(f"Detalle: prueba/cierre {row.tiempo_half_open_a_closed:.3f} s", fontsize=9)
             inset.tick_params(labelsize=8)
             inset.grid(alpha=0.2)
-    fig.suptitle(f"6.3 · Estado del Circuit Breaker — DATOS: {label}")
+    fig.suptitle(f"Estado del Circuit Breaker — DATOS: {label}")
     figures.append(fig)
 
     fig, axes = plt.subplots(len(summary), 1, figsize=(12, 2.7 * len(summary)), squeeze=False, layout="constrained")
@@ -405,7 +406,7 @@ def plot_recovery(requests: pd.DataFrame, transitions: pd.DataFrame,
         ax.set(title=row.corrida_id, xlabel="Segundos desde OPEN (negativos: preparación)", yticks=range(4), yticklabels=list(colors), ylim=(-0.5, 3.5))
         ax.grid(alpha=0.2)
     axes[0, 0].legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=8)
-    fig.suptitle(f"6.3 · Fuente de cada respuesta — DATOS: {label}")
+    fig.suptitle(f"Fuente de cada respuesta — DATOS: {label}")
     figures.append(fig)
 
     fig, axes = plt.subplots(1, 3, figsize=(14, 4.2), layout="constrained")
@@ -418,7 +419,7 @@ def plot_recovery(requests: pd.DataFrame, transitions: pd.DataFrame,
         ax.set(title=title, ylabel="Segundos")
         ax.tick_params(axis="x", rotation=15)
         ax.grid(axis="y", alpha=0.2)
-    fig.suptitle(f"6.3 · Comparación por corrida (escalas independientes) — DATOS: {label}")
+    fig.suptitle(f"Comparación por ejecución (escalas independientes) — DATOS: {label}")
     figures.append(fig)
     return figures
 
@@ -458,5 +459,5 @@ def recovery_conclusions(summary: pd.DataFrame, evidence: pd.DataFrame,
                  "no tienen identificadores. No se certifica una única llamada concurrente de prueba ni se calcula "
                  "tiempo desde la reparación efectiva del mock. La baja variabilidad descriptiva no prueba generalización.")
     if label != "REALES":
-        lines.append("> Los valores mostrados validan únicamente el pipeline analítico de 6.3 y no constituyen resultados experimentales del sistema.")
+        lines.append("> Los valores mostrados validan únicamente el pipeline analítico de recuperación y no constituyen resultados experimentales del sistema.")
     return "\n\n".join(lines)

@@ -51,7 +51,7 @@ def perfil(cliente_id):
         try:
             perfil_cacheado = leer_perfil(cliente_id, instante_deteccion)
         except (CacheMissError, CacheExpiredError) as sin_dato:
-            # Condición límite (Fase 0.2): no hay dato que servir, así que es un
+            # Condición límite: no hay dato que servir, así que es un
             # fallo controlado y no cuenta contra la meta de disponibilidad.
             g.timestamp_respuesta_cache = time.monotonic()
             g.hit_miss, g.fuente_respuesta = "MISS", "NONE"

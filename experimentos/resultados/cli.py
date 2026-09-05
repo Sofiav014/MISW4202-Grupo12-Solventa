@@ -17,7 +17,7 @@ from .servicio import guardar_resultados
 
 
 class _FormatoEventos(logging.Formatter):
-    """Salida JSON acotada a metadatos de 5.4, sin registros de peticiones."""
+    """Salida JSON acotada a metadatos de la evidencia, sin registros de peticiones."""
 
     def format(self, record: logging.LogRecord) -> str:
         """Serializa el mensaje descriptivo y los atributos de contexto disponibles."""
@@ -36,7 +36,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifests.add_argument("--manifests-dir", type=Path, help="Raiz con escenario_*/<corrida>/manifest.json")
     fuentes = parser.add_mutually_exclusive_group(required=True)
     fuentes.add_argument("--records", type=Path, help="CSV/JSONL de una sola corrida")
-    fuentes.add_argument("--log-compartido", type=Path, help="JSONL estructurado; 5.4 separa las peticiones por identidad")
+    fuentes.add_argument("--log-compartido", type=Path, help="JSONL estructurado; se separan las peticiones por identidad")
     parser.add_argument("--adjunto", action="append", type=Path, default=[], help="CSV agregado opcional; puede repetirse")
     parser.add_argument("--resultados-dir", type=Path, default=Path(__file__).resolve().parents[2] / "resultados")
     args = parser.parse_args(argv)

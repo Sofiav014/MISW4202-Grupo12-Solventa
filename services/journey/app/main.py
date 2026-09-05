@@ -1,4 +1,4 @@
-# Microservicio journey — dueño: I3
+# Microservicio journey
 # Punto de entrada del experimento. Orquesta el recorrido de cotización.
 import uuid
 from flask import Flask,jsonify,request

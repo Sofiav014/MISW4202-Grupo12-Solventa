@@ -1,4 +1,4 @@
-# Microservicio mock-openfinance — dueño: I1 (Fase 2)
+# Microservicio mock-openfinance
 from flask import Flask, jsonify, request
 from app.config import AUTO_REPARAR_SEGUNDOS, MODO, PORT
 from app.generador_datos_financieros import GeneradorDatosFinancieros

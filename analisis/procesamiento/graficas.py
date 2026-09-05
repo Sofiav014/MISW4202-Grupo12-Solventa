@@ -1,4 +1,4 @@
-"""Graficas del bloque 6.1: latencia, estado del circuito, conmutacion y disponibilidad."""
+"""Graficas de latencia, estado del circuito, conmutacion y disponibilidad."""
 
 from __future__ import annotations
 
@@ -423,8 +423,8 @@ def fuga_reintentos(
 def generar_bloque_disparo_abierto(df: pd.DataFrame, destino: Path) -> list[Path]:
     """Genera las graficas del bloque B/C/D: disparo del corte vs. circuito ya abierto.
 
-    Es un bloque aparte del 6.1 (A, B, C, G): reutiliza el mismo motor pero
-    agrega D, la corrida que aisla la poblacion CIRCUITO_ABIERTO forzando el
+    Es un bloque aparte de A, B, C y G: reutiliza el mismo motor pero
+    agrega D, la ejecucion que aisla la poblacion CIRCUITO_ABIERTO forzando el
     breaker antes de medir.
     """
     return [
@@ -488,7 +488,7 @@ def throughput_concurrencia(destino: Path) -> Path | None:
 
 
 def generar_todas(df: pd.DataFrame, destino: Path) -> list[Path]:
-    """Genera las graficas del bloque 6.1 y devuelve las rutas escritas."""
+    """Genera las graficas principales y devuelve las rutas escritas."""
     rutas = [
         latencia_en_el_tiempo(df, destino),
         distribucion_latencia(df, destino),

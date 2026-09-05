@@ -62,7 +62,7 @@ def _ms(desde, hasta):
 
 
 def instrumentar_peticiones(app, estado_circuito):
-    """Registra un evento con las 17 columnas de la Fase 0.4 por cada /perfil.
+    """Registra un evento con las 17 columnas de instrumentación por cada /perfil.
 
     Se excluye /health porque no es una petición del experimento. El endpoint
     anota en `g` lo que la instrumentación no puede deducir sola:

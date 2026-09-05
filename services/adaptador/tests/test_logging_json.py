@@ -1,8 +1,8 @@
-"""Tests de logging_json.py (4.2).
+"""Tests de logging_json.py.
 
 Cubren el JsonFormatter, el helper _ms, configurar_logging, y sobre todo
 instrumentar_peticiones: el before/after_request que arma un evento
-"request" por petición a /perfil con las columnas de la Fase 0.4,
+"request" por petición a /perfil con las columnas de instrumentación,
 incluyendo proveedor_invocado (la señal de "llamada evitada con el
 circuito abierto").
 """

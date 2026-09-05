@@ -1,8 +1,8 @@
-"""Carga y normalizacion de los resultados experimentales de la Fase 5.
+"""Carga y normalizacion de los resultados experimentales.
 
 La fuente de verdad para las metricas por peticion es el registro estructurado
 del adaptador (``resultados/adaptador.jsonl``), que contiene una fila por
-peticion con el esquema congelado en la Fase 0.4. Los CSV de Locust son
+peticion con el esquema de instrumentacion. Los CSV de Locust son
 agregados por endpoint (conteos y percentiles) y no incluyen estado del
 circuito, hit/miss ni tiempo de conmutacion, por lo que aqui solo se usan como
 fuente secundaria de throughput.
@@ -67,7 +67,7 @@ COLUMNAS_NUMERICAS = (
 )
 
 # Mapeo unico entre los valores emitidos por la instrumentacion y el
-# vocabulario congelado en la Fase 0.2. Cualquier divergencia de nombres se
+# vocabulario del analisis. Cualquier divergencia de nombres se
 # resuelve aqui y en ningun otro lugar del modulo.
 MAPEO_FUENTE_RESPUESTA = {
     "PROVIDER": "proveedor",
@@ -134,7 +134,7 @@ def _leer_registro(ruta: Path) -> tuple[list[dict], dict[str, int]]:
 def clasificar_poblacion(df: pd.DataFrame) -> pd.Series:
     """Clasifica cada peticion en TRIGGER, CIRCUITO_ABIERTO o NORMAL.
 
-    Es el "cuidado de metodo" de la Fase 6: la peticion que dispara el corte
+    La peticion que dispara el corte
     paga el timeout completo del proveedor, mientras que las que encuentran el
     circuito ya abierto van directo a cache. Promediarlas juntas oculta el
     costo real del corte.

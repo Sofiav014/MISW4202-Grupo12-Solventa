@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Siembra Redis con perfiles de prueba — dueño: I4 (tarea 1.3)
+# Siembra Redis con perfiles de prueba
 # Uso: python scripts/seed_redis.py   (requiere: pip install redis)
 import json
 import redis
