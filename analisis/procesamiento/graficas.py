@@ -91,29 +91,45 @@ def latencia_en_el_tiempo(df: pd.DataFrame, destino: Path) -> Path:
     return _guardar(figura, destino, "latencia_en_el_tiempo.png")
 
 
+def _texto_duracion(milisegundos: float) -> str:
+    """Duracion en la unidad que se lee sin conversion mental."""
+    if milisegundos >= 1000:
+        return f"{milisegundos / 1000:,.1f} segundos"
+    if milisegundos >= 10:
+        return f"{milisegundos:,.0f} ms"
+    return f"{milisegundos:,.1f} ms"
+
+
 def distribucion_latencia(df: pd.DataFrame, destino: Path) -> Path:
-    """Boxplot en escala log comparando la distribucion de A, B, C y G."""
+    """Cuanto tarda una peticion en cada escenario, en barras horizontales."""
     escenarios = [e for e in ESCENARIOS_ENTREGABLE if e in set(df["escenario"])]
     series = [df.loc[df["escenario"] == e, "latencia_total_ms"].dropna() for e in escenarios]
 
-    figura, eje = plt.subplots(figsize=(9, 5.5))
-    eje.boxplot(series, tick_labels=[ETIQUETAS_ESCENARIO.get(e, e) for e in escenarios], showfliers=False)
-    eje.set_yscale("log")
-    eje.set_ylabel("latencia total (ms, escala log)")
-    eje.set_title("Distribución de latencia por escenario")
-    eje.grid(alpha=0.25, axis="y")
+    figura, eje = plt.subplots(figsize=(10, 4.6))
+    posiciones = np.arange(len(escenarios))[::-1]
+    tipicos = [serie.quantile(0.50) for serie in series]
 
-    for indice, serie in enumerate(series, start=1):
-        if serie.empty:
-            continue
+    colores = ["tab:red" if valor >= 1000 else "tab:blue" for valor in tipicos]
+    eje.barh(posiciones, tipicos, height=0.55, color=colores)
+
+    for posicion, tipico in zip(posiciones, tipicos):
         eje.annotate(
-            f"p95={serie.quantile(0.95):,.1f} ms",
-            xy=(indice, serie.quantile(0.95)),
-            xytext=(0, 9),
+            _texto_duracion(tipico),
+            xy=(tipico, posicion),
+            xytext=(8, 0),
             textcoords="offset points",
-            ha="center",
-            fontsize=8,
+            va="center",
+            fontsize=11,
+            fontweight="bold",
         )
+
+    eje.set_yticks(posiciones)
+    eje.set_yticklabels([ETIQUETAS_ESCENARIO.get(e, e) for e in escenarios])
+    eje.set_xlabel("tiempo que tarda una petición (milisegundos)")
+    eje.set_title("¿Cuánto tarda una petición en cada escenario?")
+    eje.grid(alpha=0.25, axis="x")
+    eje.set_xlim(right=max(tipicos) * 1.25)
+
     figura.tight_layout()
     return _guardar(figura, destino, "distribucion_latencia.png")
 
