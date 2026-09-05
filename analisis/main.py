@@ -74,6 +74,7 @@ def main(argv: list[str] | None = None) -> int:
     resumen_escenario = metricas.tabla_resumen(df)
     resumen_corrida = metricas.tabla_resumen(df, por=["escenario", "ejecucion_id"])
     poblaciones = metricas.por_poblacion(df)
+    desglose_trigger = metricas.desglose_trigger(df)
     repro = metricas.reproducibilidad(df)
     manifiestos = cargar_manifiestos()
 
@@ -87,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
         "resumen_por_escenario.csv": resumen_escenario,
         "resumen_por_corrida.csv": resumen_corrida,
         "metricas_por_poblacion.csv": poblaciones,
+        "desglose_trigger.csv": desglose_trigger,
         "condiciones_corridas.csv": manifiestos,
         "contraste_latencia_externa_interna.csv": contraste,
     }
@@ -151,6 +153,7 @@ def main(argv: list[str] | None = None) -> int:
     rutas: list[Path] = []
     if not argumentos.sin_graficas:
         rutas = graficas.generar_todas(df, destino)
+        rutas += graficas.generar_bloque_disparo_abierto(df, destino)
 
     print()
     print("=" * 78)

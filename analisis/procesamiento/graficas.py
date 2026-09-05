@@ -134,14 +134,19 @@ def distribucion_latencia(df: pd.DataFrame, destino: Path) -> Path:
     return _guardar(figura, destino, "distribucion_latencia.png")
 
 
-def estado_circuito_y_latencia(df: pd.DataFrame, destino: Path) -> Path:
-    """Estado del circuito y latencia para B y C, en bandas separadas.
+def estado_circuito_y_latencia(
+    df: pd.DataFrame,
+    destino: Path,
+    escenarios: tuple[str, ...] = ("B", "C"),
+    nombre_archivo: str = "estado_circuito_y_latencia.png",
+) -> Path:
+    """Estado del circuito y latencia por escenario, en bandas separadas.
 
     El estado va en su propia banda sobre la latencia y no como eje gemelo: una
     linea de estado superpuesta a la nube de puntos se lee como si fuera
     latencia, y hacia eso mismo empujaba el eje log de la izquierda.
     """
-    escenarios = [e for e in ("B", "C") if e in set(df["escenario"])]
+    escenarios = [e for e in escenarios if e in set(df["escenario"])]
 
     # Por escenario: una banda baja para el estado y una alta para la latencia.
     figura, ejes = plt.subplots(
@@ -209,7 +214,7 @@ def estado_circuito_y_latencia(df: pd.DataFrame, destino: Path) -> Path:
     ejes[-1].set_xlabel("tiempo desde el inicio de la corrida (s)")
 
     figura.suptitle("Estado del circuito y latencia en el tiempo", y=0.998, fontsize=13)
-    return _guardar(figura, destino, "estado_circuito_y_latencia.png")
+    return _guardar(figura, destino, nombre_archivo)
 
 
 def conmutaciones_bajo_objetivo(df: pd.DataFrame, destino: Path) -> Path:
@@ -321,10 +326,15 @@ def disponibilidad_por_escenario(df: pd.DataFrame, destino: Path) -> Path:
     return _guardar(figura, destino, "disponibilidad_por_escenario.png")
 
 
-def latencia_por_poblacion(df: pd.DataFrame, destino: Path) -> Path:
+def latencia_por_poblacion(
+    df: pd.DataFrame,
+    destino: Path,
+    escenarios: tuple[str, ...] = ("B", "C"),
+    nombre_archivo: str = "latencia_por_poblacion.png",
+) -> Path:
     """Costo comparado de TRIGGER vs CIRCUITO_ABIERTO: el cuidado de metodo."""
     tabla = metricas.por_poblacion(df)
-    tabla = tabla[tabla["escenario"].isin(("B", "C"))]
+    tabla = tabla[tabla["escenario"].isin(escenarios)]
 
     figura, eje = plt.subplots(figsize=(9, 5))
     escenarios = sorted(tabla["escenario"].unique())
@@ -363,7 +373,75 @@ def latencia_por_poblacion(df: pd.DataFrame, destino: Path) -> Path:
     # Espacio arriba para que la leyenda no tape las etiquetas de TRIGGER.
     eje.set_ylim(top=eje.get_ylim()[1] * 6)
     figura.tight_layout()
-    return _guardar(figura, destino, "latencia_por_poblacion.png")
+    return _guardar(figura, destino, nombre_archivo)
+
+
+def fuga_reintentos(
+    df: pd.DataFrame,
+    destino: Path,
+    escenarios: tuple[str, ...] = ("B", "C", "D"),
+) -> Path:
+    """% de la ventana OPEN que igual reintento al proveedor (HALF_OPEN).
+
+    "Circuito abierto" promete no volver a llamar al proveedor, pero
+    pybreaker reintenta cada reset_timeout. Si el proveedor sigue caido esa
+    prueba falla y reabre el circuito, pagando de nuevo el costo completo: es
+    la fuga real de la garantia de "llamada evitada". Se mide sobre las
+    peticiones que ya encontraron el circuito abierto (reintentos +
+    circuito_abierto), no sobre el total de la corrida.
+    """
+    tabla = metricas.desglose_trigger(df)
+    tabla = tabla[tabla["escenario"].isin(escenarios)].sort_values("escenario")
+
+    figura, eje = plt.subplots(figsize=(8.5, 4.2))
+    posiciones = np.arange(len(tabla))
+    valores = tabla["pct_fuga_reintentos"].to_numpy(dtype=float)
+    barras = eje.barh(posiciones, valores, height=0.5, color="tab:purple")
+
+    for barra, (_, fila) in zip(barras, tabla.iterrows()):
+        eje.annotate(
+            f"{fila['pct_fuga_reintentos']:.2f} %  "
+            f"({fila['reintentos_half_open']:,} reintentos / "
+            f"{fila['reintentos_half_open'] + fila['circuito_abierto']:,} peticiones OPEN)",
+            xy=(fila["pct_fuga_reintentos"], barra.get_y() + barra.get_height() / 2),
+            xytext=(8, 0),
+            textcoords="offset points",
+            va="center",
+            fontsize=9,
+        )
+
+    eje.set_yticks(posiciones)
+    eje.set_yticklabels([ETIQUETAS_ESCENARIO.get(e, e) for e in tabla["escenario"]])
+    eje.set_xlabel("% de la ventana OPEN que reintentó al proveedor (HALF_OPEN)")
+    eje.set_title("Fuga hacia el proveedor con el circuito ya abierto")
+    eje.set_xlim(0, max(valores.max() * 1.9, 0.5))
+    eje.grid(alpha=0.25, axis="x")
+    figura.tight_layout()
+    return _guardar(figura, destino, "fuga_reintentos_bcd.png")
+
+
+def generar_bloque_disparo_abierto(df: pd.DataFrame, destino: Path) -> list[Path]:
+    """Genera las graficas del bloque B/C/D: disparo del corte vs. circuito ya abierto.
+
+    Es un bloque aparte del 6.1 (A, B, C, G): reutiliza el mismo motor pero
+    agrega D, la corrida que aisla la poblacion CIRCUITO_ABIERTO forzando el
+    breaker antes de medir.
+    """
+    return [
+        estado_circuito_y_latencia(
+            df,
+            destino,
+            escenarios=("B", "C", "D"),
+            nombre_archivo="estado_circuito_y_latencia_bcd.png",
+        ),
+        latencia_por_poblacion(
+            df,
+            destino,
+            escenarios=("B", "C", "D"),
+            nombre_archivo="latencia_por_poblacion_bcd.png",
+        ),
+        fuga_reintentos(df, destino, escenarios=("B", "C", "D")),
+    ]
 
 
 def throughput_concurrencia(destino: Path) -> Path | None:

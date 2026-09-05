@@ -1,7 +1,9 @@
-# Análisis de resultados — Fase 6, tarea 6.1
+# Análisis de resultados — Fase 6
 
 Procesamiento en Pandas de los datos reales de la Fase 5 para validar el ASR HA2.
-No se simula ni se genera ningún dato.
+No se simula ni se genera ningún dato. Un solo cuaderno (`reporte_analisis.ipynb`)
+reúne las actividades completadas hasta ahora: **6.1** (A, B, C, G), **6.2** (el costo
+del disparo frente al circuito ya abierto, en B, C y D) y **6.3** (recuperación en E).
 
 ## Ejecución
 
@@ -25,13 +27,15 @@ analisis/
 │   ├── metricas.py      # una función pura por métrica
 │   ├── locust.py        # throughput y contraste externa/interna
 │   ├── graficas.py      # una función por figura
-│   └── salidas/         # 5 tablas CSV y 7 gráficas PNG
+│   ├── recuperacion.py  # 6.3: recuperación del breaker en E (lee 5.4, no ejecuta nada)
+│   └── salidas/         # 6 tablas CSV y 10 gráficas PNG (6.1 + 6.2; 6.3 no exporta)
 └── reportes/
-    └── reporte_analisis_abcg.ipynb   # resultados de A, B, C y G
+    └── reporte_analisis.ipynb   # 6.1 (A, B, C, G) + 6.2 (B, C, D) + 6.3 (E)
 ```
 
-La lógica vive en `procesamiento/` y no en el cuaderno para que las tareas 6.2, 6.3
-y 6.4 reutilicen el mismo motor con un `import`, con una sola definición por fórmula.
+La lógica vive en `procesamiento/` y no en el cuaderno para que 6.4 (F, condición
+límite de caché vacía) reutilice el mismo motor con un `import`, con una sola
+definición por fórmula.
 
 ## Fuente de datos: JSONL, no los CSV de Locust
 
@@ -57,6 +61,13 @@ métrica de latencia y conmutación se reporta también desglosada por ellas:
 En B las TRIGGER pagan 589 ms (p50) y las 5.158 siguientes 0,71 ms: **~800× de
 diferencia**. Como son el 2,5 % de la muestra, el agregado esconde el costo del corte.
 
+`desglose_trigger()` va un nivel más abajo: separa, dentro de TRIGGER, el disparo
+inicial de los reintentos `HALF_OPEN` que vuelven a fallar mientras el proveedor
+sigue degradado, y mide qué fracción de la ventana `OPEN` esos reintentos igual le
+devuelven al proveedor. El cuaderno lo desarrolla con D como contraste — el
+escenario que aísla CIRCUITO_ABIERTO forzando el corte antes de medir, en vez de
+dejar que el propio tráfico lo dispare.
+
 ## Resultados
 
 | Meta | Resultado |
@@ -81,6 +92,16 @@ diferencia**. Como son el 2,5 % de la muestra, el agregado esconde el costo del 
 
 ## Alcance
 
-El motor soporta A–G y queda listo para 6.2, 6.3 y 6.4. Los entregables de **6.1**
-son las tablas y gráficas de A, B, C y G; el análisis de recuperación (E) y de
-caché/TTL (F) corresponde a 6.3 y 6.4 y no se concluye aquí.
+El motor soporta A–G. **6.1** (tablas y gráficas de A, B, C y G), **6.2** (el
+desglose del disparo del corte frente al circuito ya abierto, en B, C y D) y **6.3**
+(recuperación del breaker en E, con verificación de integridad contra las entradas
+reales de 5.4) ya están resueltas, las tres integradas en `reporte_analisis.ipynb`.
+Queda pendiente **6.4**, la condición límite de caché vacía (F).
+
+**Nota de reproducibilidad para 6.3:** sus celdas se preservan en el cuaderno con la
+salida ya calculada, sin re-ejecutar, porque `recuperacion.load_results()` verifica
+el hash SHA-256 de cada archivo de `resultados/escenario_E/*` contra el que registra
+su `integridad.json`, y ahora mismo `manifest.json` no coincide con ese hash — quedaron
+en commits distintos (`50b4d70` y `7b89423`). No es un problema introducido por este
+cuaderno ni por 6.1/6.2; re-ejecutar 6.3 en limpio requiere antes resolver esa
+discrepancia de datos.

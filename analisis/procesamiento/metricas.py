@@ -13,6 +13,8 @@ import pandas as pd
 from analisis.procesamiento.carga import (
     LLAVES_AGRUPACION,
     META_DISPONIBILIDAD,
+    POBLACION_CIRCUITO_ABIERTO,
+    POBLACION_TRIGGER,
     UMBRAL_CONMUTACION_MS,
 )
 
@@ -154,6 +156,52 @@ def por_poblacion(df: pd.DataFrame) -> pd.DataFrame:
     tabla = tabla.merge(total_escenario, on="escenario", how="left")
     tabla["pct_del_escenario"] = tabla["peticiones"] / tabla["total_escenario"] * 100.0
     return tabla.drop(columns=["total_escenario"])
+
+
+def desglose_trigger(df: pd.DataFrame, por: list[str] | None = None) -> pd.DataFrame:
+    """Separa la poblacion TRIGGER en el disparo inicial y los reintentos HALF_OPEN.
+
+    Con fail_max=1 basta una falla para abrir el circuito, pero mientras el
+    proveedor sigue degradado el corte no es un evento unico: cada
+    reset_timeout, pybreaker deja pasar una peticion de prueba en HALF_OPEN: si
+    el proveedor sigue caido, esa prueba vuelve a pagar el costo completo de la
+    falla y reabre el circuito. Las dos cosas quedan clasificadas como TRIGGER
+    porque las dos tumban el circuito a OPEN, pero conviene distinguirlas: el
+    disparo inicial ocurre una vez por corrida; los reintentos se repiten
+    mientras dure la degradacion y son la fuga real del "circuito abierto
+    evita llamadas al proveedor".
+    """
+    por = por or ["escenario"]
+    trigger = df[df["poblacion"] == POBLACION_TRIGGER]
+
+    def _calcular(grupo: pd.DataFrame) -> pd.Series:
+        return pd.Series(
+            {
+                "disparo_inicial": int((grupo["estado_circuito_inicio"] == "CLOSED").sum()),
+                "reintentos_half_open": int(
+                    (grupo["estado_circuito_inicio"] == "HALF_OPEN").sum()
+                ),
+            }
+        )
+
+    disparos = trigger.groupby(por).apply(_calcular, include_groups=False).reset_index()
+    abiertas = (
+        df[df["poblacion"] == POBLACION_CIRCUITO_ABIERTO]
+        .groupby(por)
+        .size()
+        .rename("circuito_abierto")
+        .reset_index()
+    )
+    tabla = disparos.merge(abiertas, on=por, how="outer")
+    columnas_conteo = ["disparo_inicial", "reintentos_half_open", "circuito_abierto"]
+    tabla[columnas_conteo] = tabla[columnas_conteo].fillna(0).astype(int)
+    tabla["pct_fuga_reintentos"] = tabla.apply(
+        lambda fila: _porcentaje(
+            fila["reintentos_half_open"], fila["reintentos_half_open"] + fila["circuito_abierto"]
+        ),
+        axis=1,
+    )
+    return tabla
 
 
 def tabla_resumen(df: pd.DataFrame, por: list[str] | None = None) -> pd.DataFrame:
