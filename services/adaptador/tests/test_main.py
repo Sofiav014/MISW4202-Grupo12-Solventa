@@ -3,7 +3,7 @@ manejo de cache miss y perfil vencido (3.5).
 """
 import json
 import unittest
-from unittest.mock import patch
+from unittest.mock import ANY, patch
 
 from app.cache import CacheExpiredError, CacheMissError
 from app.circuit_breaker import breaker, contador_llamadas_evitadas
@@ -180,6 +180,60 @@ class TestContadorLlamadasEvitadasEnElEndpoint(unittest.TestCase):
         self.client.get("/perfil/12345")
 
         self.assertEqual(contador_llamadas_evitadas(), antes)
+
+
+class TestBypassDirectoConCircuitoAbierto(unittest.TestCase):
+    """3.6: con el circuito ya abierto, no se debe volver a invocar a Open
+    Finance - el fallback a Redis debe ser directo, con o sin dato servible.
+    """
+
+    def setUp(self):
+        self.client = app.test_client()
+        breaker.close()
+
+    def tearDown(self):
+        breaker.close()
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_con_perfil_en_cache_no_invoca_open_finance(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
+        mock_leer_perfil.return_value = PERFIL_CACHEADO
+
+        self.client.get("/perfil/12345")  # esta falla y abre el circuito
+        self.assertEqual(breaker.current_state, "open")
+        mock_obtener_perfil.reset_mock()
+
+        respuesta = self.client.get("/perfil/12345")  # ya llega con el circuito abierto
+
+        mock_obtener_perfil.assert_not_called()
+        mock_leer_perfil.assert_called_with("12345", ANY)
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertEqual(respuesta.get_json(), PERFIL_CACHEADO)
+        mock_guardar_perfil.assert_not_called()
+
+    @patch("app.main.guardar_perfil")
+    @patch("app.main.leer_perfil")
+    @patch("app.main.open_finance.obtener_perfil")
+    def test_sin_perfil_en_cache_tampoco_invoca_open_finance(
+        self, mock_obtener_perfil, mock_leer_perfil, mock_guardar_perfil
+    ):
+        mock_obtener_perfil.side_effect = OpenFinanceError("timeout", "no respondió")
+        mock_leer_perfil.side_effect = CacheMissError("sin perfil")
+
+        self.client.get("/perfil/99999")  # esta falla y abre el circuito
+        self.assertEqual(breaker.current_state, "open")
+        mock_obtener_perfil.reset_mock()
+
+        respuesta = self.client.get("/perfil/99999")  # ya llega con el circuito abierto
+
+        mock_obtener_perfil.assert_not_called()
+        mock_leer_perfil.assert_called_with("99999", ANY)
+        self.assertEqual(respuesta.status_code, 503)
+        mock_guardar_perfil.assert_not_called()
 
 
 if __name__ == "__main__":
