@@ -1,0 +1,16 @@
+{
+  "archivos": {
+    "manifest.json": "dc3577a62083af321426f97f58f98c3c2b64642314fe7611515fa50fd73db29d",
+    "procedencia.json": "146d734dc62a10ccf7293a11fb3675e973c42088150cf01f3e90c48e7a4bad4b",
+    "results.csv": "ce17153167dc770e70d68f9e553de2d52408de4cea4752cc6f1acf5569b51e40",
+    "results_exceptions.csv": "3e73e8f665731ee4e45a6a91202a31b06999f2c53240f14aee2532e0e0b42b09",
+    "results_failures.csv": "ecadae309edce3f98facc62c31013d2720c05029732a1bb3d8f288639ffc3736",
+    "results_stats.csv": "403a1324d780ea7752bde8bfda7f40304202c939e255c73515a5ea9b3f29e0fc",
+    "results_stats_history.csv": "6950fb2a93894a222cb2600cc37a886fe175f453d854169f6df10e6df4c3c387"
+  },
+  "cantidad_registros": 922,
+  "corrida_id": "run1_rep2",
+  "escenario": "E",
+  "estado": "valido",
+  "version": 1
+}

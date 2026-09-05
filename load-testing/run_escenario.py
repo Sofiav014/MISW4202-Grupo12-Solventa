@@ -45,9 +45,6 @@ import sys
 import threading
 from pathlib import Path
 
-import control
-from escenarios import CLIENTE_WARMUP, ESCENARIOS
-
 RAIZ = Path(__file__).resolve().parent
 LOCUSTFILE = RAIZ / "locustfile.py"
 
@@ -65,6 +62,8 @@ def segundos_desde_duracion(cadena: str) -> int:
 
 def parse_args():
     """Define y parsea los argumentos de línea de comandos del orquestador."""
+    import control
+
     p = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -112,6 +111,8 @@ def parse_args():
 
 def resolver_escenarios(valor: str) -> list:
     """Traduce '--escenario' (letra, lista o TODOS) a una lista de letras válidas."""
+    from escenarios import ESCENARIOS
+
     if valor.strip().upper() == "TODOS":
         return sorted(ESCENARIOS)
     letras = [l.strip().upper() for l in valor.split(",") if l.strip()]
@@ -171,6 +172,9 @@ def verificar_integridad_minima(csv_prefix: str) -> None:
 def correr_repeticion(esc, args, indice):
     """Ejecuta una repetición completa de un escenario: reset, warm-up,
     preparación de condiciones, manifest y la corrida de Locust medida."""
+    import control
+    from escenarios import CLIENTE_WARMUP
+
     id_corrida = f"{args.ejecucion_id}_rep{indice}"
     print(f"\n=== Escenario {esc.letra} ({esc.nombre}) — corrida {id_corrida} ===")
     print(f"    {esc.notas}")
@@ -250,6 +254,14 @@ def _aplicar_overrides(esc, args) -> None:
 
 def main():
     """Corre todas las combinaciones escenario x repetición pedidas y resume el resultado."""
+    if sys.argv[1:2] == ["guardar-resultados"]:
+        sys.path.insert(0, str(RAIZ.parent))
+        from experimentos.resultados.cli import main as guardar_resultados_cli
+
+        sys.exit(guardar_resultados_cli(sys.argv[2:]))
+
+    from escenarios import ESCENARIOS
+
     args = parse_args()
     letras = resolver_escenarios(args.escenario)
 
