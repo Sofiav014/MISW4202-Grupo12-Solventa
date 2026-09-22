@@ -1,0 +1,7 @@
+.humanlayer/
+__pycache__/
+.pytest_cache/
+.venv/
+*.py[cod]
+*.egg-info/
+solventa/
