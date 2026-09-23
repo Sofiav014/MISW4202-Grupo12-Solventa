@@ -18,6 +18,21 @@ Una solicitud HS256 válida debe incluir `Authorization` y `X-Session-Context`. 
 
 `PERMITIR_ESCENARIO_STUB` tiene como valor predeterminado `false`, por lo que los clientes HTTP ordinarios nunca reenvían el encabezado de escenario. El ejemplo de Compose lo habilita únicamente para el perfil de pruebas deterministas; la lista de encabezados funcionales permitidos de Journey permanece sin cambios.
 
+## Servicio de Identidad (ms-identidad-sesiones)
+
+`ms-identidad-sesiones` (paquete `identidad/`) es la implementación real del componente de Identidad y reemplaza al stub `dobles_http` en el servicio `identity` de Compose. Persiste sesiones en SQLite vía SQLAlchemy y emite/valida JWT ligados a `device_id` con PyJWT.
+
+Expone:
+
+- `POST /sesiones` — crea o renueva una sesión activa y emite su JWT (`ISesiones`).
+- `GET /sesiones/<session_id>` — consulta el estado actual de una sesión.
+- `POST /sesiones/<session_id>/revocar` — revoca la sesión, con efecto inmediato en consultas posteriores.
+- `POST /sesiones/validar` — dispositivo registrado, última actividad y si la sesión está activa; lo consume el Detector (`IValidarSesión`).
+- `POST /verificacion/iniciar` — inicia la verificación reforzada de una sesión sospechosa y la marca `pendiente_verificacion`; lo consume el Gateway (`IIdentidad`).
+- `POST /jwt/validar` — valida un JWT emitido por el servicio.
+
+Se configura con `SECRETO_JWT`, `ALGORITMO_JWT`, `URL_BASE_DATOS_IDENTIDAD` (por defecto `sqlite:///identidad_sesiones.db`) y `TTL_SESION_SEGUNDOS`. Para correrlo de forma aislada: `python -m identidad.servidor`.
+
 ## Medición
 
 Con Compose en ejecución, ejecuta:
@@ -34,4 +49,4 @@ Compáralo con `detector_budget_ms`. Estos valores validan únicamente el compor
 
 ## Limitaciones
 
-Los servicios downstream son stubs deterministas implementados con Flask, los contadores son locales a cada proceso y no se incluye ningún modelo de carga con Locust/Pandas ni implementaciones reales de Detector, Identidad o Journey.
+Detector y Journey siguen siendo stubs deterministas implementados con Flask; Identidad ya es una implementación real (`identidad/`). Los contadores de los stubs son locales a cada proceso y todavía no se incluye ningún modelo de carga con Locust/Pandas.

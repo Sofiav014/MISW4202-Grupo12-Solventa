@@ -22,8 +22,8 @@ services:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
   identity:
     build: .
-    command: ["python", "-m", "dobles_http.servidor"]
-    environment: {SERVICIO_STUB: identidad}
+    command: ["python", "-m", "identidad.servidor"]
+    env_file: [.env.example]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
   journey:
