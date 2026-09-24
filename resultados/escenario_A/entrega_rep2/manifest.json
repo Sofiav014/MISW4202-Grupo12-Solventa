@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "corrida_id": "entrega_rep2",
+  "escenario": "A",
+  "timestamp": "2026-09-24T04:36:05.571228+00:00",
+  "detector": "real",
+  "carga": {
+    "usuarios": 10,
+    "duracion_segundos": 20,
+    "spawn_rate": 10.0
+  },
+  "deteccion": {
+    "radio_ubicacion_km": 50.0,
+    "ventana_actividad_min": 60,
+    "presupuesto_deteccion_ms": 200,
+    "presupuesto_total_ms": 1000
+  },
+  "poblacion": {
+    "tamano_dataset": 200,
+    "semilla_aleatoria": 20260923,
+    "tasa_trafico_suplantado": 0.8,
+    "ttl_sesion_segundos": 7200,
+    "distancias_frontera": []
+  }
+}
