@@ -15,4 +15,4 @@ testpaths = ["pruebas"]
 python_files = ["probar_*.py"]
 
 [tool.setuptools.packages.find]
-include = ["gateway*", "dobles_http*", "identidad*"]
+include = ["gateway*", "dobles_http*", "identidad*", "deteccion*", "parametros*"]
