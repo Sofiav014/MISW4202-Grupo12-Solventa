@@ -1,3 +1,16 @@
+# Stack del experimento de seguridad (HA16).
+#
+# Levanta los cuatro componentes con el Detector y el servicio de Identidad
+# reales; el único doble que queda es el journey, que solo representa la
+# operación protegida.
+#
+#   cp .env.example .env
+#   docker compose up --build
+#
+# El Gateway queda en http://localhost:8080. Identidad y el Detector también se
+# publican al host para poder sembrarlos y consultarlos desde el generador de
+# tráfico, que corre fuera de los contenedores.
+
 services:
   gateway:
     build: .
@@ -13,22 +26,58 @@ services:
       interval: 5s
       timeout: 2s
       retries: 10
+
   detector:
     build: .
-    command: ["python", "-m", "dobles_http.servidor"]
-    environment: {SERVICIO_STUB: detector}
+    # El dataset semilla se carga antes de servir, para que el Detector tenga
+    # contra qué comparar desde la primera petición de la corrida.
+    command: ["sh", "-c", "python -m deteccion.semilla && python -m deteccion.servidor"]
+    env_file: [.env.example]
+    environment:
+      # En un volumen y no en la capa del contenedor: el generador resiembra
+      # entre repeticiones y necesita que la base sea la misma que el servicio
+      # está atendiendo.
+      URL_BASE_DATOS_DETECCION: sqlite:////datos/deteccion.db
+    volumes: ["deteccion-datos:/datos"]
     ports: ["8001:8000"]
+    depends_on:
+      identity: {condition: service_healthy}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
   identity:
     build: .
     command: ["python", "-m", "identidad.servidor"]
     env_file: [.env.example]
+    environment:
+      # Sin volumen, las sesiones sembradas se perderían en cada `down` y el
+      # Detector pasaría a resolver con su historial local en vez de con
+      # IValidarSesión, midiendo un camino distinto del que describe el diseño.
+      URL_BASE_DATOS_IDENTIDAD: sqlite:////datos/identidad.db
+    volumes: ["identidad-datos:/datos"]
+    # Publicado para que el generador pueda sembrar las sesiones y consultar
+    # IValidarSesión de forma aislada.
+    ports: ["8002:8000"]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
   journey:
     build: .
     command: ["python", "-m", "dobles_http.servidor"]
     environment: {SERVICIO_STUB: journey}
+    ports: ["8003:8000"]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
+volumes:
+  deteccion-datos:
+  identidad-datos:
