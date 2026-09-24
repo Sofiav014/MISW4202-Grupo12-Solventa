@@ -4,6 +4,8 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY gateway ./gateway
 COPY identidad ./identidad
+COPY deteccion ./deteccion
+COPY parametros ./parametros
 COPY dobles_http ./dobles_http
 COPY scripts ./scripts
 RUN pip install --no-cache-dir .

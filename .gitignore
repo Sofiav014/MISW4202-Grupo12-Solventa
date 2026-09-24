@@ -5,3 +5,12 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 solventa/
+
+# Configuracion local; se genera copiando .env.example
+.env
+
+# Bases de datos SQLite generadas por los servicios
+*.db
+*.sqlite
+*.sqlite3
+.datos-locales/

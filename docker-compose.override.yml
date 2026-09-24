@@ -1,0 +1,32 @@
+# Sustituye el doble del Detector por ms-deteccion-sesiones real.
+#
+# Docker Compose fusiona este archivo con docker-compose.yml de forma
+# automática, así que el servicio del Detector queda cubierto sin editar el
+# compose base, que es entregable del Integrante 4. Cuando el Detector se
+# integre allí formalmente, este archivo se elimina.
+#
+#   docker compose up --build
+#
+# Para levantar el stack original con el doble, en su lugar:
+#
+#   docker compose -f docker-compose.yml up --build
+
+services:
+  detector:
+    # El dataset semilla se carga antes de servir, para que el Detector tenga
+    # contra qué comparar desde la primera petición de la corrida.
+    command: ["sh", "-c", "python -m deteccion.semilla && python -m deteccion.servidor"]
+    env_file: [.env.example]
+    environment:
+      URL_BASE_DATOS_DETECCION: sqlite:////datos/deteccion.db
+    volumes: ["deteccion-datos:/datos"]
+    depends_on:
+      identity: {condition: service_healthy}
+
+  # Identidad se publica al host para poder consultar IValidarSesión de forma
+  # aislada durante la validación manual.
+  identity:
+    ports: ["8002:8000"]
+
+volumes:
+  deteccion-datos:
