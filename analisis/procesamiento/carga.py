@@ -1,95 +1,45 @@
-"""Carga y normalizacion de los resultados experimentales.
+"""
+Lectura de la evidencia cruda del experimento.
 
-La fuente de verdad para las metricas por peticion es el registro estructurado
-del adaptador (``resultados/adaptador.jsonl``), que contiene una fila por
-peticion con el esquema de instrumentacion. Los CSV de Locust son
-agregados por endpoint (conteos y percentiles) y no incluyen estado del
-circuito, hit/miss ni tiempo de conmutacion, por lo que aqui solo se usan como
-fuente secundaria de throughput.
+La fuente de verdad son los registros por petición que escribe el generador,
+no los CSV de Locust: solo el registro lleva la etiqueta de verdad-terreno, y
+sin ella un 403 no se distingue de otro.
+
+La carga valida el esquema antes de consolidar. Un archivo con columnas
+distintas o de otra versión se rechaza en vez de producir métricas silenciosas
+sobre datos que no son los que se cree.
 """
 
-from __future__ import annotations
-
-import json
-import logging
 from dataclasses import dataclass, field
+import json
 from pathlib import Path
 
 import pandas as pd
 
+from generador.registro import COLUMNAS, ESQUEMA_VERSION, NOMBRE_ARCHIVO
+from generador.manifest import NOMBRE_ARCHIVO as NOMBRE_MANIFEST
 
-logger = logging.getLogger("analisis.procesamiento.carga")
 
-# El modulo vive en analisis/nucleo/, tres niveles bajo la raiz del repositorio.
 RAIZ_REPO = Path(__file__).resolve().parent.parent.parent
-RUTA_REGISTRO = RAIZ_REPO / "resultados" / "adaptador.jsonl"
 DIRECTORIO_RESULTADOS = RAIZ_REPO / "resultados"
 
-LOGGER_PETICIONES = "adaptador.request"
-
-ESCENARIOS = ("A", "B", "C", "D", "E", "F", "G")
-ESCENARIOS_ENTREGABLE = ("A", "B", "C", "G")
-
+# Claves por las que se agrupan las métricas. Una repetición es la unidad de
+# reproducibilidad: comparar entre ellas es lo que muestra si una tasa es
+# estable o producto del azar de una corrida.
 LLAVES_AGRUPACION = ["escenario", "ejecucion_id"]
 
-UMBRAL_CONMUTACION_MS = 1000.0
-META_DISPONIBILIDAD = 99.9
-TIMEOUT_PROVEEDOR_MS = 700.0
-
-COLUMNAS_ESQUEMA = (
-    "request_id",
-    "ejecucion_id",
-    "escenario",
-    "timestamp_inicio",
-    "timestamp_fin",
-    "estado_circuito_inicio",
-    "estado_circuito_fin",
-    "timestamp_deteccion",
-    "timestamp_respuesta_cache",
-    "proveedor_invocado",
-    "fuente_respuesta",
-    "hit_miss",
-    "latencia_proveedor_ms",
-    "tiempo_conmutacion_ms",
-    "latencia_total_ms",
-    "resultado",
-    "tipo_error",
-)
-
-COLUMNAS_NUMERICAS = (
-    "timestamp_inicio",
-    "timestamp_fin",
-    "timestamp_deteccion",
-    "timestamp_respuesta_cache",
-    "latencia_proveedor_ms",
-    "tiempo_conmutacion_ms",
-    "latencia_total_ms",
-)
-
-# Mapeo unico entre los valores emitidos por la instrumentacion y el
-# vocabulario del analisis. Cualquier divergencia de nombres se
-# resuelve aqui y en ningun otro lugar del modulo.
-MAPEO_FUENTE_RESPUESTA = {
-    "PROVIDER": "proveedor",
-    "CACHE": "cache",
-    "NONE": "ninguno",
-}
-
-# La instrumentacion emite "N/A" en hit_miss para las peticiones servidas por
-# el proveedor, que nunca consultan la cache. Se normaliza a nulo para que
-# queden fuera del denominador del cache hit rate.
-VALOR_HIT_MISS_NO_APLICA = "N/A"
-
-RESULTADOS_VALIDOS = frozenset({"exitoso", "degradado", "fallido"})
-
-POBLACION_TRIGGER = "TRIGGER"
-POBLACION_CIRCUITO_ABIERTO = "CIRCUITO_ABIERTO"
-POBLACION_NORMAL = "NORMAL"
+COLUMNAS_NUMERICAS = ("latencia_ms", "ts_envio", "ts_respuesta", "distancia_km", "status")
 
 
 @dataclass
 class ResultadoCarga:
-    """DataFrame de peticiones junto con la bitacora de calidad de los datos."""
+    """
+    Lo cargado, junto con lo que se descartó y por qué.
+
+    Se informa el descarte en vez de ocultarlo: una corrida donde se cayó un
+    tercio de las peticiones puede dar tasas perfectamente plausibles y aun así
+    no ser evidencia de nada.
+    """
 
     peticiones: pd.DataFrame
     descartadas: int = 0
@@ -97,165 +47,128 @@ class ResultadoCarga:
     incidencias: list[str] = field(default_factory=list)
 
     def resumen_calidad(self) -> str:
-        lineas = [
-            f"Peticiones cargadas: {len(self.peticiones)}",
-            f"Filas descartadas: {self.descartadas}",
-        ]
-        for motivo, cuenta in sorted(self.motivos_descarte.items()):
-            lineas.append(f"  - {motivo}: {cuenta}")
+        """Describe en una línea qué tan completo quedó el conjunto."""
+        total = len(self.peticiones) + self.descartadas
+
+        if total == 0:
+            return "Sin peticiones cargadas."
+
+        partes = [f"{len(self.peticiones)} peticiones cargadas de {total}"]
+
+        if self.descartadas:
+            detalle = ", ".join(f"{k}={v}" for k, v in sorted(self.motivos_descarte.items()))
+            partes.append(f"{self.descartadas} descartadas ({detalle})")
+
         for incidencia in self.incidencias:
-            lineas.append(f"[incidencia] {incidencia}")
-        return "\n".join(lineas)
+            partes.append(incidencia)
+
+        return " | ".join(partes)
 
 
-def _leer_registro(ruta: Path) -> tuple[list[dict], dict[str, int]]:
-    """Lee el JSONL y devuelve solo los eventos de peticion."""
-    crudas: list[dict] = []
+def cargar_peticiones(directorio: Path | None = None) -> ResultadoCarga:
+    """
+    Lee todos los registros por petición bajo el directorio de resultados.
+
+    Args:
+        directorio: Raíz de la evidencia; por defecto `resultados/` del repo.
+
+    Returns:
+        El conjunto consolidado, con el recuento de lo descartado.
+    """
+    directorio = Path(directorio or DIRECTORIO_RESULTADOS)
+    filas = []
     motivos: dict[str, int] = {}
+    incidencias: list[str] = []
 
-    with ruta.open(encoding="utf-8") as manejador:
-        for linea in manejador:
-            linea = linea.strip()
-            if not linea:
+    archivos = sorted(directorio.glob(f"escenario_*/*/{NOMBRE_ARCHIVO}"))
+
+    if not archivos:
+        return ResultadoCarga(pd.DataFrame(columns=list(COLUMNAS)))
+
+    for archivo in archivos:
+        for numero, linea in enumerate(archivo.read_text(encoding="utf-8").splitlines(), 1):
+            if not linea.strip():
                 continue
+
             try:
-                evento = json.loads(linea)
+                registro = json.loads(linea)
             except json.JSONDecodeError:
                 motivos["json_invalido"] = motivos.get("json_invalido", 0) + 1
                 continue
-            if evento.get("logger") != LOGGER_PETICIONES:
-                # Ruido esperado: werkzeug, cache y circuit_breaker.
+
+            # Una versión distinta significa otras columnas; consolidar sería
+            # mezclar dos contratos y atribuir a unas métricas datos de otras.
+            if registro.get("esquema_version") != ESQUEMA_VERSION:
+                motivos["version_incompatible"] = motivos.get("version_incompatible", 0) + 1
                 continue
-            crudas.append(evento)
 
-    return crudas, motivos
+            faltantes = set(COLUMNAS) - set(registro)
+            if faltantes:
+                motivos["columnas_faltantes"] = motivos.get("columnas_faltantes", 0) + 1
+                continue
 
+            sobrantes = set(registro) - set(COLUMNAS)
+            if sobrantes:
+                aviso = f"{archivo.parent.name}: columnas no previstas {sorted(sobrantes)}"
+                if aviso not in incidencias:
+                    incidencias.append(aviso)
 
-def clasificar_poblacion(df: pd.DataFrame) -> pd.Series:
-    """Clasifica cada peticion en TRIGGER, CIRCUITO_ABIERTO o NORMAL.
+            filas.append(registro)
 
-    La peticion que dispara el corte
-    paga el timeout completo del proveedor, mientras que las que encuentran el
-    circuito ya abierto van directo a cache. Promediarlas juntas oculta el
-    costo real del corte.
-    """
-    dispara_corte = df["estado_circuito_inicio"].isin(["CLOSED", "HALF_OPEN"]) & (
-        df["estado_circuito_fin"] == "OPEN"
-    )
-    ya_abierto = ~df["proveedor_invocado"].astype(bool)
+    descartadas = sum(motivos.values())
 
-    poblacion = pd.Series(POBLACION_NORMAL, index=df.index, dtype="object")
-    poblacion[ya_abierto] = POBLACION_CIRCUITO_ABIERTO
-    poblacion[dispara_corte] = POBLACION_TRIGGER
-    return poblacion
+    if not filas:
+        return ResultadoCarga(
+            pd.DataFrame(columns=list(COLUMNAS)), descartadas, motivos, incidencias
+        )
 
-
-def cargar_peticiones(ruta: Path | None = None) -> ResultadoCarga:
-    """Carga el registro por peticion, valida el esquema y normaliza tipos."""
-    ruta = ruta or RUTA_REGISTRO
-    if not ruta.exists():
-        raise FileNotFoundError(f"No se encontro el registro de peticiones: {ruta}")
-
-    crudas, motivos = _leer_registro(ruta)
-    incidencias: list[str] = []
-
-    if not crudas:
-        raise ValueError(f"El registro {ruta} no contiene eventos '{LOGGER_PETICIONES}'")
-
-    df = pd.DataFrame(crudas)
-    total_inicial = len(df)
-
-    faltantes = [columna for columna in COLUMNAS_ESQUEMA if columna not in df.columns]
-    if faltantes:
-        raise ValueError(f"Faltan columnas del esquema congelado: {faltantes}")
-
-    sobrantes = [
-        columna
-        for columna in df.columns
-        if columna not in COLUMNAS_ESQUEMA
-        and columna not in {"ts_wall", "level", "logger", "event_type"}
-    ]
-    if sobrantes:
-        incidencias.append(f"Columnas fuera del esquema congelado (ignoradas): {sobrantes}")
+    df = pd.DataFrame(filas)
 
     for columna in COLUMNAS_NUMERICAS:
         df[columna] = pd.to_numeric(df[columna], errors="coerce")
 
-    df["proveedor_invocado"] = df["proveedor_invocado"].astype(bool)
-    df["ts_wall"] = pd.to_datetime(df["ts_wall"], errors="coerce", utc=True)
+    # Una petición sin latencia no aporta a ninguna métrica y desordenaría los
+    # percentiles si se contara como cero.
+    sin_latencia = df["latencia_ms"].isna().sum()
+    if sin_latencia:
+        motivos["latencia_ausente"] = int(sin_latencia)
+        descartadas += int(sin_latencia)
+        df = df[df["latencia_ms"].notna()]
 
-    # Vocabulario congelado: la instrumentacion emite mayusculas en ingles.
-    df["fuente_respuesta"] = (
-        df["fuente_respuesta"].map(MAPEO_FUENTE_RESPUESTA).fillna(df["fuente_respuesta"])
-    )
-    no_mapeadas = set(df["fuente_respuesta"]) - set(MAPEO_FUENTE_RESPUESTA.values())
-    if no_mapeadas:
-        incidencias.append(f"Valores de fuente_respuesta sin mapeo: {sorted(no_mapeadas)}")
+    duplicados = df["request_id"].duplicated().sum()
+    if duplicados:
+        incidencias.append(f"{duplicados} request_id repetidos (¿se corrió dos veces el mismo id?)")
 
-    # "N/A" no es un miss: son peticiones servidas por el proveedor que nunca
-    # consultaron la cache. Deben quedar fuera del denominador del hit rate.
-    peticiones_sin_cache = int((df["hit_miss"] == VALOR_HIT_MISS_NO_APLICA).sum())
-    df["hit_miss"] = df["hit_miss"].replace(VALOR_HIT_MISS_NO_APLICA, pd.NA)
-    if peticiones_sin_cache:
-        incidencias.append(
-            f"{peticiones_sin_cache} peticiones con hit_miss='N/A' (servidas por el "
-            "proveedor): excluidas del denominador del cache hit rate."
-        )
+    df = df.sort_values(["escenario", "ejecucion_id", "ts_envio"]).reset_index(drop=True)
 
-    filas_invalidas = ~df["resultado"].isin(RESULTADOS_VALIDOS)
-    if filas_invalidas.any():
-        motivos["resultado_invalido"] = int(filas_invalidas.sum())
-        df = df[~filas_invalidas]
-
-    sin_latencia = df["latencia_total_ms"].isna()
-    if sin_latencia.any():
-        motivos["latencia_total_nula"] = int(sin_latencia.sum())
-        df = df[~sin_latencia]
-
-    escenarios_desconocidos = set(df["escenario"]) - set(ESCENARIOS)
-    if escenarios_desconocidos:
-        incidencias.append(f"Escenarios fuera de A-G: {sorted(escenarios_desconocidos)}")
-
-    df["poblacion"] = clasificar_poblacion(df)
-
-    # ejecucion_id se repite entre escenarios (run1_rep1..3), por lo que la
-    # llave de agrupacion valida es siempre el par (escenario, ejecucion_id).
-    if df.groupby("ejecucion_id")["escenario"].nunique().gt(1).any():
-        incidencias.append(
-            "ejecucion_id se repite entre escenarios: se agrupa por "
-            "(escenario, ejecucion_id)."
-        )
-
-    df = df.sort_values(["escenario", "ejecucion_id", "timestamp_inicio"]).reset_index(drop=True)
-
-    descartadas = total_inicial - len(df)
-    return ResultadoCarga(
-        peticiones=df,
-        descartadas=descartadas,
-        motivos_descarte=motivos,
-        incidencias=incidencias,
-    )
+    return ResultadoCarga(df, descartadas, motivos, incidencias)
 
 
 def cargar_manifiestos(directorio: Path | None = None) -> pd.DataFrame:
-    """Carga los manifest.json de cada corrida con las condiciones del experimento."""
-    directorio = directorio or DIRECTORIO_RESULTADOS
-    registros = []
-    for ruta in sorted(directorio.glob("escenario_*/*/manifest.json")):
-        datos = json.loads(ruta.read_text(encoding="utf-8"))
-        carga = datos.get("carga", {})
-        registros.append(
-            {
-                "escenario": datos.get("escenario"),
-                "ejecucion_id": datos.get("corrida_id"),
-                "modo_mock": datos.get("mock_openfinance", {}).get("modo"),
-                "usuarios": carga.get("usuarios"),
-                "duracion_s": carga.get("duration_seconds"),
-                "spawn_rate": carga.get("spawn_rate"),
-                "timeout_ms": datos.get("provider_timeout_ms"),
-                "fail_max": datos.get("circuit_breaker", {}).get("fail_max"),
-                "reset_timeout_s": datos.get("circuit_breaker", {}).get("reset_timeout_seconds"),
-                "ttl_s": datos.get("cache", {}).get("ttl_seconds"),
-            }
-        )
-    return pd.DataFrame(registros)
+    """
+    Reúne las condiciones declaradas de cada corrida.
+
+    Sin esta tabla una tasa no es interpretable: no se sabría contra qué radio
+    ni con qué semilla se midió, ni si el Detector era el real o un doble.
+    """
+    directorio = Path(directorio or DIRECTORIO_RESULTADOS)
+    filas = []
+
+    for archivo in sorted(directorio.glob(f"escenario_*/*/{NOMBRE_MANIFEST}")):
+        contenido = json.loads(archivo.read_text(encoding="utf-8"))
+
+        filas.append({
+            "escenario": contenido["escenario"],
+            "ejecucion_id": contenido["corrida_id"],
+            "timestamp": contenido["timestamp"],
+            "detector": contenido["detector"],
+            "usuarios": contenido["carga"]["usuarios"],
+            "duracion_s": contenido["carga"]["duracion_segundos"],
+            "radio_km": contenido["deteccion"]["radio_ubicacion_km"],
+            "ventana_min": contenido["deteccion"]["ventana_actividad_min"],
+            "presupuesto_total_ms": contenido["deteccion"]["presupuesto_total_ms"],
+            "tamano_dataset": contenido["poblacion"]["tamano_dataset"],
+            "semilla": contenido["poblacion"]["semilla_aleatoria"],
+        })
+
+    return pd.DataFrame(filas)

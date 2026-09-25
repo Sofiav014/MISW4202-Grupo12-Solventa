@@ -1,190 +1,198 @@
-"""Punto de entrada unico: regenera todas las tablas y graficas del analisis.
+"""
+Consolida la evidencia del experimento de seguridad y emite el veredicto.
 
-Uso:
-    python -m analisis.procesar
-    python -m analisis.procesar --salida analisis/salidas
+    python -m analisis.main
+    python -m analisis.main --salida /tmp/salidas --sin-graficas
+
+Lee los registros por petición de `resultados/` y escribe las tablas de
+métricas. Distingue explícitamente una métrica indefinida de una incumplida:
+que un escenario no tenga suplantaciones no significa que no detectara nada.
 """
 
-from __future__ import annotations
-
 import argparse
-import sys
 from pathlib import Path
+import sys
 
 import pandas as pd
 
-from analisis.procesamiento.carga import (
-    ESCENARIOS_ENTREGABLE,
-    META_DISPONIBILIDAD,
-    RAIZ_REPO,
+from parametros import UMBRAL_LATENCIA_MS
+
+from .procesamiento import metricas
+from .procesamiento.carga import (
+    DIRECTORIO_RESULTADOS,
+    LLAVES_AGRUPACION,
     cargar_manifiestos,
     cargar_peticiones,
 )
-from analisis.procesamiento import graficas, locust, metricas
+
+SALIDA_POR_DEFECTO = Path(__file__).resolve().parent / "procesamiento" / "salidas"
+
+SEPARADOR = "=" * 78
 
 
-SALIDA_POR_DEFECTO = RAIZ_REPO / "analisis" / "procesamiento" / "salidas"
+def _formatear(df: pd.DataFrame) -> str:
+    """Rinde una tabla legible, marcando como N/A lo que no está definido."""
+    if df.empty:
+        return "  (sin datos)"
 
-COLUMNAS_INFORME = [
-    "escenario",
-    "total_peticiones",
-    "exitosos",
-    "degradados",
-    "fallidos",
-    "disponibilidad_pct",
-    "tasa_errores_pct",
-    "peticiones_conmutadas",
-    "pct_conmutaciones_bajo_1s",
-    "cache_hit_rate_pct",
-    "latencia_p50_ms",
-    "latencia_p95_ms",
-    "latencia_p99_ms",
-    "latencia_max_ms",
-]
+    return df.to_string(index=False, na_rep="N/A", float_format=lambda v: f"{v:,.2f}")
 
 
-def _formatear(tabla: pd.DataFrame) -> str:
-    return tabla.to_string(index=False, na_rep="N/A", float_format=lambda v: f"{v:,.2f}")
+def _veredicto(confusion: pd.DataFrame, suspensiones: pd.DataFrame) -> list[str]:
+    """
+    Contrasta los resultados con las metas de HA16.
 
+    Cada línea distingue tres desenlaces: cumplido, incumplido y no aplicable.
+    Un escenario sin suplantaciones no puede incumplir una meta de detección, y
+    presentarlo como fallo sería leer un NaN como un cero.
+    """
+    lineas = []
 
-def main(argv: list[str] | None = None) -> int:
-    analizador = argparse.ArgumentParser(description="Procesa los resultados del experimento.")
-    analizador.add_argument(
-        "--salida",
-        type=Path,
-        default=SALIDA_POR_DEFECTO,
-        help="Directorio de salida para CSV y PNG.",
-    )
-    analizador.add_argument(
-        "--sin-graficas", action="store_true", help="Solo genera las tablas CSV."
-    )
-    argumentos = analizador.parse_args(argv)
-
-    destino: Path = argumentos.salida
-    destino.mkdir(parents=True, exist_ok=True)
-
-    carga = cargar_peticiones()
-    df = carga.peticiones
-
-    print("=" * 78)
-    print("CALIDAD DE LOS DATOS")
-    print("=" * 78)
-    print(carga.resumen_calidad())
-
-    resumen_escenario = metricas.tabla_resumen(df)
-    resumen_corrida = metricas.tabla_resumen(df, por=["escenario", "ejecucion_id"])
-    poblaciones = metricas.por_poblacion(df)
-    desglose_trigger = metricas.desglose_trigger(df)
-    repro = metricas.reproducibilidad(df)
-    manifiestos = cargar_manifiestos()
-
-    throughput = locust.throughput_por_escenario()
-    contraste = locust.contraste_latencia(df)
-
-    # Solo se escriben las tablas que no son derivables de otra:
-    # `reproducibilidad` sale de agregar resumen_por_corrida y `throughput`
-    # de agregar el contraste, asi que ambas se muestran pero no se guardan.
-    salidas = {
-        "resumen_por_escenario.csv": resumen_escenario,
-        "resumen_por_corrida.csv": resumen_corrida,
-        "metricas_por_poblacion.csv": poblaciones,
-        "desglose_trigger.csv": desglose_trigger,
-        "condiciones_corridas.csv": manifiestos,
-        "contraste_latencia_externa_interna.csv": contraste,
-    }
-    for nombre, tabla in salidas.items():
-        tabla.to_csv(destino / nombre, index=False)
-
-    entregable = resumen_escenario[resumen_escenario["escenario"].isin(ESCENARIOS_ENTREGABLE)]
-
-    print()
-    print("=" * 78)
-    print("RESUMEN POR ESCENARIO (A, B, C, G)")
-    print("=" * 78)
-    print(_formatear(entregable[COLUMNAS_INFORME]))
-
-    print()
-    print("=" * 78)
-    print("DESGLOSE POR POBLACIÓN (cuidado de método)")
-    print("=" * 78)
-    columnas_poblacion = [
-        "escenario",
-        "poblacion",
-        "peticiones",
-        "pct_del_escenario",
-        "latencia_p50_ms",
-        "latencia_p95_ms",
-        "conmutacion_p50_ms",
-        "conmutacion_max_ms",
-    ]
-    print(
-        _formatear(
-            poblaciones[poblaciones["escenario"].isin(ESCENARIOS_ENTREGABLE)][columnas_poblacion]
-        )
-    )
-
-    print()
-    print("=" * 78)
-    print("COMPLEMENTOS DESDE LOCUST (throughput y consistencia externa/interna)")
-    print("=" * 78)
-    print(_formatear(throughput[throughput["escenario"].isin(ESCENARIOS_ENTREGABLE)]))
-    print()
-    columnas_contraste = [
-        "escenario",
-        "ejecucion_id",
-        "peticiones_locust",
-        "peticiones_jsonl",
-        "diferencia_conteo",
-        "latencia_externa_p50_ms",
-        "latencia_interna_p50_ms",
-        "overhead_p50_ms",
-    ]
-    print(
-        _formatear(
-            contraste[contraste["escenario"].isin(ESCENARIOS_ENTREGABLE)][columnas_contraste]
-        )
-    )
-    print(
-        "\nNota: el overhead se compara en la MEDIANA. En los percentiles altos cada\n"
-        "fuente mide una poblacion distinta (los conteos difieren ~5 %), y en\n"
-        "distribuciones bimodales como B el corte salta entre modas."
-    )
-
-    rutas: list[Path] = []
-    if not argumentos.sin_graficas:
-        rutas = graficas.generar_todas(df, destino)
-        rutas += graficas.generar_bloque_disparo_abierto(df, destino)
-
-    print()
-    print("=" * 78)
-    print("VEREDICTO CONTRA LAS METAS")
-    print("=" * 78)
-    for _, fila in entregable.iterrows():
+    for _, fila in confusion.iterrows():
         escenario = fila["escenario"]
-        cumple_disp = "CUMPLE" if fila["disponibilidad_pct"] >= META_DISPONIBILIDAD else "NO CUMPLE"
-        print(
-            f"  {escenario}: disponibilidad {fila['disponibilidad_pct']:.3f} % "
-            f"(meta {META_DISPONIBILIDAD} %) -> {cumple_disp}"
-        )
-        if fila["peticiones_conmutadas"] == 0:
-            print(
-                "     conmutación < 1 s: N/A — 0 conmutaciones "
-                "(proveedor sano, el circuito nunca se abrió)"
+        deteccion = fila["tasa_deteccion_pct"]
+        falsos = fila["tasa_falsos_positivos_pct"]
+
+        if pd.isna(deteccion):
+            lineas.append(
+                f"  {escenario}: detección N/A — el escenario no incluye suplantaciones."
             )
         else:
-            print(
-                f"     conmutación < 1 s: {fila['pct_conmutaciones_bajo_1s']:.2f} % "
-                f"de {int(fila['peticiones_conmutadas'])} conmutaciones -> CUMPLE"
+            lineas.append(f"  {escenario}: detección {deteccion:.2f}%")
+
+        if pd.isna(falsos):
+            lineas.append(
+                f"  {escenario}: falsos positivos N/A — no hubo tráfico legítimo."
             )
+        else:
+            lineas.append(f"  {escenario}: falsos positivos {falsos:.2f}%")
+
+    for _, fila in suspensiones.iterrows():
+        escenario = fila["escenario"]
+
+        if fila["suspensiones"] == 0:
+            lineas.append(
+                f"  {escenario}: presupuesto de {UMBRAL_LATENCIA_MS} ms N/A — "
+                f"no hubo suspensiones que cronometrar."
+            )
+            continue
+
+        pct = fila["pct_bajo_objetivo"]
+        estado = "cumple" if pct == 100.0 else "INCUMPLE"
+        lineas.append(
+            f"  {escenario}: {pct:.2f}% de las suspensiones bajo "
+            f"{UMBRAL_LATENCIA_MS} ms ({estado}), p95={fila['suspension_p95_ms']:.2f} ms"
+        )
+
+    return lineas
+
+
+def main(argv=None) -> int:
+    """Carga la evidencia, calcula las métricas y escribe las tablas."""
+    analizador = argparse.ArgumentParser(description=__doc__)
+    analizador.add_argument("--resultados", type=Path, default=DIRECTORIO_RESULTADOS)
+    analizador.add_argument("--salida", type=Path, default=SALIDA_POR_DEFECTO)
+    analizador.add_argument("--sin-graficas", action="store_true")
+    argumentos = analizador.parse_args(argv)
+
+    resultado = cargar_peticiones(argumentos.resultados)
+
+    if resultado.peticiones.empty:
+        print(
+            f"No hay evidencia en {argumentos.resultados}. "
+            f"Corre primero 'python -m generador.run_escenario'.",
+            file=sys.stderr,
+        )
+        return 1
+
+    argumentos.salida.mkdir(parents=True, exist_ok=True)
+    peticiones = resultado.peticiones
+
+    print(SEPARADOR)
+    print("CALIDAD DE LA EVIDENCIA")
+    print(SEPARADOR)
+    print(f"  {resultado.resumen_calidad()}")
+
+    confusion = metricas.matriz_confusion(peticiones)
+    confusion_por_corrida = metricas.matriz_confusion(peticiones, por=LLAVES_AGRUPACION)
+    # La latencia se segmenta por veredicto: suspender y enrutar son caminos de
+    # distinta longitud y sus distribuciones no son comparables entre sí.
+    latencia_veredicto = metricas.latencia(peticiones, por=["escenario", "veredicto_observado"])
+    suspensiones = metricas.suspension_bajo_objetivo(peticiones, UMBRAL_LATENCIA_MS)
+    por_distancia = metricas.deteccion_por_distancia(peticiones)
+    sin_decision = metricas.descartes(peticiones)
+    repro = metricas.reproducibilidad(peticiones)
+    condiciones = cargar_manifiestos(argumentos.resultados)
+
+    tablas = {
+        "matriz_confusion.csv": confusion,
+        "matriz_confusion_por_corrida.csv": confusion_por_corrida,
+        "latencia_por_veredicto.csv": latencia_veredicto,
+        "suspension_bajo_objetivo.csv": suspensiones,
+        "deteccion_por_distancia.csv": por_distancia,
+        "descartes.csv": sin_decision,
+        "condiciones_corridas.csv": condiciones,
+    }
+
+    escritos = []
+    for nombre, tabla in tablas.items():
+        if not tabla.empty:
+            destino = argumentos.salida / nombre
+            tabla.to_csv(destino, index=False)
+            escritos.append(destino)
 
     print()
-    print(f"Tablas escritas en {destino.relative_to(RAIZ_REPO)}/:")
-    for nombre in salidas:
-        print(f"  - {nombre}")
-    if rutas:
-        print("Gráficas generadas:")
-        for ruta in rutas:
-            print(f"  - {ruta.name}")
+    print(SEPARADOR)
+    print("MATRIZ DE CONFUSIÓN POR ESCENARIO")
+    print(SEPARADOR)
+    print(_formatear(confusion))
+
+    print()
+    print(SEPARADOR)
+    print("LATENCIA SEGMENTADA POR VEREDICTO")
+    print(SEPARADOR)
+    print(_formatear(latencia_veredicto))
+
+    if not por_distancia.empty:
+        print()
+        print(SEPARADOR)
+        print("DETECCIÓN SEGÚN DISTANCIA (frontera del radio)")
+        print(SEPARADOR)
+        print(_formatear(por_distancia))
+
+    print()
+    print(SEPARADOR)
+    print("PETICIONES SIN DECISIÓN")
+    print(SEPARADOR)
+    print(_formatear(sin_decision))
+
+    if not repro.empty:
+        print()
+        print(SEPARADOR)
+        print("REPRODUCIBILIDAD ENTRE REPETICIONES")
+        print(SEPARADOR)
+        print(_formatear(repro))
+
+    print()
+    print(SEPARADOR)
+    print("VEREDICTO CONTRA LAS METAS DE HA16")
+    print(SEPARADOR)
+    for linea in _veredicto(confusion, suspensiones):
+        print(linea)
+
+    if not argumentos.sin_graficas:
+        try:
+            from .procesamiento import graficas
+
+            figuras = graficas.generar_todas(peticiones, argumentos.salida)
+            escritos.extend(figuras)
+        except ImportError:
+            print("\n  (matplotlib no está instalado; se omiten las gráficas)")
+
+    print()
+    print(f"Archivos escritos en {argumentos.salida}:")
+    for ruta in escritos:
+        print(f"  {ruta.name}")
 
     return 0
 

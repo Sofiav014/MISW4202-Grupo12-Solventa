@@ -1,1 +1,1 @@
-"""Motor de analisis reutilizable de resultados experimentales."""
+"""Carga, métricas y gráficas del experimento de seguridad."""

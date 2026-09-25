@@ -1,0 +1,14 @@
+escenario,distancia_km,n,suspendidas,pct_suspendidas,etiqueta_esperada
+C,300.0,1894,1894,100.0,suplantada
+D,30.0,166,0,0.0,legitima
+D,40.0,147,0,0.0,legitima
+D,45.0,174,0,0.0,legitima
+D,48.0,166,0,0.0,legitima
+D,49.0,172,0,0.0,legitima
+D,50.0,164,0,0.0,legitima
+D,51.0,173,173,100.0,suplantada
+D,52.0,161,161,100.0,suplantada
+D,55.0,173,173,100.0,suplantada
+D,65.0,171,171,100.0,suplantada
+D,80.0,171,171,100.0,suplantada
+E,300.0,723,723,100.0,suplantada
