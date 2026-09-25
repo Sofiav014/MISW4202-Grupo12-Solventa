@@ -1,0 +1,1805 @@
+{
+  "version": 1,
+  "credenciales": [
+    {
+      "session_id": "sesion-00000",
+      "cliente_id": "cliente-00000",
+      "device_id": "dispositivo-bogota-00000",
+      "lat": 4.695541,
+      "lon": -74.092805,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDAwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDAwIiwiZXhwIjoxNzkwMjMyMTUwfQ.FRGlImLXh82WaGI0eNkGd00uvafPMVS6QfEXLXHW0Hs",
+      "expira_en": "2026-09-24T06:42:30.902632+00:00"
+    },
+    {
+      "session_id": "sesion-00001",
+      "cliente_id": "cliente-00001",
+      "device_id": "dispositivo-medellin-00001",
+      "lat": 6.29072,
+      "lon": -75.589067,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDAxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMDEiLCJleHAiOjE3OTAyMzIxNTB9.CGh7oiDIV2jigo6r2AYuWoFElSSQ4gtPX-U_oFE-Clo",
+      "expira_en": "2026-09-24T06:42:30.906775+00:00"
+    },
+    {
+      "session_id": "sesion-00002",
+      "cliente_id": "cliente-00002",
+      "device_id": "dispositivo-cali-00002",
+      "lat": 3.404324,
+      "lon": -76.517675,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDAyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAwMiIsImV4cCI6MTc5MDIzMjE1MH0.YR7Bt-JqQ4t1fvN6-VfbHMOSgKC-HKqWOpauGe10290",
+      "expira_en": "2026-09-24T06:42:30.909959+00:00"
+    },
+    {
+      "session_id": "sesion-00003",
+      "cliente_id": "cliente-00003",
+      "device_id": "dispositivo-barranquilla-00003",
+      "lat": 11.004318,
+      "lon": -74.810349,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDAzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDAzIiwiZXhwIjoxNzkwMjMyMTUwfQ.HUKLnY7KERVzUEK1DK7TzTUZPUftVdW40GZAqsNOTpY",
+      "expira_en": "2026-09-24T06:42:30.913435+00:00"
+    },
+    {
+      "session_id": "sesion-00004",
+      "cliente_id": "cliente-00004",
+      "device_id": "dispositivo-bucaramanga-00004",
+      "lat": 7.074934,
+      "lon": -73.106907,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMDQiLCJleHAiOjE3OTAyMzIxNTB9.dJlbLOsBnLHURdtosRkzPn1dGoOIpfIbZYCH97Y9vsQ",
+      "expira_en": "2026-09-24T06:42:30.916734+00:00"
+    },
+    {
+      "session_id": "sesion-00005",
+      "cliente_id": "cliente-00005",
+      "device_id": "dispositivo-cartagena-00005",
+      "lat": 10.349344,
+      "lon": -75.438155,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDA1IiwiZXhwIjoxNzkwMjMyMTUwfQ.FREvFzxdfPuBnov4Lk6ZgJWJyXaYkEeRVL4BgsiuPeo",
+      "expira_en": "2026-09-24T06:42:30.920058+00:00"
+    },
+    {
+      "session_id": "sesion-00006",
+      "cliente_id": "cliente-00006",
+      "device_id": "dispositivo-bogota-00006",
+      "lat": 4.683522,
+      "lon": -74.042407,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDA2IiwiZXhwIjoxNzkwMjMyMTUwfQ.y_CsE4RGPsIfyZfM2OLSQRRYLeFCHvOWLKJc_CIAMXA",
+      "expira_en": "2026-09-24T06:42:30.924244+00:00"
+    },
+    {
+      "session_id": "sesion-00007",
+      "cliente_id": "cliente-00007",
+      "device_id": "dispositivo-medellin-00007",
+      "lat": 6.231111,
+      "lon": -75.630584,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMDciLCJleHAiOjE3OTAyMzIxNTB9.YFSPiTz65S0k51Z-x738X4upOIHdcXzmwaTDem3dpas",
+      "expira_en": "2026-09-24T06:42:30.931013+00:00"
+    },
+    {
+      "session_id": "sesion-00008",
+      "cliente_id": "cliente-00008",
+      "device_id": "dispositivo-cali-00008",
+      "lat": 3.420632,
+      "lon": -76.51925,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAwOCIsImV4cCI6MTc5MDIzMjE1MH0.--lGkhpLSXRF36calPDbPOzwPyzwBiQGkT32MB5UlaQ",
+      "expira_en": "2026-09-24T06:42:30.936108+00:00"
+    },
+    {
+      "session_id": "sesion-00009",
+      "cliente_id": "cliente-00009",
+      "device_id": "dispositivo-barranquilla-00009",
+      "lat": 10.956834,
+      "lon": -74.798027,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDA5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDA5IiwiZXhwIjoxNzkwMjMyMTUwfQ.YpAieFO00r_BbZsrNVFt9q1jPDpOEsuzvup7um33KA8",
+      "expira_en": "2026-09-24T06:42:30.939724+00:00"
+    },
+    {
+      "session_id": "sesion-00010",
+      "cliente_id": "cliente-00010",
+      "device_id": "dispositivo-bucaramanga-00010",
+      "lat": 7.110997,
+      "lon": -73.157737,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDEwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMTAiLCJleHAiOjE3OTAyMzIxNTB9.uVNwXxRNft-zhgJJUE6qVlHFttmAzwHCc296KEvzMA0",
+      "expira_en": "2026-09-24T06:42:30.943131+00:00"
+    },
+    {
+      "session_id": "sesion-00011",
+      "cliente_id": "cliente-00011",
+      "device_id": "dispositivo-cartagena-00011",
+      "lat": 10.431995,
+      "lon": -75.498939,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDExIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDExIiwiZXhwIjoxNzkwMjMyMTUwfQ.R58dzkX8Gr7XpsUzvLb7tvxc1_A2NQEMuK-64ttj_hg",
+      "expira_en": "2026-09-24T06:42:30.946298+00:00"
+    },
+    {
+      "session_id": "sesion-00012",
+      "cliente_id": "cliente-00012",
+      "device_id": "dispositivo-bogota-00012",
+      "lat": 4.711781,
+      "lon": -74.04367,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDEyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDEyIiwiZXhwIjoxNzkwMjMyMTUwfQ.SSKAUdyUx0-i8oEOkFdzJMT0N05xoAk-txZr6UIDcFA",
+      "expira_en": "2026-09-24T06:42:30.949593+00:00"
+    },
+    {
+      "session_id": "sesion-00013",
+      "cliente_id": "cliente-00013",
+      "device_id": "dispositivo-medellin-00013",
+      "lat": 6.289433,
+      "lon": -75.556677,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDEzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMTMiLCJleHAiOjE3OTAyMzIxNTB9.pkgVMtzwRMzq53r7gSMDBpo7iZfYHehU6d_OkHQRNSw",
+      "expira_en": "2026-09-24T06:42:30.952696+00:00"
+    },
+    {
+      "session_id": "sesion-00014",
+      "cliente_id": "cliente-00014",
+      "device_id": "dispositivo-cali-00014",
+      "lat": 3.428876,
+      "lon": -76.506853,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAxNCIsImV4cCI6MTc5MDIzMjE1MH0.UXOf3bhfMm0zf8MjgQ8OnqAuB6LhfxkxJWvXUoHmsD8",
+      "expira_en": "2026-09-24T06:42:30.955657+00:00"
+    },
+    {
+      "session_id": "sesion-00015",
+      "cliente_id": "cliente-00015",
+      "device_id": "dispositivo-barranquilla-00015",
+      "lat": 10.981399,
+      "lon": -74.765719,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDE1IiwiZXhwIjoxNzkwMjMyMTUwfQ.yc5k_tbV9KPCBY1cTIeOSVH1ovfXnlbIz5yFFwzsMX0",
+      "expira_en": "2026-09-24T06:42:30.958610+00:00"
+    },
+    {
+      "session_id": "sesion-00016",
+      "cliente_id": "cliente-00016",
+      "device_id": "dispositivo-bucaramanga-00016",
+      "lat": 7.114094,
+      "lon": -73.165188,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMTYiLCJleHAiOjE3OTAyMzIxNTB9.htAd1mz4J70UTZDhweZAOKVvbaCmAUyGM6VqlDrUiDk",
+      "expira_en": "2026-09-24T06:42:30.961462+00:00"
+    },
+    {
+      "session_id": "sesion-00017",
+      "cliente_id": "cliente-00017",
+      "device_id": "dispositivo-cartagena-00017",
+      "lat": 10.365347,
+      "lon": -75.47011,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDE3IiwiZXhwIjoxNzkwMjMyMTUwfQ.9fexL5Xnx1VhPAhYC2-2HThKw0JZ_wg5DRSe9XDrMBc",
+      "expira_en": "2026-09-24T06:42:30.964418+00:00"
+    },
+    {
+      "session_id": "sesion-00018",
+      "cliente_id": "cliente-00018",
+      "device_id": "dispositivo-bogota-00018",
+      "lat": 4.685096,
+      "lon": -74.057737,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDE4IiwiZXhwIjoxNzkwMjMyMTUwfQ.mCS4emaU571_AePU87AShZpYvQXS5ouwC0LYv5laHtw",
+      "expira_en": "2026-09-24T06:42:30.967263+00:00"
+    },
+    {
+      "session_id": "sesion-00019",
+      "cliente_id": "cliente-00019",
+      "device_id": "dispositivo-medellin-00019",
+      "lat": 6.202338,
+      "lon": -75.555932,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDE5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMTkiLCJleHAiOjE3OTAyMzIxNTB9.RWnDuSUbZQbZOfLGmRNhnqgcxZs30ioLlGlpxXB4m1I",
+      "expira_en": "2026-09-24T06:42:30.970142+00:00"
+    },
+    {
+      "session_id": "sesion-00020",
+      "cliente_id": "cliente-00020",
+      "device_id": "dispositivo-cali-00020",
+      "lat": 3.455747,
+      "lon": -76.528574,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDIwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAyMCIsImV4cCI6MTc5MDIzMjE1MH0.Zy0tBbJyUyVvr-kVRC57CC6qKTJ2-KIzvwvHxZ_q3MQ",
+      "expira_en": "2026-09-24T06:42:30.973359+00:00"
+    },
+    {
+      "session_id": "sesion-00021",
+      "cliente_id": "cliente-00021",
+      "device_id": "dispositivo-barranquilla-00021",
+      "lat": 10.950889,
+      "lon": -74.828402,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDIxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDIxIiwiZXhwIjoxNzkwMjMyMTUwfQ.H2mu64OhfZNJF0R1UVZ8Mo8u0R-A0CABp0XNWjdBI_c",
+      "expira_en": "2026-09-24T06:42:30.976359+00:00"
+    },
+    {
+      "session_id": "sesion-00022",
+      "cliente_id": "cliente-00022",
+      "device_id": "dispositivo-bucaramanga-00022",
+      "lat": 7.121153,
+      "lon": -73.115828,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDIyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMjIiLCJleHAiOjE3OTAyMzIxNTB9.IQi82naz9J8CvA2Q01ZAlmc2eSTxK4qsIfKvwuKJSio",
+      "expira_en": "2026-09-24T06:42:30.979347+00:00"
+    },
+    {
+      "session_id": "sesion-00023",
+      "cliente_id": "cliente-00023",
+      "device_id": "dispositivo-cartagena-00023",
+      "lat": 10.417121,
+      "lon": -75.444308,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDIzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDIzIiwiZXhwIjoxNzkwMjMyMTUwfQ.G3AkHujlu0xkAvSG8UtP3IVwBbY57eqyx2Qx5x0snOA",
+      "expira_en": "2026-09-24T06:42:30.982407+00:00"
+    },
+    {
+      "session_id": "sesion-00024",
+      "cliente_id": "cliente-00024",
+      "device_id": "dispositivo-bogota-00024",
+      "lat": 4.743346,
+      "lon": -74.116128,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDI0IiwiZXhwIjoxNzkwMjMyMTUwfQ.RUsqFl_Rr0iT1algTx72HUvct3J3vU-J5NMYMi8C6Ps",
+      "expira_en": "2026-09-24T06:42:30.985514+00:00"
+    },
+    {
+      "session_id": "sesion-00025",
+      "cliente_id": "cliente-00025",
+      "device_id": "dispositivo-medellin-00025",
+      "lat": 6.220069,
+      "lon": -75.5506,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMjUiLCJleHAiOjE3OTAyMzIxNTB9.7RrfQ5160RVGrF_9f4OTDx59wQMSWCZObAJ2_ldbkXw",
+      "expira_en": "2026-09-24T06:42:30.988560+00:00"
+    },
+    {
+      "session_id": "sesion-00026",
+      "cliente_id": "cliente-00026",
+      "device_id": "dispositivo-cali-00026",
+      "lat": 3.494371,
+      "lon": -76.538894,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAyNiIsImV4cCI6MTc5MDIzMjE1MH0.07B74jSf7MqUFf0O-6oyoqofNV92cds_ERLWla4UW0I",
+      "expira_en": "2026-09-24T06:42:30.991431+00:00"
+    },
+    {
+      "session_id": "sesion-00027",
+      "cliente_id": "cliente-00027",
+      "device_id": "dispositivo-barranquilla-00027",
+      "lat": 10.973052,
+      "lon": -74.827114,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDI3IiwiZXhwIjoxNzkwMjMyMTUwfQ.j7QRa4omq5mxHnWEojcOkfA4Dugn6470WroBnteoL0w",
+      "expira_en": "2026-09-24T06:42:30.994310+00:00"
+    },
+    {
+      "session_id": "sesion-00028",
+      "cliente_id": "cliente-00028",
+      "device_id": "dispositivo-bucaramanga-00028",
+      "lat": 7.140837,
+      "lon": -73.165262,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMjgiLCJleHAiOjE3OTAyMzIxNTB9.wyAJoPKb86akHrkp17oe1VkQPAulSrCnvBKAWzP7ooA",
+      "expira_en": "2026-09-24T06:42:30.997429+00:00"
+    },
+    {
+      "session_id": "sesion-00029",
+      "cliente_id": "cliente-00029",
+      "device_id": "dispositivo-cartagena-00029",
+      "lat": 10.352922,
+      "lon": -75.502247,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDI5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDI5IiwiZXhwIjoxNzkwMjMyMTUxfQ.UH5avH5k4CeCLC38JHqHyOyXZdz_I5P7OjHwfqJ5BRo",
+      "expira_en": "2026-09-24T06:42:31.000582+00:00"
+    },
+    {
+      "session_id": "sesion-00030",
+      "cliente_id": "cliente-00030",
+      "device_id": "dispositivo-bogota-00030",
+      "lat": 4.707327,
+      "lon": -74.0861,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDMwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDMwIiwiZXhwIjoxNzkwMjMyMTUxfQ.dk9C-PYtsfhQpeT3840cJC08GlHbwBVlt3pc97hZmac",
+      "expira_en": "2026-09-24T06:42:31.003545+00:00"
+    },
+    {
+      "session_id": "sesion-00031",
+      "cliente_id": "cliente-00031",
+      "device_id": "dispositivo-medellin-00031",
+      "lat": 6.219705,
+      "lon": -75.613162,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDMxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMzEiLCJleHAiOjE3OTAyMzIxNTF9.TpTvT4nOSG0tegoEFY4Vmt3pVVv0T2rlJynBL62BomI",
+      "expira_en": "2026-09-24T06:42:31.006662+00:00"
+    },
+    {
+      "session_id": "sesion-00032",
+      "cliente_id": "cliente-00032",
+      "device_id": "dispositivo-cali-00032",
+      "lat": 3.477241,
+      "lon": -76.486576,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDMyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAzMiIsImV4cCI6MTc5MDIzMjE1MX0.K-kTrPPdyqCc2vnNpjQs7bgs52JFuQJ_cSbgKvFP4q8",
+      "expira_en": "2026-09-24T06:42:31.009505+00:00"
+    },
+    {
+      "session_id": "sesion-00033",
+      "cliente_id": "cliente-00033",
+      "device_id": "dispositivo-barranquilla-00033",
+      "lat": 10.983975,
+      "lon": -74.781252,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDMzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDMzIiwiZXhwIjoxNzkwMjMyMTUxfQ.wCnIV0P-tBBwqit-BaVkcK9PQ0ZfVmn4CxpH2-8vyNo",
+      "expira_en": "2026-09-24T06:42:31.012627+00:00"
+    },
+    {
+      "session_id": "sesion-00034",
+      "cliente_id": "cliente-00034",
+      "device_id": "dispositivo-bucaramanga-00034",
+      "lat": 7.104271,
+      "lon": -73.161038,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwMzQiLCJleHAiOjE3OTAyMzIxNTF9.w_Gy95f7aC4o9t3wB0uQyXU1fGj-_zyZjxqS2HJDDVw",
+      "expira_en": "2026-09-24T06:42:31.015816+00:00"
+    },
+    {
+      "session_id": "sesion-00035",
+      "cliente_id": "cliente-00035",
+      "device_id": "dispositivo-cartagena-00035",
+      "lat": 10.411396,
+      "lon": -75.488931,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDM1IiwiZXhwIjoxNzkwMjMyMTUxfQ.Z-9nMzsLtbBij-_JIyaMKac7vErZUkOf-HFH9Zm_724",
+      "expira_en": "2026-09-24T06:42:31.018899+00:00"
+    },
+    {
+      "session_id": "sesion-00036",
+      "cliente_id": "cliente-00036",
+      "device_id": "dispositivo-bogota-00036",
+      "lat": 4.671175,
+      "lon": -74.032843,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDM2IiwiZXhwIjoxNzkwMjMyMTUxfQ.XgMPWahWs-7hpVFwv1Cs3564MqR0Fwflle_po-nMiW8",
+      "expira_en": "2026-09-24T06:42:31.021974+00:00"
+    },
+    {
+      "session_id": "sesion-00037",
+      "cliente_id": "cliente-00037",
+      "device_id": "dispositivo-medellin-00037",
+      "lat": 6.208297,
+      "lon": -75.588243,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwMzciLCJleHAiOjE3OTAyMzIxNTF9.uIDAwxFUz5YL5CesHWuK2pEkOsoJAhXfacW9uKpuyVI",
+      "expira_en": "2026-09-24T06:42:31.024948+00:00"
+    },
+    {
+      "session_id": "sesion-00038",
+      "cliente_id": "cliente-00038",
+      "device_id": "dispositivo-cali-00038",
+      "lat": 3.404896,
+      "lon": -76.523612,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDAzOCIsImV4cCI6MTc5MDIzMjE1MX0.LS5KcJzK7bfs1OH_wQIXi3kk-k3f-U0F5e5XWjHJR-M",
+      "expira_en": "2026-09-24T06:42:31.027907+00:00"
+    },
+    {
+      "session_id": "sesion-00039",
+      "cliente_id": "cliente-00039",
+      "device_id": "dispositivo-barranquilla-00039",
+      "lat": 10.954542,
+      "lon": -74.763105,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDM5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDM5IiwiZXhwIjoxNzkwMjMyMTUxfQ._NOZhXdSe2X6-iHR-DgrJ0W5a84OIy8EjH9s4td3EQw",
+      "expira_en": "2026-09-24T06:42:31.031163+00:00"
+    },
+    {
+      "session_id": "sesion-00040",
+      "cliente_id": "cliente-00040",
+      "device_id": "dispositivo-bucaramanga-00040",
+      "lat": 7.124459,
+      "lon": -73.086485,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNDAiLCJleHAiOjE3OTAyMzIxNTF9.0mMb3iJHMAouS0OYAaWPSCNcSwSms6LTp02VNXWNgKM",
+      "expira_en": "2026-09-24T06:42:31.034539+00:00"
+    },
+    {
+      "session_id": "sesion-00041",
+      "cliente_id": "cliente-00041",
+      "device_id": "dispositivo-cartagena-00041",
+      "lat": 10.416239,
+      "lon": -75.478914,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDQxIiwiZXhwIjoxNzkwMjMyMTUxfQ.W9mfaZ1teXfwYoXV6b6mqBlM6xwm6tYJGADPRTG32i0",
+      "expira_en": "2026-09-24T06:42:31.037864+00:00"
+    },
+    {
+      "session_id": "sesion-00042",
+      "cliente_id": "cliente-00042",
+      "device_id": "dispositivo-bogota-00042",
+      "lat": 4.719422,
+      "lon": -74.07569,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDQyIiwiZXhwIjoxNzkwMjMyMTUxfQ.o-QNOxMZ1OjpIwzdmyb4fN5Kuc0jSMV6kHZIvj6P9CE",
+      "expira_en": "2026-09-24T06:42:31.042617+00:00"
+    },
+    {
+      "session_id": "sesion-00043",
+      "cliente_id": "cliente-00043",
+      "device_id": "dispositivo-medellin-00043",
+      "lat": 6.223744,
+      "lon": -75.615925,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNDMiLCJleHAiOjE3OTAyMzIxNTF9._rj-fe_cdEisnMgKpZVamhlo_AFSSCKzpCsVAdcpxaU",
+      "expira_en": "2026-09-24T06:42:31.047152+00:00"
+    },
+    {
+      "session_id": "sesion-00044",
+      "cliente_id": "cliente-00044",
+      "device_id": "dispositivo-cali-00044",
+      "lat": 3.408473,
+      "lon": -76.489171,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA0NCIsImV4cCI6MTc5MDIzMjE1MX0.RErdGQIADCwppUkRvKpkp5iLKLh5T5L5uFTrRUltyvE",
+      "expira_en": "2026-09-24T06:42:31.053237+00:00"
+    },
+    {
+      "session_id": "sesion-00045",
+      "cliente_id": "cliente-00045",
+      "device_id": "dispositivo-barranquilla-00045",
+      "lat": 10.942017,
+      "lon": -74.806868,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDQ1IiwiZXhwIjoxNzkwMjMyMTUxfQ.orSVJFR7T30Ac5dZnpBgDCXW_IVaTUfpfAynyx-JTN0",
+      "expira_en": "2026-09-24T06:42:31.057277+00:00"
+    },
+    {
+      "session_id": "sesion-00046",
+      "cliente_id": "cliente-00046",
+      "device_id": "dispositivo-bucaramanga-00046",
+      "lat": 7.098987,
+      "lon": -73.163261,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNDYiLCJleHAiOjE3OTAyMzIxNTF9.KNJ9qDtqoWH84_Rb_PaM7lgNwEwvzu6gkkZGcLZT0yQ",
+      "expira_en": "2026-09-24T06:42:31.060504+00:00"
+    },
+    {
+      "session_id": "sesion-00047",
+      "cliente_id": "cliente-00047",
+      "device_id": "dispositivo-cartagena-00047",
+      "lat": 10.427564,
+      "lon": -75.507997,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDQ3IiwiZXhwIjoxNzkwMjMyMTUxfQ.IxHaFtEzUS8ohLPDSfIG63F18dv7s1GTkiwAQabYX3I",
+      "expira_en": "2026-09-24T06:42:31.064097+00:00"
+    },
+    {
+      "session_id": "sesion-00048",
+      "cliente_id": "cliente-00048",
+      "device_id": "dispositivo-bogota-00048",
+      "lat": 4.66786,
+      "lon": -74.099341,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDQ4IiwiZXhwIjoxNzkwMjMyMTUxfQ.sRp4dGxN1mZNa6vMFdr7QTqUGmBf0XCZaoW4-C5LoTI",
+      "expira_en": "2026-09-24T06:42:31.068265+00:00"
+    },
+    {
+      "session_id": "sesion-00049",
+      "cliente_id": "cliente-00049",
+      "device_id": "dispositivo-medellin-00049",
+      "lat": 6.211487,
+      "lon": -75.628617,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDQ5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNDkiLCJleHAiOjE3OTAyMzIxNTF9.gXECOo9d5-v47vDfxwdUyFtVuN9QwEuvcQ5SsaldBBc",
+      "expira_en": "2026-09-24T06:42:31.072034+00:00"
+    },
+    {
+      "session_id": "sesion-00050",
+      "cliente_id": "cliente-00050",
+      "device_id": "dispositivo-cali-00050",
+      "lat": 3.423328,
+      "lon": -76.540114,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDUwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA1MCIsImV4cCI6MTc5MDIzMjE1MX0.d7cRd4ry-CslVArDXnQc1vJTV2a3RzVpDmY1_PrXxwo",
+      "expira_en": "2026-09-24T06:42:31.075179+00:00"
+    },
+    {
+      "session_id": "sesion-00051",
+      "cliente_id": "cliente-00051",
+      "device_id": "dispositivo-barranquilla-00051",
+      "lat": 10.995875,
+      "lon": -74.735373,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDUxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDUxIiwiZXhwIjoxNzkwMjMyMTUxfQ.raqw_ZZgk-zThekEXTOrcF27CxmJnB34d97Th180qto",
+      "expira_en": "2026-09-24T06:42:31.078210+00:00"
+    },
+    {
+      "session_id": "sesion-00052",
+      "cliente_id": "cliente-00052",
+      "device_id": "dispositivo-bucaramanga-00052",
+      "lat": 7.081704,
+      "lon": -73.164061,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDUyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNTIiLCJleHAiOjE3OTAyMzIxNTF9.PhLualmjZcMM5xU3M-GEwI_8zA6qGAXRKUmbYPyCxGY",
+      "expira_en": "2026-09-24T06:42:31.081300+00:00"
+    },
+    {
+      "session_id": "sesion-00053",
+      "cliente_id": "cliente-00053",
+      "device_id": "dispositivo-cartagena-00053",
+      "lat": 10.433506,
+      "lon": -75.472841,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDUzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDUzIiwiZXhwIjoxNzkwMjMyMTUxfQ.lgqZjW3pYZJLcglB8_Vp8uMVmFsyr8Na07zBmeTcfuU",
+      "expira_en": "2026-09-24T06:42:31.084459+00:00"
+    },
+    {
+      "session_id": "sesion-00054",
+      "cliente_id": "cliente-00054",
+      "device_id": "dispositivo-bogota-00054",
+      "lat": 4.694525,
+      "lon": -74.121041,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDU0IiwiZXhwIjoxNzkwMjMyMTUxfQ.3wkyZc9VifHgZnEgAye_Svq3y6Q-Va5gKeeIuuN9ZC0",
+      "expira_en": "2026-09-24T06:42:31.087378+00:00"
+    },
+    {
+      "session_id": "sesion-00055",
+      "cliente_id": "cliente-00055",
+      "device_id": "dispositivo-medellin-00055",
+      "lat": 6.217315,
+      "lon": -75.62196,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNTUiLCJleHAiOjE3OTAyMzIxNTF9.ZhIZaHGq5XXoa85bEm-bqa8FO_5B5fnkkMoo9Fo-t68",
+      "expira_en": "2026-09-24T06:42:31.090447+00:00"
+    },
+    {
+      "session_id": "sesion-00056",
+      "cliente_id": "cliente-00056",
+      "device_id": "dispositivo-cali-00056",
+      "lat": 3.408223,
+      "lon": -76.527544,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA1NiIsImV4cCI6MTc5MDIzMjE1MX0.tfa6k7YPBSGhyHe0r10tp6W5I-tQ2z97WdhtNozM94M",
+      "expira_en": "2026-09-24T06:42:31.093419+00:00"
+    },
+    {
+      "session_id": "sesion-00057",
+      "cliente_id": "cliente-00057",
+      "device_id": "dispositivo-barranquilla-00057",
+      "lat": 10.95286,
+      "lon": -74.781939,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDU3IiwiZXhwIjoxNzkwMjMyMTUxfQ.Nx5BdOdMcGduiY86zWk9tIjOLz3MjnXJENGKUDxCFIQ",
+      "expira_en": "2026-09-24T06:42:31.096448+00:00"
+    },
+    {
+      "session_id": "sesion-00058",
+      "cliente_id": "cliente-00058",
+      "device_id": "dispositivo-bucaramanga-00058",
+      "lat": 7.083067,
+      "lon": -73.146311,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNTgiLCJleHAiOjE3OTAyMzIxNTF9.9DzHCc7iuVpCgDt1PiVAXpa-Z77mMR02YxlHEmijFPs",
+      "expira_en": "2026-09-24T06:42:31.099823+00:00"
+    },
+    {
+      "session_id": "sesion-00059",
+      "cliente_id": "cliente-00059",
+      "device_id": "dispositivo-cartagena-00059",
+      "lat": 10.402497,
+      "lon": -75.515223,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDU5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDU5IiwiZXhwIjoxNzkwMjMyMTUxfQ.fdZT384W-TaCCIJe6jaADhKNKkZDLq8i9YsJFSU7H18",
+      "expira_en": "2026-09-24T06:42:31.103039+00:00"
+    },
+    {
+      "session_id": "sesion-00060",
+      "cliente_id": "cliente-00060",
+      "device_id": "dispositivo-bogota-00060",
+      "lat": 4.71207,
+      "lon": -74.063657,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDYwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDYwIiwiZXhwIjoxNzkwMjMyMTUxfQ.hh7Vy9VQJA2NslV03k_rsyQAr5n_JzCnVfqzjDeET-g",
+      "expira_en": "2026-09-24T06:42:31.106025+00:00"
+    },
+    {
+      "session_id": "sesion-00061",
+      "cliente_id": "cliente-00061",
+      "device_id": "dispositivo-medellin-00061",
+      "lat": 6.216737,
+      "lon": -75.583426,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDYxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNjEiLCJleHAiOjE3OTAyMzIxNTF9.nzThzi1ChcUMhQR1sv2ClY0B9De2w8y_jmefcu8O-LY",
+      "expira_en": "2026-09-24T06:42:31.109151+00:00"
+    },
+    {
+      "session_id": "sesion-00062",
+      "cliente_id": "cliente-00062",
+      "device_id": "dispositivo-cali-00062",
+      "lat": 3.466705,
+      "lon": -76.574054,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDYyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA2MiIsImV4cCI6MTc5MDIzMjE1MX0.FKIaU5oOIuDI76h7fKAm29E7YmYDnfJuVeAHbtXqAuU",
+      "expira_en": "2026-09-24T06:42:31.112135+00:00"
+    },
+    {
+      "session_id": "sesion-00063",
+      "cliente_id": "cliente-00063",
+      "device_id": "dispositivo-barranquilla-00063",
+      "lat": 10.974088,
+      "lon": -74.745123,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDYzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDYzIiwiZXhwIjoxNzkwMjMyMTUxfQ.WbuJzGSuTAM2EdhulidwJbUiMKCLt62hVKEooYsY0D8",
+      "expira_en": "2026-09-24T06:42:31.115312+00:00"
+    },
+    {
+      "session_id": "sesion-00064",
+      "cliente_id": "cliente-00064",
+      "device_id": "dispositivo-bucaramanga-00064",
+      "lat": 7.165424,
+      "lon": -73.141529,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNjQiLCJleHAiOjE3OTAyMzIxNTF9.MGLHnBW3bU790IwI65mK0v1682pIIiva68oOKVAASRs",
+      "expira_en": "2026-09-24T06:42:31.118457+00:00"
+    },
+    {
+      "session_id": "sesion-00065",
+      "cliente_id": "cliente-00065",
+      "device_id": "dispositivo-cartagena-00065",
+      "lat": 10.418954,
+      "lon": -75.475495,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDY1IiwiZXhwIjoxNzkwMjMyMTUxfQ.tQxYB6dWc5cFuffvGGg7m-fxzbSs_ct5TuefCsHSmFw",
+      "expira_en": "2026-09-24T06:42:31.121667+00:00"
+    },
+    {
+      "session_id": "sesion-00066",
+      "cliente_id": "cliente-00066",
+      "device_id": "dispositivo-bogota-00066",
+      "lat": 4.745706,
+      "lon": -74.087076,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDY2IiwiZXhwIjoxNzkwMjMyMTUxfQ.ag0_KJZqfq04epRtlUpRdb-Ba50y2pgXkOfDOhs56M4",
+      "expira_en": "2026-09-24T06:42:31.124788+00:00"
+    },
+    {
+      "session_id": "sesion-00067",
+      "cliente_id": "cliente-00067",
+      "device_id": "dispositivo-medellin-00067",
+      "lat": 6.201757,
+      "lon": -75.571967,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNjciLCJleHAiOjE3OTAyMzIxNTF9.zgS3yp3MB-Euf5J2Pw5lDLcZtQWhEunSCeUJzYgYdSg",
+      "expira_en": "2026-09-24T06:42:31.127881+00:00"
+    },
+    {
+      "session_id": "sesion-00068",
+      "cliente_id": "cliente-00068",
+      "device_id": "dispositivo-cali-00068",
+      "lat": 3.467637,
+      "lon": -76.54734,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA2OCIsImV4cCI6MTc5MDIzMjE1MX0.Pe0LeMQ-sNY1JyKaRsImbhchfWM7hjEgfhjNjta8luU",
+      "expira_en": "2026-09-24T06:42:31.130934+00:00"
+    },
+    {
+      "session_id": "sesion-00069",
+      "cliente_id": "cliente-00069",
+      "device_id": "dispositivo-barranquilla-00069",
+      "lat": 10.982173,
+      "lon": -74.747436,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDY5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDY5IiwiZXhwIjoxNzkwMjMyMTUxfQ.P1dfjTFrdCAtBAvlvMSup17fjf44DUvkkVzXiIr7TVg",
+      "expira_en": "2026-09-24T06:42:31.134094+00:00"
+    },
+    {
+      "session_id": "sesion-00070",
+      "cliente_id": "cliente-00070",
+      "device_id": "dispositivo-bucaramanga-00070",
+      "lat": 7.129524,
+      "lon": -73.109097,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDcwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNzAiLCJleHAiOjE3OTAyMzIxNTF9.AdVYE3rJRcWWBzVeZKvX_IOYPb-g8VMruLlGTHbPPcI",
+      "expira_en": "2026-09-24T06:42:31.137067+00:00"
+    },
+    {
+      "session_id": "sesion-00071",
+      "cliente_id": "cliente-00071",
+      "device_id": "dispositivo-cartagena-00071",
+      "lat": 10.368886,
+      "lon": -75.444962,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDcxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDcxIiwiZXhwIjoxNzkwMjMyMTUxfQ.nIENEL-c2MpysrOyQxXDUANfD5P1W3Yb5dx9L68PWCs",
+      "expira_en": "2026-09-24T06:42:31.140066+00:00"
+    },
+    {
+      "session_id": "sesion-00072",
+      "cliente_id": "cliente-00072",
+      "device_id": "dispositivo-bogota-00072",
+      "lat": 4.694154,
+      "lon": -74.061824,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDcyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDcyIiwiZXhwIjoxNzkwMjMyMTUxfQ.XHG3x2t0A5MIWTiDTW6XXKKbzMkq7HtkYHM2u9O4xMw",
+      "expira_en": "2026-09-24T06:42:31.142986+00:00"
+    },
+    {
+      "session_id": "sesion-00073",
+      "cliente_id": "cliente-00073",
+      "device_id": "dispositivo-medellin-00073",
+      "lat": 6.211953,
+      "lon": -75.589084,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDczIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNzMiLCJleHAiOjE3OTAyMzIxNTF9.DuXzk6tu1MQI6PSPZO-C6ZTcZjhzKrU1bxM5SATkNI8",
+      "expira_en": "2026-09-24T06:42:31.146092+00:00"
+    },
+    {
+      "session_id": "sesion-00074",
+      "cliente_id": "cliente-00074",
+      "device_id": "dispositivo-cali-00074",
+      "lat": 3.416185,
+      "lon": -76.497792,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA3NCIsImV4cCI6MTc5MDIzMjE1MX0.D8qm7A-sIa9fIgPF9RvNC9eKTKVpiq5mwQzu3cwGFh4",
+      "expira_en": "2026-09-24T06:42:31.149042+00:00"
+    },
+    {
+      "session_id": "sesion-00075",
+      "cliente_id": "cliente-00075",
+      "device_id": "dispositivo-barranquilla-00075",
+      "lat": 10.988683,
+      "lon": -74.823255,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDc1IiwiZXhwIjoxNzkwMjMyMTUxfQ.TMZKFK9b5kZyVMjlKQgv_cn7GlIT5BdCu84-bNNE_-s",
+      "expira_en": "2026-09-24T06:42:31.152086+00:00"
+    },
+    {
+      "session_id": "sesion-00076",
+      "cliente_id": "cliente-00076",
+      "device_id": "dispositivo-bucaramanga-00076",
+      "lat": 7.087187,
+      "lon": -73.129926,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwNzYiLCJleHAiOjE3OTAyMzIxNTF9.kY5gY3qa7c_CYxklq8GdRUdOgVoBle8-bfcm6A5Ar-Y",
+      "expira_en": "2026-09-24T06:42:31.154926+00:00"
+    },
+    {
+      "session_id": "sesion-00077",
+      "cliente_id": "cliente-00077",
+      "device_id": "dispositivo-cartagena-00077",
+      "lat": 10.36512,
+      "lon": -75.480041,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDc3IiwiZXhwIjoxNzkwMjMyMTUxfQ.FF6dp2CIYUBmkSxK3EBX77znloQs1BOVGPB9N6F09H4",
+      "expira_en": "2026-09-24T06:42:31.157876+00:00"
+    },
+    {
+      "session_id": "sesion-00078",
+      "cliente_id": "cliente-00078",
+      "device_id": "dispositivo-bogota-00078",
+      "lat": 4.688064,
+      "lon": -74.112456,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDc4IiwiZXhwIjoxNzkwMjMyMTUxfQ.lmTARw0f8i8jfUi5XcW7q5BUavIyJ33G_8mdis97Su4",
+      "expira_en": "2026-09-24T06:42:31.161308+00:00"
+    },
+    {
+      "session_id": "sesion-00079",
+      "cliente_id": "cliente-00079",
+      "device_id": "dispositivo-medellin-00079",
+      "lat": 6.261377,
+      "lon": -75.571118,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDc5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwNzkiLCJleHAiOjE3OTAyMzIxNTF9.7gu9q-lhnj0O6vbsMKPz6tgvuQZuLgD6_8JwssrC7WM",
+      "expira_en": "2026-09-24T06:42:31.168460+00:00"
+    },
+    {
+      "session_id": "sesion-00080",
+      "cliente_id": "cliente-00080",
+      "device_id": "dispositivo-cali-00080",
+      "lat": 3.425552,
+      "lon": -76.489004,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDgwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA4MCIsImV4cCI6MTc5MDIzMjE1MX0.HaRQUjzf1EX_Z8CPGnibmbdNN9Zx7IhWJhzRplbp6IQ",
+      "expira_en": "2026-09-24T06:42:31.173822+00:00"
+    },
+    {
+      "session_id": "sesion-00081",
+      "cliente_id": "cliente-00081",
+      "device_id": "dispositivo-barranquilla-00081",
+      "lat": 10.948859,
+      "lon": -74.74421,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDgxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDgxIiwiZXhwIjoxNzkwMjMyMTUxfQ.bMn6Tp6-AIf9YaZ7ZiCU2YUw5LuCQz9zkRu8u_z8PlI",
+      "expira_en": "2026-09-24T06:42:31.177517+00:00"
+    },
+    {
+      "session_id": "sesion-00082",
+      "cliente_id": "cliente-00082",
+      "device_id": "dispositivo-bucaramanga-00082",
+      "lat": 7.091466,
+      "lon": -73.100097,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDgyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwODIiLCJleHAiOjE3OTAyMzIxNTF9.kkefi-H45x9BtpD_iQA4Ycf2Dgpwti4ESzKZ3QablJc",
+      "expira_en": "2026-09-24T06:42:31.181022+00:00"
+    },
+    {
+      "session_id": "sesion-00083",
+      "cliente_id": "cliente-00083",
+      "device_id": "dispositivo-cartagena-00083",
+      "lat": 10.405421,
+      "lon": -75.476635,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDgzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDgzIiwiZXhwIjoxNzkwMjMyMTUxfQ.LqXOQxTb_1BI2ZQxeXdGt6oIMP2RraRhlg8F-0AQJ3s",
+      "expira_en": "2026-09-24T06:42:31.185535+00:00"
+    },
+    {
+      "session_id": "sesion-00084",
+      "cliente_id": "cliente-00084",
+      "device_id": "dispositivo-bogota-00084",
+      "lat": 4.753545,
+      "lon": -74.067335,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDg0IiwiZXhwIjoxNzkwMjMyMTUxfQ.rBpno7R_N9P0TszXypaewi_Mv4YU92EB-4xxZqKhWdA",
+      "expira_en": "2026-09-24T06:42:31.189364+00:00"
+    },
+    {
+      "session_id": "sesion-00085",
+      "cliente_id": "cliente-00085",
+      "device_id": "dispositivo-medellin-00085",
+      "lat": 6.222692,
+      "lon": -75.554834,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwODUiLCJleHAiOjE3OTAyMzIxNTF9.WwIw03toiVeclb-viXVaD2X3oCk_AKU3nSTkV40vv8o",
+      "expira_en": "2026-09-24T06:42:31.192571+00:00"
+    },
+    {
+      "session_id": "sesion-00086",
+      "cliente_id": "cliente-00086",
+      "device_id": "dispositivo-cali-00086",
+      "lat": 3.404379,
+      "lon": -76.510386,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA4NiIsImV4cCI6MTc5MDIzMjE1MX0.3MOW2qt8yBQTL27_Uz_swoDjNOF46AlA4iGdiOk72xI",
+      "expira_en": "2026-09-24T06:42:31.195628+00:00"
+    },
+    {
+      "session_id": "sesion-00087",
+      "cliente_id": "cliente-00087",
+      "device_id": "dispositivo-barranquilla-00087",
+      "lat": 10.970407,
+      "lon": -74.798981,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDg3IiwiZXhwIjoxNzkwMjMyMTUxfQ.LINhHlgCJ86X99FCrVOWbIsbOCPcZ8L7zp2Z5CeybiY",
+      "expira_en": "2026-09-24T06:42:31.198731+00:00"
+    },
+    {
+      "session_id": "sesion-00088",
+      "cliente_id": "cliente-00088",
+      "device_id": "dispositivo-bucaramanga-00088",
+      "lat": 7.101766,
+      "lon": -73.132041,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwODgiLCJleHAiOjE3OTAyMzIxNTF9.Bi1uLq-rxRyF29PFQAM0KmaIV1S9IdV0-lepEinOxA0",
+      "expira_en": "2026-09-24T06:42:31.201923+00:00"
+    },
+    {
+      "session_id": "sesion-00089",
+      "cliente_id": "cliente-00089",
+      "device_id": "dispositivo-cartagena-00089",
+      "lat": 10.435951,
+      "lon": -75.441665,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDg5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDg5IiwiZXhwIjoxNzkwMjMyMTUxfQ.BSwB7tlFguEh-ILslhkt6nLzAb-Vk-uvtsG-eBAoOWo",
+      "expira_en": "2026-09-24T06:42:31.204842+00:00"
+    },
+    {
+      "session_id": "sesion-00090",
+      "cliente_id": "cliente-00090",
+      "device_id": "dispositivo-bogota-00090",
+      "lat": 4.704484,
+      "lon": -74.037493,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDkwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDkwIiwiZXhwIjoxNzkwMjMyMTUxfQ.WnxDLYgLTFBwZtUYayataC3f0KZDz63vTm1ZrMeBiGI",
+      "expira_en": "2026-09-24T06:42:31.207902+00:00"
+    },
+    {
+      "session_id": "sesion-00091",
+      "cliente_id": "cliente-00091",
+      "device_id": "dispositivo-medellin-00091",
+      "lat": 6.285942,
+      "lon": -75.56351,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDkxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwOTEiLCJleHAiOjE3OTAyMzIxNTF9.LzKNYc1dMU7n6kU9Cuufc85hl0SQfrn5iLeFsrmgbLA",
+      "expira_en": "2026-09-24T06:42:31.211608+00:00"
+    },
+    {
+      "session_id": "sesion-00092",
+      "cliente_id": "cliente-00092",
+      "device_id": "dispositivo-cali-00092",
+      "lat": 3.441799,
+      "lon": -76.579913,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDkyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA5MiIsImV4cCI6MTc5MDIzMjE1MX0.aB_gSYXniDsjZvuQACowy-DTFamKhjyQyBi-nfw1_Xk",
+      "expira_en": "2026-09-24T06:42:31.215847+00:00"
+    },
+    {
+      "session_id": "sesion-00093",
+      "cliente_id": "cliente-00093",
+      "device_id": "dispositivo-barranquilla-00093",
+      "lat": 11.010083,
+      "lon": -74.802204,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDkzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDkzIiwiZXhwIjoxNzkwMjMyMTUxfQ.y0el4CfZlgQ66ioKHxceU2WQyHV7E0CnrUgvAmxP82U",
+      "expira_en": "2026-09-24T06:42:31.219539+00:00"
+    },
+    {
+      "session_id": "sesion-00094",
+      "cliente_id": "cliente-00094",
+      "device_id": "dispositivo-bucaramanga-00094",
+      "lat": 7.098505,
+      "lon": -73.107743,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAwOTQiLCJleHAiOjE3OTAyMzIxNTF9.Zwe2ZUoEuHgj6F4HgDdASJuTXYzFwFPRg82xBMdijmE",
+      "expira_en": "2026-09-24T06:42:31.222683+00:00"
+    },
+    {
+      "session_id": "sesion-00095",
+      "cliente_id": "cliente-00095",
+      "device_id": "dispositivo-cartagena-00095",
+      "lat": 10.389549,
+      "lon": -75.43737,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMDk1IiwiZXhwIjoxNzkwMjMyMTUxfQ.ZsVM1RcnaN9foUfZuRwshMWWXeDv83bZ34pgMhvDz5I",
+      "expira_en": "2026-09-24T06:42:31.225711+00:00"
+    },
+    {
+      "session_id": "sesion-00096",
+      "cliente_id": "cliente-00096",
+      "device_id": "dispositivo-bogota-00096",
+      "lat": 4.680591,
+      "lon": -74.058967,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMDk2IiwiZXhwIjoxNzkwMjMyMTUxfQ.HHbCwg5knyXxk4EF7UoEsREzG4lPoDo4tvvwMZK_J50",
+      "expira_en": "2026-09-24T06:42:31.228819+00:00"
+    },
+    {
+      "session_id": "sesion-00097",
+      "cliente_id": "cliente-00097",
+      "device_id": "dispositivo-medellin-00097",
+      "lat": 6.264498,
+      "lon": -75.621609,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAwOTciLCJleHAiOjE3OTAyMzIxNTF9.7yr0dPhmHjJ5LVEWUCZCPDtHgZmTm2NFTuS3fR3oNf4",
+      "expira_en": "2026-09-24T06:42:31.231811+00:00"
+    },
+    {
+      "session_id": "sesion-00098",
+      "cliente_id": "cliente-00098",
+      "device_id": "dispositivo-cali-00098",
+      "lat": 3.463861,
+      "lon": -76.56559,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDA5OCIsImV4cCI6MTc5MDIzMjE1MX0.GlC7s0k6sJdbJQUo2pEDaGsRPqA9pwJG4j-Bib6_uT0",
+      "expira_en": "2026-09-24T06:42:31.234891+00:00"
+    },
+    {
+      "session_id": "sesion-00099",
+      "cliente_id": "cliente-00099",
+      "device_id": "dispositivo-barranquilla-00099",
+      "lat": 11.01831,
+      "lon": -74.825739,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMDk5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMDk5IiwiZXhwIjoxNzkwMjMyMTUxfQ.dvs-biH7xgrKsgOuftlqoh4E7UEfS6BM3iAr30iwBlU",
+      "expira_en": "2026-09-24T06:42:31.237910+00:00"
+    },
+    {
+      "session_id": "sesion-00100",
+      "cliente_id": "cliente-00100",
+      "device_id": "dispositivo-bucaramanga-00100",
+      "lat": 7.150134,
+      "lon": -73.128525,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTAwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMDAiLCJleHAiOjE3OTAyMzIxNTF9.8NhSHKn3MbP-pVrGdvJ5quhbSrT9-FYZfL6EJMd8Acs",
+      "expira_en": "2026-09-24T06:42:31.240952+00:00"
+    },
+    {
+      "session_id": "sesion-00101",
+      "cliente_id": "cliente-00101",
+      "device_id": "dispositivo-cartagena-00101",
+      "lat": 10.374277,
+      "lon": -75.49865,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTAxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTAxIiwiZXhwIjoxNzkwMjMyMTUxfQ.pIaNpA8kzAG6o572f0RhPECwRyIc9WfbLFh9ZB0yKaM",
+      "expira_en": "2026-09-24T06:42:31.244109+00:00"
+    },
+    {
+      "session_id": "sesion-00102",
+      "cliente_id": "cliente-00102",
+      "device_id": "dispositivo-bogota-00102",
+      "lat": 4.695817,
+      "lon": -74.042792,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTAyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTAyIiwiZXhwIjoxNzkwMjMyMTUxfQ.Xf8f0Hne_Bs_nUMcpPQXxV4SgW4PrnGWZvndAaoXUhA",
+      "expira_en": "2026-09-24T06:42:31.247083+00:00"
+    },
+    {
+      "session_id": "sesion-00103",
+      "cliente_id": "cliente-00103",
+      "device_id": "dispositivo-medellin-00103",
+      "lat": 6.26411,
+      "lon": -75.542763,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTAzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMDMiLCJleHAiOjE3OTAyMzIxNTF9.SqZCFYiOpsIc0TS7ZUTpNt8wpbnep_oXltIh0Z1KA88",
+      "expira_en": "2026-09-24T06:42:31.250173+00:00"
+    },
+    {
+      "session_id": "sesion-00104",
+      "cliente_id": "cliente-00104",
+      "device_id": "dispositivo-cali-00104",
+      "lat": 3.465845,
+      "lon": -76.568447,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDEwNCIsImV4cCI6MTc5MDIzMjE1MX0.bKjG56T644tR4w9Y8uxSxS3yEPuDHgHNQa5p6BS_egE",
+      "expira_en": "2026-09-24T06:42:31.253076+00:00"
+    },
+    {
+      "session_id": "sesion-00105",
+      "cliente_id": "cliente-00105",
+      "device_id": "dispositivo-barranquilla-00105",
+      "lat": 10.996465,
+      "lon": -74.774196,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTA1IiwiZXhwIjoxNzkwMjMyMTUxfQ.HhCYP_sAaibR5XnHN8CGkfNJbTkGR1n7QRagUMXx0Po",
+      "expira_en": "2026-09-24T06:42:31.256094+00:00"
+    },
+    {
+      "session_id": "sesion-00106",
+      "cliente_id": "cliente-00106",
+      "device_id": "dispositivo-bucaramanga-00106",
+      "lat": 7.149095,
+      "lon": -73.164498,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMDYiLCJleHAiOjE3OTAyMzIxNTF9.a6MUPe0DD-IJvgooSIyg_NK2u8ThVnlgQ5oiWWb8590",
+      "expira_en": "2026-09-24T06:42:31.259116+00:00"
+    },
+    {
+      "session_id": "sesion-00107",
+      "cliente_id": "cliente-00107",
+      "device_id": "dispositivo-cartagena-00107",
+      "lat": 10.38382,
+      "lon": -75.462424,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTA3IiwiZXhwIjoxNzkwMjMyMTUxfQ.dXKDyEz0vNJveXqNHsRo2shnxwRx5XSX4FwNvzpsbXk",
+      "expira_en": "2026-09-24T06:42:31.262202+00:00"
+    },
+    {
+      "session_id": "sesion-00108",
+      "cliente_id": "cliente-00108",
+      "device_id": "dispositivo-bogota-00108",
+      "lat": 4.702694,
+      "lon": -74.086657,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTA4IiwiZXhwIjoxNzkwMjMyMTUxfQ.u9ZmtzSqBXtbxvAabjhgFbqI1Z4KwznjMnYUcj40aNs",
+      "expira_en": "2026-09-24T06:42:31.265122+00:00"
+    },
+    {
+      "session_id": "sesion-00109",
+      "cliente_id": "cliente-00109",
+      "device_id": "dispositivo-medellin-00109",
+      "lat": 6.271835,
+      "lon": -75.612375,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTA5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMDkiLCJleHAiOjE3OTAyMzIxNTF9.Sgp-w1sJzA61C_zlLiuTFuq8FSrRevL0OUMwwg5ahFk",
+      "expira_en": "2026-09-24T06:42:31.268139+00:00"
+    },
+    {
+      "session_id": "sesion-00110",
+      "cliente_id": "cliente-00110",
+      "device_id": "dispositivo-cali-00110",
+      "lat": 3.4429,
+      "lon": -76.538603,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTEwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDExMCIsImV4cCI6MTc5MDIzMjE1MX0.KxugSwj8fqmKALqZCLFtY9K6lXeZVmox-KVr5K9pWI8",
+      "expira_en": "2026-09-24T06:42:31.271160+00:00"
+    },
+    {
+      "session_id": "sesion-00111",
+      "cliente_id": "cliente-00111",
+      "device_id": "dispositivo-barranquilla-00111",
+      "lat": 10.989795,
+      "lon": -74.822069,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTExIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTExIiwiZXhwIjoxNzkwMjMyMTUxfQ.pduWpObB1-sMMWOFhb6xRxtjM4LmzgocHAGee0txL3o",
+      "expira_en": "2026-09-24T06:42:31.274190+00:00"
+    },
+    {
+      "session_id": "sesion-00112",
+      "cliente_id": "cliente-00112",
+      "device_id": "dispositivo-bucaramanga-00112",
+      "lat": 7.120776,
+      "lon": -73.086132,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTEyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMTIiLCJleHAiOjE3OTAyMzIxNTF9.zAgZzphlP5FJN2iWMbtwft4pnzcoEnCm_9NmC7FfwTg",
+      "expira_en": "2026-09-24T06:42:31.277144+00:00"
+    },
+    {
+      "session_id": "sesion-00113",
+      "cliente_id": "cliente-00113",
+      "device_id": "dispositivo-cartagena-00113",
+      "lat": 10.395297,
+      "lon": -75.453336,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTEzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTEzIiwiZXhwIjoxNzkwMjMyMTUxfQ.PawIKHu97eFCRWYbuIIa-uVfnpGkutG0VfaQo_sh5vM",
+      "expira_en": "2026-09-24T06:42:31.280117+00:00"
+    },
+    {
+      "session_id": "sesion-00114",
+      "cliente_id": "cliente-00114",
+      "device_id": "dispositivo-bogota-00114",
+      "lat": 4.738253,
+      "lon": -74.083385,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTE0IiwiZXhwIjoxNzkwMjMyMTUxfQ.f6sHN3BG_rmQO_HBT4aDzsKf1bWT0EcEKDJAyibJbuc",
+      "expira_en": "2026-09-24T06:42:31.283117+00:00"
+    },
+    {
+      "session_id": "sesion-00115",
+      "cliente_id": "cliente-00115",
+      "device_id": "dispositivo-medellin-00115",
+      "lat": 6.290647,
+      "lon": -75.564496,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMTUiLCJleHAiOjE3OTAyMzIxNTF9._Pg30mjXwrMml8yO2FFs2VQFPMCJYbY6x7VZMFvpj28",
+      "expira_en": "2026-09-24T06:42:31.286203+00:00"
+    },
+    {
+      "session_id": "sesion-00116",
+      "cliente_id": "cliente-00116",
+      "device_id": "dispositivo-cali-00116",
+      "lat": 3.483708,
+      "lon": -76.532103,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDExNiIsImV4cCI6MTc5MDIzMjE1MX0.4fOTMFOx_1Ub0S6crF1UF6lYmufN5z7QNeTiS7N5-zw",
+      "expira_en": "2026-09-24T06:42:31.289148+00:00"
+    },
+    {
+      "session_id": "sesion-00117",
+      "cliente_id": "cliente-00117",
+      "device_id": "dispositivo-barranquilla-00117",
+      "lat": 10.933603,
+      "lon": -74.769717,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTE3IiwiZXhwIjoxNzkwMjMyMTUxfQ.1i4sFfUNcndgTvpFfgZZqszdArjaiQRX4qRbuStwuZU",
+      "expira_en": "2026-09-24T06:42:31.292181+00:00"
+    },
+    {
+      "session_id": "sesion-00118",
+      "cliente_id": "cliente-00118",
+      "device_id": "dispositivo-bucaramanga-00118",
+      "lat": 7.130166,
+      "lon": -73.076021,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMTgiLCJleHAiOjE3OTAyMzIxNTF9.QaKJbEV8QVRfDdr1O_Tp3bOzhz76v7gJtAoRCG9z43o",
+      "expira_en": "2026-09-24T06:42:31.295128+00:00"
+    },
+    {
+      "session_id": "sesion-00119",
+      "cliente_id": "cliente-00119",
+      "device_id": "dispositivo-cartagena-00119",
+      "lat": 10.426854,
+      "lon": -75.484186,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTE5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTE5IiwiZXhwIjoxNzkwMjMyMTUxfQ.TTizs9qceQMseCFvwGn-CriJ8PaPAqoEjkwUPTPhJp4",
+      "expira_en": "2026-09-24T06:42:31.297932+00:00"
+    },
+    {
+      "session_id": "sesion-00120",
+      "cliente_id": "cliente-00120",
+      "device_id": "dispositivo-bogota-00120",
+      "lat": 4.726087,
+      "lon": -74.037943,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTIwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTIwIiwiZXhwIjoxNzkwMjMyMTUxfQ.aFBc-RWfgNlWbQEhuKa4ZJTmRW_bG4AdgAI2QOxJB38",
+      "expira_en": "2026-09-24T06:42:31.301035+00:00"
+    },
+    {
+      "session_id": "sesion-00121",
+      "cliente_id": "cliente-00121",
+      "device_id": "dispositivo-medellin-00121",
+      "lat": 6.273968,
+      "lon": -75.578663,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTIxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMjEiLCJleHAiOjE3OTAyMzIxNTF9.3s2pguocGDfLmfeav4paEWcOZh23rbMKjRr9j67ePPU",
+      "expira_en": "2026-09-24T06:42:31.304084+00:00"
+    },
+    {
+      "session_id": "sesion-00122",
+      "cliente_id": "cliente-00122",
+      "device_id": "dispositivo-cali-00122",
+      "lat": 3.465186,
+      "lon": -76.503176,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTIyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDEyMiIsImV4cCI6MTc5MDIzMjE1MX0.53VrUkWimrzMZHtIwtKjtkH17WTllT7TbFWiux9ss2c",
+      "expira_en": "2026-09-24T06:42:31.307180+00:00"
+    },
+    {
+      "session_id": "sesion-00123",
+      "cliente_id": "cliente-00123",
+      "device_id": "dispositivo-barranquilla-00123",
+      "lat": 10.945487,
+      "lon": -74.768775,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTIzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTIzIiwiZXhwIjoxNzkwMjMyMTUxfQ.DDdizsOEskjM1EoPGbeVeB4zDznHh1rNpYWAOfyagYY",
+      "expira_en": "2026-09-24T06:42:31.310151+00:00"
+    },
+    {
+      "session_id": "sesion-00124",
+      "cliente_id": "cliente-00124",
+      "device_id": "dispositivo-bucaramanga-00124",
+      "lat": 7.104736,
+      "lon": -73.172378,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMjQiLCJleHAiOjE3OTAyMzIxNTF9.kqdBg6KqrVhBbpvUBrwLlNInmCzxsN_5R0sTFjGahA8",
+      "expira_en": "2026-09-24T06:42:31.313137+00:00"
+    },
+    {
+      "session_id": "sesion-00125",
+      "cliente_id": "cliente-00125",
+      "device_id": "dispositivo-cartagena-00125",
+      "lat": 10.365837,
+      "lon": -75.470589,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTI1IiwiZXhwIjoxNzkwMjMyMTUxfQ.ccliuZacteTM5Eub4ncq1zNyB5ZUvLZBtu5-bfAYkNY",
+      "expira_en": "2026-09-24T06:42:31.316161+00:00"
+    },
+    {
+      "session_id": "sesion-00126",
+      "cliente_id": "cliente-00126",
+      "device_id": "dispositivo-bogota-00126",
+      "lat": 4.728896,
+      "lon": -74.058683,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTI2IiwiZXhwIjoxNzkwMjMyMTUxfQ.9kdKKfkVrahInyKXVhkDW5NCcK4xirjaKAm1OraFo4w",
+      "expira_en": "2026-09-24T06:42:31.319423+00:00"
+    },
+    {
+      "session_id": "sesion-00127",
+      "cliente_id": "cliente-00127",
+      "device_id": "dispositivo-medellin-00127",
+      "lat": 6.262008,
+      "lon": -75.621048,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMjciLCJleHAiOjE3OTAyMzIxNTF9.sNzcVjbUYLar_-WjLHVwxrg9v5YrMawa88YmJ3J_LTw",
+      "expira_en": "2026-09-24T06:42:31.322512+00:00"
+    },
+    {
+      "session_id": "sesion-00128",
+      "cliente_id": "cliente-00128",
+      "device_id": "dispositivo-cali-00128",
+      "lat": 3.472857,
+      "lon": -76.521522,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDEyOCIsImV4cCI6MTc5MDIzMjE1MX0._nM-GGAtVWvvnX1ElhCD5f7mfR84MsW7Gu_9d2NkDZw",
+      "expira_en": "2026-09-24T06:42:31.325363+00:00"
+    },
+    {
+      "session_id": "sesion-00129",
+      "cliente_id": "cliente-00129",
+      "device_id": "dispositivo-barranquilla-00129",
+      "lat": 10.925728,
+      "lon": -74.796426,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTI5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTI5IiwiZXhwIjoxNzkwMjMyMTUxfQ.f6GxxkJcKik9U0zganIVV_rLuGDGDrpEx5NitNbQLKg",
+      "expira_en": "2026-09-24T06:42:31.328262+00:00"
+    },
+    {
+      "session_id": "sesion-00130",
+      "cliente_id": "cliente-00130",
+      "device_id": "dispositivo-bucaramanga-00130",
+      "lat": 7.110528,
+      "lon": -73.122391,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTMwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMzAiLCJleHAiOjE3OTAyMzIxNTF9.0qkyw2ln_TAq-hlp-3ygygTwgrxdyQRhlCgdoxVgJm8",
+      "expira_en": "2026-09-24T06:42:31.331420+00:00"
+    },
+    {
+      "session_id": "sesion-00131",
+      "cliente_id": "cliente-00131",
+      "device_id": "dispositivo-cartagena-00131",
+      "lat": 10.411147,
+      "lon": -75.515736,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTMxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTMxIiwiZXhwIjoxNzkwMjMyMTUxfQ.8J2pEz3VDLW5B2l1uhoHpIsozO_UYjTIxI9RALEX8IU",
+      "expira_en": "2026-09-24T06:42:31.334361+00:00"
+    },
+    {
+      "session_id": "sesion-00132",
+      "cliente_id": "cliente-00132",
+      "device_id": "dispositivo-bogota-00132",
+      "lat": 4.724894,
+      "lon": -74.11068,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTMyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTMyIiwiZXhwIjoxNzkwMjMyMTUxfQ.WGswCZsN2Up7zO0OO0RKhxp6cAjD8_zNcB5djpTy6lU",
+      "expira_en": "2026-09-24T06:42:31.337349+00:00"
+    },
+    {
+      "session_id": "sesion-00133",
+      "cliente_id": "cliente-00133",
+      "device_id": "dispositivo-medellin-00133",
+      "lat": 6.199526,
+      "lon": -75.621969,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTMzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMzMiLCJleHAiOjE3OTAyMzIxNTF9.OXraDyDqmL8eZR4b1ViP4O_w-sUPnFwtMNWYL1J3d5I",
+      "expira_en": "2026-09-24T06:42:31.340214+00:00"
+    },
+    {
+      "session_id": "sesion-00134",
+      "cliente_id": "cliente-00134",
+      "device_id": "dispositivo-cali-00134",
+      "lat": 3.415061,
+      "lon": -76.502928,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDEzNCIsImV4cCI6MTc5MDIzMjE1MX0.GZkzw_WzkE5lf_4e7ydGcehpXwUGaKJNa8-LxRUEDHQ",
+      "expira_en": "2026-09-24T06:42:31.342992+00:00"
+    },
+    {
+      "session_id": "sesion-00135",
+      "cliente_id": "cliente-00135",
+      "device_id": "dispositivo-barranquilla-00135",
+      "lat": 11.004908,
+      "lon": -74.771277,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTM1IiwiZXhwIjoxNzkwMjMyMTUxfQ.vl6ZVMe5GF5ZEC-ONvDMHn73GjxdcWWFN9E7uFrJCwg",
+      "expira_en": "2026-09-24T06:42:31.346133+00:00"
+    },
+    {
+      "session_id": "sesion-00136",
+      "cliente_id": "cliente-00136",
+      "device_id": "dispositivo-bucaramanga-00136",
+      "lat": 7.162213,
+      "lon": -73.101763,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxMzYiLCJleHAiOjE3OTAyMzIxNTF9.0QdA0jn3rYcwU5Q6qzVnFyGbOYZyHaHTPkd1YLkwjlU",
+      "expira_en": "2026-09-24T06:42:31.349181+00:00"
+    },
+    {
+      "session_id": "sesion-00137",
+      "cliente_id": "cliente-00137",
+      "device_id": "dispositivo-cartagena-00137",
+      "lat": 10.348154,
+      "lon": -75.459674,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTM3IiwiZXhwIjoxNzkwMjMyMTUxfQ.xadDEwFsaElHzU87Po8kt_yCcvAxVLRJFdcEcjQjFws",
+      "expira_en": "2026-09-24T06:42:31.352303+00:00"
+    },
+    {
+      "session_id": "sesion-00138",
+      "cliente_id": "cliente-00138",
+      "device_id": "dispositivo-bogota-00138",
+      "lat": 4.688509,
+      "lon": -74.034409,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTM4IiwiZXhwIjoxNzkwMjMyMTUxfQ.conLoc4BNFkrtNISFbiIP3aKSwsy2JIVpeARFK4d7c8",
+      "expira_en": "2026-09-24T06:42:31.355333+00:00"
+    },
+    {
+      "session_id": "sesion-00139",
+      "cliente_id": "cliente-00139",
+      "device_id": "dispositivo-medellin-00139",
+      "lat": 6.266063,
+      "lon": -75.607689,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTM5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxMzkiLCJleHAiOjE3OTAyMzIxNTF9.-XWGX6WOXzdTgOuO7SYKkasaKPR8bbXwnoAhMhCnhb0",
+      "expira_en": "2026-09-24T06:42:31.358419+00:00"
+    },
+    {
+      "session_id": "sesion-00140",
+      "cliente_id": "cliente-00140",
+      "device_id": "dispositivo-cali-00140",
+      "lat": 3.427702,
+      "lon": -76.491157,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE0MCIsImV4cCI6MTc5MDIzMjE1MX0.-6uJNDZNnzIqSKQOBdMaiEx_0Et_UZ0JRPrx-OvICAk",
+      "expira_en": "2026-09-24T06:42:31.361505+00:00"
+    },
+    {
+      "session_id": "sesion-00141",
+      "cliente_id": "cliente-00141",
+      "device_id": "dispositivo-barranquilla-00141",
+      "lat": 11.007078,
+      "lon": -74.814451,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTQxIiwiZXhwIjoxNzkwMjMyMTUxfQ.REOeG1duzCKB_NaF0Q4vF7tCGUm4vsptZTDh2jLlK-s",
+      "expira_en": "2026-09-24T06:42:31.364478+00:00"
+    },
+    {
+      "session_id": "sesion-00142",
+      "cliente_id": "cliente-00142",
+      "device_id": "dispositivo-bucaramanga-00142",
+      "lat": 7.101322,
+      "lon": -73.162256,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNDIiLCJleHAiOjE3OTAyMzIxNTF9.vLNwaIJrQZWmWFL9buvwEMd_GTd_7TnWO_OmvZKjI0c",
+      "expira_en": "2026-09-24T06:42:31.367858+00:00"
+    },
+    {
+      "session_id": "sesion-00143",
+      "cliente_id": "cliente-00143",
+      "device_id": "dispositivo-cartagena-00143",
+      "lat": 10.379619,
+      "lon": -75.452298,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTQzIiwiZXhwIjoxNzkwMjMyMTUxfQ.LvA23dyMOqwqSR-CeY56T2-UAEMmwPs_c3CSlctmNnA",
+      "expira_en": "2026-09-24T06:42:31.371129+00:00"
+    },
+    {
+      "session_id": "sesion-00144",
+      "cliente_id": "cliente-00144",
+      "device_id": "dispositivo-bogota-00144",
+      "lat": 4.755514,
+      "lon": -74.098063,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTQ0IiwiZXhwIjoxNzkwMjMyMTUxfQ.6vxDwUFZS8JKN7hZd6IuXhEHQUEHkEmK7jlw5-kZbqs",
+      "expira_en": "2026-09-24T06:42:31.374261+00:00"
+    },
+    {
+      "session_id": "sesion-00145",
+      "cliente_id": "cliente-00145",
+      "device_id": "dispositivo-medellin-00145",
+      "lat": 6.213855,
+      "lon": -75.532769,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNDUiLCJleHAiOjE3OTAyMzIxNTF9.J79PgRj70XRRxkOHDWZvMYPIb3K3VzKf0CPuL-KRDQo",
+      "expira_en": "2026-09-24T06:42:31.377199+00:00"
+    },
+    {
+      "session_id": "sesion-00146",
+      "cliente_id": "cliente-00146",
+      "device_id": "dispositivo-cali-00146",
+      "lat": 3.451174,
+      "lon": -76.516078,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE0NiIsImV4cCI6MTc5MDIzMjE1MX0.xKI_DKPfJJhOnEIH1QVt7Dg9_1YTs62ZPq9l-U6SXb4",
+      "expira_en": "2026-09-24T06:42:31.380161+00:00"
+    },
+    {
+      "session_id": "sesion-00147",
+      "cliente_id": "cliente-00147",
+      "device_id": "dispositivo-barranquilla-00147",
+      "lat": 10.999781,
+      "lon": -74.785452,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTQ3IiwiZXhwIjoxNzkwMjMyMTUxfQ._4nVqtuzmBelYlpTvDDtPYPsZKzw-8kyb1VXjrAT8yc",
+      "expira_en": "2026-09-24T06:42:31.383571+00:00"
+    },
+    {
+      "session_id": "sesion-00148",
+      "cliente_id": "cliente-00148",
+      "device_id": "dispositivo-bucaramanga-00148",
+      "lat": 7.104815,
+      "lon": -73.105165,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNDgiLCJleHAiOjE3OTAyMzIxNTF9.kIvWlQeIO5c_rBvdCPfIjdVXZvPGQbpxZKMOyd6N8IU",
+      "expira_en": "2026-09-24T06:42:31.386540+00:00"
+    },
+    {
+      "session_id": "sesion-00149",
+      "cliente_id": "cliente-00149",
+      "device_id": "dispositivo-cartagena-00149",
+      "lat": 10.398657,
+      "lon": -75.512827,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTQ5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTQ5IiwiZXhwIjoxNzkwMjMyMTUxfQ.RCLivnbBLX35cglb-Jw6vq9Rhje4PenjCH5xRlDOTcE",
+      "expira_en": "2026-09-24T06:42:31.389656+00:00"
+    },
+    {
+      "session_id": "sesion-00150",
+      "cliente_id": "cliente-00150",
+      "device_id": "dispositivo-bogota-00150",
+      "lat": 4.734612,
+      "lon": -74.079146,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTUwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTUwIiwiZXhwIjoxNzkwMjMyMTUxfQ.7HZncYlbsupniAnQodURL_8mlG_29EmZMHBAtWTz67w",
+      "expira_en": "2026-09-24T06:42:31.392503+00:00"
+    },
+    {
+      "session_id": "sesion-00151",
+      "cliente_id": "cliente-00151",
+      "device_id": "dispositivo-medellin-00151",
+      "lat": 6.264468,
+      "lon": -75.618998,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTUxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNTEiLCJleHAiOjE3OTAyMzIxNTF9.M0kivS6ZZ13kUKV8bV097ecT7sWeuDiSblRdkCTZKVc",
+      "expira_en": "2026-09-24T06:42:31.395501+00:00"
+    },
+    {
+      "session_id": "sesion-00152",
+      "cliente_id": "cliente-00152",
+      "device_id": "dispositivo-cali-00152",
+      "lat": 3.491658,
+      "lon": -76.532287,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTUyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE1MiIsImV4cCI6MTc5MDIzMjE1MX0.ndkI7RjZzW05nmxIeF0aXPubb1xN3yFrT0YpBlCaw8k",
+      "expira_en": "2026-09-24T06:42:31.399285+00:00"
+    },
+    {
+      "session_id": "sesion-00153",
+      "cliente_id": "cliente-00153",
+      "device_id": "dispositivo-barranquilla-00153",
+      "lat": 11.012821,
+      "lon": -74.795225,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTUzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTUzIiwiZXhwIjoxNzkwMjMyMTUxfQ.zKAd-1dIAxoQoX4zbCkNAl9YOsPLoHCNdL34wbz80lE",
+      "expira_en": "2026-09-24T06:42:31.405116+00:00"
+    },
+    {
+      "session_id": "sesion-00154",
+      "cliente_id": "cliente-00154",
+      "device_id": "dispositivo-bucaramanga-00154",
+      "lat": 7.125829,
+      "lon": -73.086816,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNTQiLCJleHAiOjE3OTAyMzIxNTF9.DRgyXIPo6QSpSHYkz2qc5bQO_8dBpzHSQLMVukdpht8",
+      "expira_en": "2026-09-24T06:42:31.410333+00:00"
+    },
+    {
+      "session_id": "sesion-00155",
+      "cliente_id": "cliente-00155",
+      "device_id": "dispositivo-cartagena-00155",
+      "lat": 10.391451,
+      "lon": -75.512177,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTU1IiwiZXhwIjoxNzkwMjMyMTUxfQ.ccdtpR8aDvqpZYRlrG2MaOUr3PlhA1SqhXXNfh91Zyk",
+      "expira_en": "2026-09-24T06:42:31.414189+00:00"
+    },
+    {
+      "session_id": "sesion-00156",
+      "cliente_id": "cliente-00156",
+      "device_id": "dispositivo-bogota-00156",
+      "lat": 4.662832,
+      "lon": -74.040859,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTU2IiwiZXhwIjoxNzkwMjMyMTUxfQ._v6fQ7nMG8IhfAyTQDET439IzHufi0prP5EE9StCb4Q",
+      "expira_en": "2026-09-24T06:42:31.419081+00:00"
+    },
+    {
+      "session_id": "sesion-00157",
+      "cliente_id": "cliente-00157",
+      "device_id": "dispositivo-medellin-00157",
+      "lat": 6.232308,
+      "lon": -75.616869,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNTciLCJleHAiOjE3OTAyMzIxNTF9.Tx47PA15gfVKneHWEudoAPjSiUF89g2BXWF3kFq_RLc",
+      "expira_en": "2026-09-24T06:42:31.422880+00:00"
+    },
+    {
+      "session_id": "sesion-00158",
+      "cliente_id": "cliente-00158",
+      "device_id": "dispositivo-cali-00158",
+      "lat": 3.42486,
+      "lon": -76.517004,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE1OCIsImV4cCI6MTc5MDIzMjE1MX0.dcTFNQ63q_TqmXP-vevUZV3VkTsF7qFLNrr-Yj7-Hb8",
+      "expira_en": "2026-09-24T06:42:31.426176+00:00"
+    },
+    {
+      "session_id": "sesion-00159",
+      "cliente_id": "cliente-00159",
+      "device_id": "dispositivo-barranquilla-00159",
+      "lat": 11.010132,
+      "lon": -74.806712,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTU5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTU5IiwiZXhwIjoxNzkwMjMyMTUxfQ.08Er4TWyfJajNzKPQTtaT-PdT97FXBi2jz0db_PwqZw",
+      "expira_en": "2026-09-24T06:42:31.429551+00:00"
+    },
+    {
+      "session_id": "sesion-00160",
+      "cliente_id": "cliente-00160",
+      "device_id": "dispositivo-bucaramanga-00160",
+      "lat": 7.147584,
+      "lon": -73.104036,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTYwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNjAiLCJleHAiOjE3OTAyMzIxNTF9.WRiq7KQXU82sgcXIMOh4maBwh7VtHRS9VDtJdtSYwYE",
+      "expira_en": "2026-09-24T06:42:31.432664+00:00"
+    },
+    {
+      "session_id": "sesion-00161",
+      "cliente_id": "cliente-00161",
+      "device_id": "dispositivo-cartagena-00161",
+      "lat": 10.416629,
+      "lon": -75.498867,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTYxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTYxIiwiZXhwIjoxNzkwMjMyMTUxfQ.dJx0ri8liPjJ2ba-DH-ixrhBzKq_ss4YxQuCWGAm9oU",
+      "expira_en": "2026-09-24T06:42:31.435703+00:00"
+    },
+    {
+      "session_id": "sesion-00162",
+      "cliente_id": "cliente-00162",
+      "device_id": "dispositivo-bogota-00162",
+      "lat": 4.703296,
+      "lon": -74.106976,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTYyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTYyIiwiZXhwIjoxNzkwMjMyMTUxfQ.DwsctzD_fmYERER4IKCVFE1QvRF7UA5PbjO70-XL-xU",
+      "expira_en": "2026-09-24T06:42:31.438723+00:00"
+    },
+    {
+      "session_id": "sesion-00163",
+      "cliente_id": "cliente-00163",
+      "device_id": "dispositivo-medellin-00163",
+      "lat": 6.210229,
+      "lon": -75.569846,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTYzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNjMiLCJleHAiOjE3OTAyMzIxNTF9.7VpSeqhjn0TXvsqb-zhVN54wMfzH_d9JIm4asfxL1XI",
+      "expira_en": "2026-09-24T06:42:31.441732+00:00"
+    },
+    {
+      "session_id": "sesion-00164",
+      "cliente_id": "cliente-00164",
+      "device_id": "dispositivo-cali-00164",
+      "lat": 3.423465,
+      "lon": -76.517854,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE2NCIsImV4cCI6MTc5MDIzMjE1MX0.7OCvZX0MBSJfUK59MbmT8YZR8HSZ4CYI2w9LRAvrBIc",
+      "expira_en": "2026-09-24T06:42:31.444785+00:00"
+    },
+    {
+      "session_id": "sesion-00165",
+      "cliente_id": "cliente-00165",
+      "device_id": "dispositivo-barranquilla-00165",
+      "lat": 10.986603,
+      "lon": -74.74572,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTY1IiwiZXhwIjoxNzkwMjMyMTUxfQ.9muXed9cLBGYa9fcgeoqkMqIuekxNDSUhBNy6gWACrs",
+      "expira_en": "2026-09-24T06:42:31.447819+00:00"
+    },
+    {
+      "session_id": "sesion-00166",
+      "cliente_id": "cliente-00166",
+      "device_id": "dispositivo-bucaramanga-00166",
+      "lat": 7.085271,
+      "lon": -73.171916,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNjYiLCJleHAiOjE3OTAyMzIxNTF9.TFwOJR7hsQi-tgyXvMusRb8Wavkm1mVsl8z5yEQudnI",
+      "expira_en": "2026-09-24T06:42:31.450952+00:00"
+    },
+    {
+      "session_id": "sesion-00167",
+      "cliente_id": "cliente-00167",
+      "device_id": "dispositivo-cartagena-00167",
+      "lat": 10.439191,
+      "lon": -75.526464,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTY3IiwiZXhwIjoxNzkwMjMyMTUxfQ.bxlrWl7KZS-IHG627dbdD51rXzmOLGDq2x3ksF9h0t8",
+      "expira_en": "2026-09-24T06:42:31.453976+00:00"
+    },
+    {
+      "session_id": "sesion-00168",
+      "cliente_id": "cliente-00168",
+      "device_id": "dispositivo-bogota-00168",
+      "lat": 4.706976,
+      "lon": -74.066198,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTY4IiwiZXhwIjoxNzkwMjMyMTUxfQ.fkGIvnXIRR2aVjz_5OMTKh5VCAa3ZTxs-MojAuaoVbo",
+      "expira_en": "2026-09-24T06:42:31.456876+00:00"
+    },
+    {
+      "session_id": "sesion-00169",
+      "cliente_id": "cliente-00169",
+      "device_id": "dispositivo-medellin-00169",
+      "lat": 6.226329,
+      "lon": -75.61491,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTY5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNjkiLCJleHAiOjE3OTAyMzIxNTF9.eee9Wy9-uAgSz_P6TWgkVf4gOpfI8BbAvi048Wj82NY",
+      "expira_en": "2026-09-24T06:42:31.460021+00:00"
+    },
+    {
+      "session_id": "sesion-00170",
+      "cliente_id": "cliente-00170",
+      "device_id": "dispositivo-cali-00170",
+      "lat": 3.422189,
+      "lon": -76.488816,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTcwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE3MCIsImV4cCI6MTc5MDIzMjE1MX0.7Xv4MCwGZ3NtA8QTnxeOx6l6-c3cqmMtfvTXCRzPkKE",
+      "expira_en": "2026-09-24T06:42:31.463123+00:00"
+    },
+    {
+      "session_id": "sesion-00171",
+      "cliente_id": "cliente-00171",
+      "device_id": "dispositivo-barranquilla-00171",
+      "lat": 10.998479,
+      "lon": -74.73322,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTcxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTcxIiwiZXhwIjoxNzkwMjMyMTUxfQ.bpgupzMCLfcnV4_cUciYzPJVU4KdxSWNHrBohFypvuU",
+      "expira_en": "2026-09-24T06:42:31.466241+00:00"
+    },
+    {
+      "session_id": "sesion-00172",
+      "cliente_id": "cliente-00172",
+      "device_id": "dispositivo-bucaramanga-00172",
+      "lat": 7.125594,
+      "lon": -73.084781,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTcyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNzIiLCJleHAiOjE3OTAyMzIxNTF9.oIadCd7bWzbSdaBvL3cfogno99D_U4v2OPwA2A5k8Ck",
+      "expira_en": "2026-09-24T06:42:31.469182+00:00"
+    },
+    {
+      "session_id": "sesion-00173",
+      "cliente_id": "cliente-00173",
+      "device_id": "dispositivo-cartagena-00173",
+      "lat": 10.346181,
+      "lon": -75.469991,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTczIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTczIiwiZXhwIjoxNzkwMjMyMTUxfQ.zVhYjPpBQgMlH7CvggYETOtznG8ld_kMAjwJe5Gwp-A",
+      "expira_en": "2026-09-24T06:42:31.472076+00:00"
+    },
+    {
+      "session_id": "sesion-00174",
+      "cliente_id": "cliente-00174",
+      "device_id": "dispositivo-bogota-00174",
+      "lat": 4.759522,
+      "lon": -74.103052,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTc0IiwiZXhwIjoxNzkwMjMyMTUxfQ.b-5GTWMFdXs9WFZnueFVdMPr1JKLXyvyiJOHNkiAJUY",
+      "expira_en": "2026-09-24T06:42:31.474991+00:00"
+    },
+    {
+      "session_id": "sesion-00175",
+      "cliente_id": "cliente-00175",
+      "device_id": "dispositivo-medellin-00175",
+      "lat": 6.203722,
+      "lon": -75.594553,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxNzUiLCJleHAiOjE3OTAyMzIxNTF9.0GXl0OQhaxQX2EYDwDFn3P8g0NzTRnnJxSC44UHe28w",
+      "expira_en": "2026-09-24T06:42:31.478065+00:00"
+    },
+    {
+      "session_id": "sesion-00176",
+      "cliente_id": "cliente-00176",
+      "device_id": "dispositivo-cali-00176",
+      "lat": 3.472299,
+      "lon": -76.50133,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE3NiIsImV4cCI6MTc5MDIzMjE1MX0.p7oMpQVeXvfKiVJb7NG_GidwqSK24hqSyB-jBqB46i8",
+      "expira_en": "2026-09-24T06:42:31.481024+00:00"
+    },
+    {
+      "session_id": "sesion-00177",
+      "cliente_id": "cliente-00177",
+      "device_id": "dispositivo-barranquilla-00177",
+      "lat": 10.971102,
+      "lon": -74.791754,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTc3IiwiZXhwIjoxNzkwMjMyMTUxfQ.GKSyMCIh6kjjrhFUZx718_LzrppLHYzjEW7cB4SHE6M",
+      "expira_en": "2026-09-24T06:42:31.484166+00:00"
+    },
+    {
+      "session_id": "sesion-00178",
+      "cliente_id": "cliente-00178",
+      "device_id": "dispositivo-bucaramanga-00178",
+      "lat": 7.129354,
+      "lon": -73.118411,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxNzgiLCJleHAiOjE3OTAyMzIxNTF9.vveHVSsqoFvR5jrhkzw9hXNk-DzrHcn95LEUzZqkYhk",
+      "expira_en": "2026-09-24T06:42:31.487010+00:00"
+    },
+    {
+      "session_id": "sesion-00179",
+      "cliente_id": "cliente-00179",
+      "device_id": "dispositivo-cartagena-00179",
+      "lat": 10.431888,
+      "lon": -75.439798,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTc5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTc5IiwiZXhwIjoxNzkwMjMyMTUxfQ.RDoGmE9mFHtbxkTwfTRS5aZrQe1BdQYZq_P5pChnFa8",
+      "expira_en": "2026-09-24T06:42:31.489922+00:00"
+    },
+    {
+      "session_id": "sesion-00180",
+      "cliente_id": "cliente-00180",
+      "device_id": "dispositivo-bogota-00180",
+      "lat": 4.679062,
+      "lon": -74.109167,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTgwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTgwIiwiZXhwIjoxNzkwMjMyMTUxfQ.o254TmPyV8_GPUB9l8HodAeoc93RVUePHYsrv9h0mKw",
+      "expira_en": "2026-09-24T06:42:31.492944+00:00"
+    },
+    {
+      "session_id": "sesion-00181",
+      "cliente_id": "cliente-00181",
+      "device_id": "dispositivo-medellin-00181",
+      "lat": 6.237284,
+      "lon": -75.604544,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTgxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxODEiLCJleHAiOjE3OTAyMzIxNTF9.XhLAukYLQ3QIuFKwiBZ_BF94Ex2tKtqrR0aUFrPKEKs",
+      "expira_en": "2026-09-24T06:42:31.495702+00:00"
+    },
+    {
+      "session_id": "sesion-00182",
+      "cliente_id": "cliente-00182",
+      "device_id": "dispositivo-cali-00182",
+      "lat": 3.498099,
+      "lon": -76.503258,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTgyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE4MiIsImV4cCI6MTc5MDIzMjE1MX0.gk9VefJ2MtHmc17Im7xzt-RvfCs2kAHLA2JNhIXqF8E",
+      "expira_en": "2026-09-24T06:42:31.498665+00:00"
+    },
+    {
+      "session_id": "sesion-00183",
+      "cliente_id": "cliente-00183",
+      "device_id": "dispositivo-barranquilla-00183",
+      "lat": 10.976769,
+      "lon": -74.808208,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTgzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTgzIiwiZXhwIjoxNzkwMjMyMTUxfQ.xj-zkhtZUM5FPDxfR85nuIsZOJNLey-kIkacFNDIGAk",
+      "expira_en": "2026-09-24T06:42:31.501611+00:00"
+    },
+    {
+      "session_id": "sesion-00184",
+      "cliente_id": "cliente-00184",
+      "device_id": "dispositivo-bucaramanga-00184",
+      "lat": 7.133181,
+      "lon": -73.073969,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxODQiLCJleHAiOjE3OTAyMzIxNTF9.xBKaP_1g-mi5kUZ0uLmrb9cjA1rrj1yW4U3pdddKZyo",
+      "expira_en": "2026-09-24T06:42:31.504734+00:00"
+    },
+    {
+      "session_id": "sesion-00185",
+      "cliente_id": "cliente-00185",
+      "device_id": "dispositivo-cartagena-00185",
+      "lat": 10.357164,
+      "lon": -75.479183,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTg1IiwiZXhwIjoxNzkwMjMyMTUxfQ.cQJbuhfsWhVZh9qNznxpyEI53SAn4cxyREwj6prhPZA",
+      "expira_en": "2026-09-24T06:42:31.507558+00:00"
+    },
+    {
+      "session_id": "sesion-00186",
+      "cliente_id": "cliente-00186",
+      "device_id": "dispositivo-bogota-00186",
+      "lat": 4.748025,
+      "lon": -74.118093,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTg2IiwiZXhwIjoxNzkwMjMyMTUxfQ.rGNX4bpxOLyiKldL76_T5iwdJ8stPJrnJYbgRAgkNaE",
+      "expira_en": "2026-09-24T06:42:31.510561+00:00"
+    },
+    {
+      "session_id": "sesion-00187",
+      "cliente_id": "cliente-00187",
+      "device_id": "dispositivo-medellin-00187",
+      "lat": 6.199463,
+      "lon": -75.628442,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxODciLCJleHAiOjE3OTAyMzIxNTF9.rZVCS29uUl_j5bJmi9qj1yJMpPdgUrHY3mQ-as-Pse4",
+      "expira_en": "2026-09-24T06:42:31.513346+00:00"
+    },
+    {
+      "session_id": "sesion-00188",
+      "cliente_id": "cliente-00188",
+      "device_id": "dispositivo-cali-00188",
+      "lat": 3.443604,
+      "lon": -76.491954,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE4OCIsImV4cCI6MTc5MDIzMjE1MX0.l9lFVpGtJaOM5FEMAh6l4jgoQi53uq6yDTNHFXnRux8",
+      "expira_en": "2026-09-24T06:42:31.516354+00:00"
+    },
+    {
+      "session_id": "sesion-00189",
+      "cliente_id": "cliente-00189",
+      "device_id": "dispositivo-barranquilla-00189",
+      "lat": 10.97089,
+      "lon": -74.746135,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTg5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTg5IiwiZXhwIjoxNzkwMjMyMTUxfQ.1psIoUinIWKcq01jyHbmJEyTqPsS_lDt623BW92Y7kY",
+      "expira_en": "2026-09-24T06:42:31.519580+00:00"
+    },
+    {
+      "session_id": "sesion-00190",
+      "cliente_id": "cliente-00190",
+      "device_id": "dispositivo-bucaramanga-00190",
+      "lat": 7.144858,
+      "lon": -73.094348,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTkwIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxOTAiLCJleHAiOjE3OTAyMzIxNTF9.jmOym2-euQOCvCaBXCTBI1NF5lxWCybX0W-cw0HiqhQ",
+      "expira_en": "2026-09-24T06:42:31.526472+00:00"
+    },
+    {
+      "session_id": "sesion-00191",
+      "cliente_id": "cliente-00191",
+      "device_id": "dispositivo-cartagena-00191",
+      "lat": 10.438794,
+      "lon": -75.456509,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTkxIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTkxIiwiZXhwIjoxNzkwMjMyMTUxfQ.EeV877tVc2JldJQVWtl8x8pC4q_KSu_-rbQ8-tXxVVI",
+      "expira_en": "2026-09-24T06:42:31.532348+00:00"
+    },
+    {
+      "session_id": "sesion-00192",
+      "cliente_id": "cliente-00192",
+      "device_id": "dispositivo-bogota-00192",
+      "lat": 4.75203,
+      "lon": -74.060134,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTkyIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTkyIiwiZXhwIjoxNzkwMjMyMTUxfQ.qmK1ukSJQ1-H4mKx3EB-mNoxeGJi1ASxgj4UwFgXAjM",
+      "expira_en": "2026-09-24T06:42:31.537342+00:00"
+    },
+    {
+      "session_id": "sesion-00193",
+      "cliente_id": "cliente-00193",
+      "device_id": "dispositivo-medellin-00193",
+      "lat": 6.252214,
+      "lon": -75.564351,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTkzIiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxOTMiLCJleHAiOjE3OTAyMzIxNTF9.OY4VtHfP1MxWQhzGmuuvqBvzFCGGf_RIWom63irnwik",
+      "expira_en": "2026-09-24T06:42:31.541062+00:00"
+    },
+    {
+      "session_id": "sesion-00194",
+      "cliente_id": "cliente-00194",
+      "device_id": "dispositivo-cali-00194",
+      "lat": 3.481213,
+      "lon": -76.545708,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk0IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FsaS0wMDE5NCIsImV4cCI6MTc5MDIzMjE1MX0.U3Ndp3YD2bwcM5fyPVZ2GDVsNEAp_jlSfjohDY4cO9k",
+      "expira_en": "2026-09-24T06:42:31.544627+00:00"
+    },
+    {
+      "session_id": "sesion-00195",
+      "cliente_id": "cliente-00195",
+      "device_id": "dispositivo-barranquilla-00195",
+      "lat": 11.017261,
+      "lon": -74.809677,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk1IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYmFycmFucXVpbGxhLTAwMTk1IiwiZXhwIjoxNzkwMjMyMTUxfQ.b43PhKu47cJZTQavdzMj87di4LxUu83v5Zj2rR8KMTo",
+      "expira_en": "2026-09-24T06:42:31.548067+00:00"
+    },
+    {
+      "session_id": "sesion-00196",
+      "cliente_id": "cliente-00196",
+      "device_id": "dispositivo-bucaramanga-00196",
+      "lat": 7.115559,
+      "lon": -73.098097,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk2IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYnVjYXJhbWFuZ2EtMDAxOTYiLCJleHAiOjE3OTAyMzIxNTF9.v07N2Lrg6wUTSqmfhoyqTvL_pdqQ_35EtDKD1QamiXU",
+      "expira_en": "2026-09-24T06:42:31.551433+00:00"
+    },
+    {
+      "session_id": "sesion-00197",
+      "cliente_id": "cliente-00197",
+      "device_id": "dispositivo-cartagena-00197",
+      "lat": 10.347913,
+      "lon": -75.528982,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk3IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tY2FydGFnZW5hLTAwMTk3IiwiZXhwIjoxNzkwMjMyMTUxfQ.m9XOrn6ekUQp6WLvUnd7tr1imTdwUPHIwn_sTtnimkA",
+      "expira_en": "2026-09-24T06:42:31.554812+00:00"
+    },
+    {
+      "session_id": "sesion-00198",
+      "cliente_id": "cliente-00198",
+      "device_id": "dispositivo-bogota-00198",
+      "lat": 4.758854,
+      "lon": -74.112684,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk4IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tYm9nb3RhLTAwMTk4IiwiZXhwIjoxNzkwMjMyMTUxfQ.E24gEj7iYmGa71SChMQjb-vObccAZfWOsAth5yPZ3rg",
+      "expira_en": "2026-09-24T06:42:31.557941+00:00"
+    },
+    {
+      "session_id": "sesion-00199",
+      "cliente_id": "cliente-00199",
+      "device_id": "dispositivo-medellin-00199",
+      "lat": 6.251898,
+      "lon": -75.5769,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoic2VzaW9uLTAwMTk5IiwiZGV2aWNlX2lkIjoiZGlzcG9zaXRpdm8tbWVkZWxsaW4tMDAxOTkiLCJleHAiOjE3OTAyMzIxNTF9.3snanODo1Qz3ozN608nbWgjtRCQ72xxnmqSHuX9xuM8",
+      "expira_en": "2026-09-24T06:42:31.561226+00:00"
+    }
+  ]
+}
